@@ -1,0 +1,6 @@
+daml/daml.js/*
+node_modules/
+dist/
+build/
+.env
+ui/node_modules

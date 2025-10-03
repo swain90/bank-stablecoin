@@ -1,0 +1,11 @@
+sdk-version: 2.10.2
+name: bank-stablecoin
+source: .
+version: 1.0.0
+dependencies:
+  - daml-prim
+  - daml-stdlib
+  - daml-script
+
+build-options:
+  - --target=1.15
