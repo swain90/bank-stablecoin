@@ -1,27 +1,20 @@
 {
   "compilerOptions": {
-    "target": "esnext", // Updated for modern JavaScript features
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
-    "skipLibCheck": true, // Keep true if third-party type conflicts exist
+    "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
-    "module": "Node16",
-    "moduleResolution": "node16", // Updated for modern Node.js compatibility
+    "module": "esnext",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "types": ["react", "node"],
-    "jsx": "react-jsx"
+    "jsx": "react"
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src"]
 }
