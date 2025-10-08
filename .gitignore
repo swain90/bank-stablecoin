@@ -4,3 +4,5 @@ dist/
 build/
 .env
 ui/node_modules
+ui/src/daml.js/*
+daml/ui/*

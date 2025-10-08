@@ -1,0 +1,36 @@
+module Init where
+
+import Daml.Script
+import qualified Model.Stablecoin as Stablecoin
+
+init : Script ()
+init = do
+  -- Allocate parties
+  bank <- allocateParty "Bank"
+  alice <- allocateParty "Alice"
+  bob <- allocateParty "Bob"
+
+  -- Create holdings for Alice (both bank and alice must sign)
+  submitMulti [bank, alice] [] $ createCmd Stablecoin.StablecoinHolding with
+    issuer = bank
+    owner = alice
+    amount = 1000.0
+    currency = "USD"
+    frozen = False
+
+  submitMulti [bank, alice] [] $ createCmd Stablecoin.StablecoinHolding with
+    issuer = bank
+    owner = alice
+    amount = 500.0
+    currency = "USD"
+    frozen = False
+
+  -- Create holdings for Bob (both bank and bob must sign)
+  submitMulti [bank, bob] [] $ createCmd Stablecoin.StablecoinHolding with
+    issuer = bank
+    owner = bob
+    amount = 2000.0
+    currency = "USD"
+    frozen = False
+
+  return ()

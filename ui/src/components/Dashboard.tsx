@@ -1,20 +1,21 @@
 import React, { useState } from 'react';
 import { useStreamQueries, useLedger, useParty } from '@daml/react';
 import { Container, Grid, Header, Segment, Card, Button, Icon, Form, Input, Modal } from 'semantic-ui-react';
-import { StablecoinHolding } from '../../../daml/daml.js/bank-stablecoin-1.0.0/lib/Model/Stablecoin';
+// import { StablecoinHolding } from '../daml.js/bank-stablecoin-1.0.0/lib/Model/Stablecoin';
+import { StablecoinHolding } from '../daml.js/bank-stablecoin-1.0.0/lib/Model/Stablecoin';
 
 const Dashboard: React.FC = () => {
   const party = useParty();
   const ledger = useLedger();
-  const { contracts: holdings, loading } = useStreamQueries<StablecoinHolding, string, string>(StablecoinHolding);
+  const { contracts: holdings, loading } = useStreamQueries(StablecoinHolding);
 
   const [transferModalOpen, setTransferModalOpen] = useState(false);
-  const [selectedHolding, setSelectedHolding] = useState<typeof holdings[0] | null>(null);
+  const [selectedHolding, setSelectedHolding] = useState<any>(null);
   const [newOwner, setNewOwner] = useState('');
 
   const totalBalance = holdings.reduce((sum, h) => sum + parseFloat(h.payload.amount), 0);
 
-  const handleTransferClick = (holding: typeof holdings[0]) => {
+  const handleTransferClick = (holding: any) => {
     setSelectedHolding(holding);
     setTransferModalOpen(true);
   };
@@ -23,7 +24,6 @@ const Dashboard: React.FC = () => {
     if (!selectedHolding || !newOwner) return;
 
     try {
-      // Now use selectedHolding.contractId which has the correct type
       await ledger.exercise(StablecoinHolding.Transfer, selectedHolding.contractId, {
         newOwner: newOwner,
       });
@@ -40,7 +40,7 @@ const Dashboard: React.FC = () => {
   }
 
   return (
-    <Container>
+    <Container style={{ marginTop: '2em' }}>
       <Grid centered columns={1}>
         <Grid.Row stretched>
           <Grid.Column>

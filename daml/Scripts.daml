@@ -1,0 +1,40 @@
+module Scripts where
+
+import Daml.Script
+import Model.Stablecoin
+
+-- Initialize test data
+initialize : Script ()
+initialize = script do
+  -- Allocate parties
+  bank <- allocatePartyWithHint "Bank" (PartyIdHint "Bank")
+  alice <- allocatePartyWithHint "Alice" (PartyIdHint "Alice")
+  bob <- allocatePartyWithHint "Bob" (PartyIdHint "Bob")
+
+  -- Bank creates stablecoin holdings for Alice
+  aliceCoin1 <- submitMulti [bank, alice] [] do
+    createCmd StablecoinHolding with
+      issuer = bank
+      owner = alice
+      amount = 1000.0
+      currency = "USD"
+      frozen = False
+
+  aliceCoin2 <- submitMulti [bank, alice] [] do
+    createCmd StablecoinHolding with
+      issuer = bank
+      owner = alice
+      amount = 500.0
+      currency = "USD"
+      frozen = False
+
+  -- Bank creates stablecoin holdings for Bob
+  bobCoin1 <- submitMulti [bank, bob] [] do
+    createCmd StablecoinHolding with
+      issuer = bank
+      owner = bob
+      amount = 2000.0
+      currency = "USD"
+      frozen = False
+
+  return ()

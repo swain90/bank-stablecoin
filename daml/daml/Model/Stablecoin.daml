@@ -1,0 +1,76 @@
+module Model.Stablecoin where
+
+import DA.Date
+import DA.Optional
+
+-- Core stablecoin holding
+template StablecoinHolding
+  with
+    issuer: Party
+    owner: Party
+    amount: Decimal
+    currency: Text
+    frozen: Bool
+  where
+    signatory issuer, owner
+    
+    ensure amount > 0.0
+    
+    -- Transfer to another party
+    choice Transfer : ContractId TransferProposal
+      with newOwner: Party
+      controller owner
+      do
+        assertMsg "Account is frozen" (not frozen)
+        create TransferProposal with
+          coin = this
+          newOwner
+    
+    -- Split holding into two parts
+    choice Split : (ContractId StablecoinHolding, ContractId StablecoinHolding)
+      with splitAmount: Decimal
+      controller owner
+      do
+        assertMsg "Invalid split amount" (splitAmount > 0.0 && splitAmount < amount)
+        assertMsg "Account is frozen" (not frozen)
+        
+        coin1 <- create this with amount = splitAmount
+        coin2 <- create this with amount = amount - splitAmount
+        return (coin1, coin2)
+    
+    -- Merge with another holding
+    choice Merge : ContractId StablecoinHolding
+      with otherCoinCid: ContractId StablecoinHolding
+      controller owner
+      do
+        otherCoin <- fetch otherCoinCid
+        assertMsg "Can only merge same currency" (otherCoin.currency == currency)
+        assertMsg "Can only merge same issuer" (otherCoin.issuer == issuer)
+        assertMsg "Account is frozen" (not frozen)
+        
+        archive otherCoinCid
+        create this with amount = amount + otherCoin.amount
+
+-- Transfer proposal (propose-accept pattern)
+template TransferProposal
+  with
+    coin: StablecoinHolding
+    newOwner: Party
+  where
+    signatory coin.owner
+    observer newOwner
+    
+    choice AcceptTransfer : ContractId StablecoinHolding
+      controller newOwner
+      do
+        create coin with owner = newOwner
+    
+    choice RejectTransfer : ()
+      controller newOwner
+      do
+        return ()
+    
+    choice CancelTransfer : ContractId StablecoinHolding
+      controller coin.owner
+      do
+        create coin
