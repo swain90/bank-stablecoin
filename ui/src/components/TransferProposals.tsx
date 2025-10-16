@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
-import { useStreamQueries, useLedger, useParty } from '@daml/react';
+// import { useStreamQueries, useLedger, useParty } from '@daml/react';
+import { useQuery, useLedger, useParty } from '@daml/react'; // Changed
+
 import { Container, Grid, Header, Segment, Card, Button, Icon, Message } from 'semantic-ui-react';
 import { TransferProposal } from '../daml.js/bank-stablecoin-1.0.0/lib/Model/Stablecoin';
 
 const TransferProposals: React.FC = () => {
   const party = useParty();
   const ledger = useLedger();
-  const { contracts: allProposals, loading } = useStreamQueries(TransferProposal);
+  const { contracts: allProposals, loading } = useQuery(TransferProposal);
+  // const { contracts: allProposals, loading } = useStreamQueries(TransferProposal);
 
   const [processingId, setProcessingId] = useState<string | null>(null);
 

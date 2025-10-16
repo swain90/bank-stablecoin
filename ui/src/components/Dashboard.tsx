@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import { useStreamQueries, useLedger, useParty } from '@daml/react';
+import { useQuery, useLedger, useParty } from '@daml/react'; // Changed from useStreamQueries
 import { Container, Grid, Header, Segment, Card, Button, Icon, Form, Input, Modal } from 'semantic-ui-react';
-// import { StablecoinHolding } from '../daml.js/bank-stablecoin-1.0.0/lib/Model/Stablecoin';
 import { StablecoinHolding } from '../daml.js/bank-stablecoin-1.0.0/lib/Model/Stablecoin';
 
 const Dashboard: React.FC = () => {
   const party = useParty();
   const ledger = useLedger();
-  const { contracts: holdings, loading } = useStreamQueries(StablecoinHolding);
+  const { contracts: holdings, loading } = useQuery(StablecoinHolding); // Changed
 
   const [transferModalOpen, setTransferModalOpen] = useState(false);
   const [selectedHolding, setSelectedHolding] = useState<any>(null);
@@ -22,21 +21,36 @@ const Dashboard: React.FC = () => {
 
   const handleTransfer = async () => {
     if (!selectedHolding || !newOwner) return;
-
+  
     try {
-      await ledger.exercise(StablecoinHolding.Transfer, selectedHolding.contractId, {
-        newOwner: newOwner,
-      });
+      console.log('Exercising Transfer choice...');
+      console.log('Contract ID:', selectedHolding.contractId);
+      console.log('New Owner:', newOwner);
+      
+      const result = await ledger.exercise(
+        StablecoinHolding.Transfer,
+        selectedHolding.contractId,
+        { newOwner }
+      );
+      
+      console.log('Transfer successful:', result);
+      alert('Transfer proposal created successfully!');
+      
       setTransferModalOpen(false);
       setNewOwner('');
       setSelectedHolding(null);
-    } catch (error) {
-      alert(`Transfer failed:\n${JSON.stringify(error)}`);
+    } catch (error: any) {
+      console.error('Transfer error:', error);
+      alert(`Transfer failed:\n${error?.message || JSON.stringify(error)}`);
     }
   };
 
   if (loading) {
-    return <h1>Loading...</h1>;
+    return (
+      <Container style={{ marginTop: '2em' }}>
+        <Header as='h1'>Loading...</Header>
+      </Container>
+    );
   }
 
   return (

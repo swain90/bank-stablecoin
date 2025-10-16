@@ -6,7 +6,7 @@ import TransferProposals from './components/TransferProposals';
 import Login from './components/Login';
 
 const config = {
-  ledgerUrl: 'http://localhost:7575/',
+  ledgerUrl: 'http://localhost:3001/',
 };
 
 // Simple token generation for local development
@@ -66,6 +66,7 @@ const App: React.FC = () => {
       token={token}
       party={party}
       httpBaseUrl={config.ledgerUrl}
+      reconnectThreshold={0}
     >
       <Container maxWidth={false} disableGutters>
         <AppBar position="static">
