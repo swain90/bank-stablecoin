@@ -61,7 +61,9 @@ template TransferProposal
     observer newOwner
     
     choice AcceptTransfer : ContractId StablecoinHolding
-      controller newOwner
+      with
+        newOwner : Party
+      controller [newOwner, coin.owner]
       do
         create coin with owner = newOwner
     
