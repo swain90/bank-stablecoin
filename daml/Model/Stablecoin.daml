@@ -57,19 +57,19 @@ template TransferProposal
     coin: StablecoinHolding
     newOwner: Party
   where
-    signatory coin.owner
+    signatory coin.issuer, coin.owner
     observer newOwner
     
     choice AcceptTransfer : ContractId StablecoinHolding
-      with
-        newOwner : Party
-      controller [newOwner, coin.owner]
+      controller newOwner  -- Use the newOwner from the template
       do
         create coin with owner = newOwner
     
     choice RejectTransfer : ()
       controller newOwner
       do
+        -- Just archive the proposal, return the holding to original owner
+        create coin
         return ()
     
     choice CancelTransfer : ContractId StablecoinHolding

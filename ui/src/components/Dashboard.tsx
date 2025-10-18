@@ -12,6 +12,18 @@ const Dashboard: React.FC = () => {
   const [selectedHolding, setSelectedHolding] = useState<any>(null);
   const [newOwner, setNewOwner] = useState('');
 
+    // Debug logging
+    console.log('=== Dashboard Debug ===');
+    console.log('Party:', party);
+    console.log('Loading:', loading);
+    console.log('Holdings:', holdings);
+    console.log('Holdings count:', holdings.length);
+    
+    if (holdings.length > 0) {
+      console.log('First holding:', holdings[0]);
+      console.log('First holding owner:', holdings[0].payload.owner);
+    }
+
   const totalBalance = holdings.reduce((sum, h) => sum + parseFloat(h.payload.amount), 0);
 
   const handleTransferClick = (holding: any) => {
