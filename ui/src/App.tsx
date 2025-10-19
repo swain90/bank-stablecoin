@@ -4,9 +4,10 @@ import { Container, AppBar, Toolbar, Typography, Button, Box, Tabs, Tab } from '
 import Dashboard from './components/Dashboard';
 import TransferProposals from './components/TransferProposals';
 import Login from './components/Login';
+import { getDisplayName } from './config/parties';
 
 const config = {
-  ledgerUrl: 'http://localhost:3001/',
+  ledgerUrl: 'http://localhost:7575/',
 };
 
 // Simple token generation for local development
@@ -38,32 +39,6 @@ const generateToken = (party: string) => {
   return `${encodedHeader}.${encodedPayload}.dev`;
 };
 
-// const generateToken = () => {
-//   const header = { alg: 'HS256', typ: 'JWT' };
-//   const payload = {
-//     'https://daml.com/ledger-api': {
-//       ledgerId: 'sandbox',
-//       applicationId: 'bank-stablecoin',
-//       actAs: [
-//         "party-ffa8241f-c6e8-4d1b-9e4b-c3a41f607651::1220858cd0601148528d75ab0534ffda02c0d57c3234e96a2e8d494783807122f3e1", // Alice (sender)
-//         "party-7e52f38b-f38b-4b80-b80b-dee4d179cded::1220858cd0601148528d75ab0534ffda02c0d57c3234e96a2e8d494783807122f3e1"  // Bob (receiver)
-//       ]
-//     },
-//   };
-
-//   const base64UrlEncode = (obj: object) =>
-//     btoa(JSON.stringify(obj))
-//       .replace(/=/g, '')
-//       .replace(/\+/g, '-')
-//       .replace(/\//g, '_');
-
-//   const unsignedToken = `${base64UrlEncode(header)}.${base64UrlEncode(payload)}`;
-//   const signature = 'dummy-signature'; // Replace with a real signature in production
-//   return `${unsignedToken}.${signature}`;
-// };
-
-
-
 const App: React.FC = () => {
   const [party, setParty] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState(0);
@@ -85,19 +60,13 @@ const App: React.FC = () => {
     return <Login onLogin={handleLogin} />;
   }
 
-  // const token = generateToken(party ? [party] : []);
-
   const token = generateToken(party);
-
-  console.log("Generated Token:", token); // Log the token
-console.log("Party:", party);
 
   return (
     <DamlLedger
       token={token}
       party={party}
       httpBaseUrl={config.ledgerUrl}
-      reconnectThreshold={0}
     >
       <Container maxWidth={false} disableGutters>
         <AppBar position="static">

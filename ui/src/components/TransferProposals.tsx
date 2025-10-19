@@ -1,120 +1,45 @@
 import React, { useState } from 'react';
-// import { useStreamQueries, useLedger, useParty } from '@daml/react';
-import { useQuery, useLedger, useParty } from '@daml/react'; // Changed
-
+import { useStreamQueries, useLedger, useParty } from '@daml/react';
 import { Container, Grid, Header, Segment, Card, Button, Icon, Message } from 'semantic-ui-react';
 import { TransferProposal } from '../daml.js/bank-stablecoin-1.0.0/lib/Model/Stablecoin';
-import { ContractId } from '@daml/types';
+import { getDisplayName } from '../config/parties';
 
 const TransferProposals: React.FC = () => {
   const party = useParty();
   const ledger = useLedger();
-  const { contracts: allProposals, loading } = useQuery(TransferProposal);
-  // const { contracts: allProposals, loading } = useStreamQueries(TransferProposal);
+  const { contracts: allProposals, loading } = useStreamQueries(TransferProposal);
 
-  const [processingId, setProcessingId] = useState<string | null>(null);
+  const [processingId, setProcessingId] = useState<any>(null);
 
   // Filter proposals where current user is the new owner (incoming)
   const incomingProposals = allProposals.filter(p => p.payload.newOwner === party);
-  console.log("Type of contractId:", typeof incomingProposals[0]?.contractId);
-  console.log("Incoming Proposals:", incomingProposals);
   
   // Filter proposals where current user is the sender (outgoing)
   const outgoingProposals = allProposals.filter(p => p.payload.coin.owner === party);
 
-  // const handleAccept = async (contractId: any) => {
-  //   if (!contractId) {
-  //     alert("Contract ID is missing.");
-  //     return;
-  //   }
-  //   console.log("Exercising AcceptTransfer with contract ID:", contractId);
-  //   console.log("Party:", party);
-  //   setProcessingId(contractId);
-  //   try {
-  //     await ledger.exercise(TransferProposal.AcceptTransfer, contractId, {});
-  //     console.log("Transfer accepted successfully.");
-  //   } catch (error) {
-  //     alert(`Failed to accept transfer:\n${JSON.stringify(error)}`);
-  //   } finally {
-  //     setProcessingId(null);
-  //   }
-  // };
-
-//   const handleAccept = async (contractId: ContractId<TransferProposal>) => {
-//     if (!contractId) {
-//       console.error("Contract ID is missing.");
-//       alert("Contract ID is missing.");
-//       return;
-//     }
-//     console.log("Exercising AcceptTransfer with contract ID:", contractId);
-//     try {
-//       await ledger.exercise(
-//         TransferProposal.AcceptTransfer,
-//         contractId,
-//         { newOwner: "party-7e52f38b-f38b-4b80-b80b-dee4d179cded::1220858cd0601148528d75ab0534ffda02c0d57c3234e96a2e8d494783807122f3e1" } // Bob (receiver)
-//       );
-//       console.log("Transfer accepted successfully.");
-//     } catch (error) {
-//       console.error("Error details:", error);
-//       alert(`Failed to accept transfer:\n${JSON.stringify(error)}`);
-//     }
-//   };
-
-const handleAccept = async (proposal: typeof incomingProposals[0]) => {
-    if (!proposal) {
-      console.error("Proposal is missing.");
-      alert("Proposal is missing.");
-      return;
-    }
-    
-    setProcessingId(proposal.contractId);
+  const handleAccept = async (contractId: any) => {
+    setProcessingId(contractId);
     try {
-      await ledger.exercise(
-        TransferProposal.AcceptTransfer,
-        proposal.contractId,
-        {} // Empty object - no argument needed
-      );
-      console.log("Transfer accepted successfully.");
-      alert("Transfer accepted successfully!");
+      await ledger.exercise(TransferProposal.AcceptTransfer, contractId, {});
+      // Success - the contract will automatically disappear from the list
     } catch (error) {
-      console.error("Error details:", error);
       alert(`Failed to accept transfer:\n${JSON.stringify(error)}`);
     } finally {
       setProcessingId(null);
     }
   };
-  
-  const handleReject = async (proposal: typeof incomingProposals[0]) => {
-    if (!proposal) return;
-    
-    setProcessingId(proposal.contractId);
+
+  const handleReject = async (contractId: any) => {
+    setProcessingId(contractId);
     try {
-      await ledger.exercise(
-        TransferProposal.RejectTransfer,
-        proposal.contractId,
-        {}
-      );
-      console.log("Transfer rejected successfully.");
-      alert("Transfer rejected successfully!");
+      await ledger.exercise(TransferProposal.RejectTransfer, contractId, {});
+      // Success - the contract will automatically disappear from the list
     } catch (error) {
-      console.error("Error details:", error);
       alert(`Failed to reject transfer:\n${JSON.stringify(error)}`);
     } finally {
       setProcessingId(null);
     }
   };
-
-//   const handleReject = async (contractId: any) => {
-//     setProcessingId(contractId);
-//     try {
-//       await ledger.exercise(TransferProposal.RejectTransfer, contractId, {});
-//       // Success - the contract will automatically disappear from the list
-//     } catch (error) {
-//       alert(`Failed to reject transfer:\n${JSON.stringify(error)}`);
-//     } finally {
-//       setProcessingId(null);
-//     }
-//   };
 
   const handleCancel = async (contractId: any) => {
     setProcessingId(contractId);
@@ -152,56 +77,55 @@ const handleAccept = async (proposal: typeof incomingProposals[0]) => {
               </Header>
 
               {incomingProposals.length === 0 ? (
-  <Message info>
-    <Message.Header>No Incoming Transfer Proposals</Message.Header>
-    <p>You don't have any pending transfer proposals to review.</p>
-  </Message>
-) : (
-  <Card.Group>
-    {incomingProposals.map((proposal) => (
-      <Card key={proposal.contractId} fluid color='green'>
-        <Card.Content>
-          <Card.Header>
-            ${parseFloat(proposal.payload.coin.amount).toLocaleString(undefined, { 
-              minimumFractionDigits: 2, 
-              maximumFractionDigits: 2 
-            })} {proposal.payload.coin.currency}
-          </Card.Header>
-          <Card.Meta>
-            <div>From: {proposal.payload.coin.owner}</div>
-            <div>Issuer: {proposal.payload.coin.issuer}</div>
-          </Card.Meta>
-          <Card.Description style={{ marginTop: '0.5em' }}>
-            <Icon name='arrow down' color='green' />
-            Transfer proposal awaiting your response
-          </Card.Description>
-        </Card.Content>
-        <Card.Content extra>
-          <Button.Group fluid>
-          <Button
-                color='green'
-                disabled={processingId === proposal.contractId}
-                loading={processingId === proposal.contractId}
-                onClick={() => handleAccept(proposal)} // Pass the whole proposal
-                >
-                <Icon name='check' />
-                Accept
-                </Button>
-                <Button
-                    color='red'
-                    disabled={processingId === proposal.contractId}
-                    loading={processingId === proposal.contractId}
-                    onClick={() => handleReject(proposal)} // Pass the whole proposal
-                    >
-                    <Icon name='times' />
-                    Reject
-                    </Button>
-          </Button.Group>
-        </Card.Content>
-      </Card>
-    ))}
-  </Card.Group>
-)}
+                <Message info>
+                  <Message.Header>No incoming proposals</Message.Header>
+                  <p>You don't have any pending transfer proposals to review.</p>
+                </Message>
+              ) : (
+                <Card.Group>
+                  {incomingProposals.map((proposal) => (
+                    <Card key={proposal.contractId} fluid color='green'>
+                      <Card.Content>
+                        <Card.Header>
+                          ${parseFloat(proposal.payload.coin.amount).toLocaleString(undefined, { 
+                            minimumFractionDigits: 2, 
+                            maximumFractionDigits: 2 
+                          })} {proposal.payload.coin.currency}
+                        </Card.Header>
+                        <Card.Meta>
+                          <div>From: {proposal.payload.coin.owner}</div>
+                          <div>Issuer: {proposal.payload.coin.issuer}</div>
+                        </Card.Meta>
+                        <Card.Description style={{ marginTop: '0.5em' }}>
+                          <Icon name='arrow right' color='green' />
+                          This stablecoin is being transferred to you
+                        </Card.Description>
+                      </Card.Content>
+                      <Card.Content extra>
+                        <Button.Group fluid>
+                          <Button
+                            positive
+                            disabled={processingId === proposal.contractId}
+                            loading={processingId === proposal.contractId}
+                            onClick={() => handleAccept(proposal.contractId)}
+                          >
+                            <Icon name='check' />
+                            Accept
+                          </Button>
+                          <Button
+                            negative
+                            disabled={processingId === proposal.contractId}
+                            onClick={() => handleReject(proposal.contractId)}
+                          >
+                            <Icon name='close' />
+                            Reject
+                          </Button>
+                        </Button.Group>
+                      </Card.Content>
+                    </Card>
+                  ))}
+                </Card.Group>
+              )}
             </Segment>
 
             {/* Outgoing Proposals Section */}
@@ -262,17 +186,5 @@ const handleAccept = async (proposal: typeof incomingProposals[0]) => {
     </Container>
   );
 };
-
-// return (
-//   <div>
-//     {incomingProposals.map((proposal) => (
-//       <div key={proposal.contractId}>
-//         <p>Proposal ID: {proposal.contractId}</p>
-//         <button onClick={() => handleAccept(proposal.contractId)}>Accept</button>
-//       </div>
-//     ))}
-//   </div>
-// );
-// };
 
 export default TransferProposals;

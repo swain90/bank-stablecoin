@@ -4,38 +4,42 @@ import Daml.Script
 import qualified Model.Stablecoin as Stablecoin
 
 init : Script ()
-init = script do
-  -- Get existing parties (or allocate if they don't exist)
-  bank <- allocatePartyOn "Bank" (ParticipantName "participant0")
-  alice <- allocatePartyOn "Alice" (ParticipantName "participant0")
-  bob <- allocatePartyOn "Bob" (ParticipantName "participant0")
+init = do
+  -- Allocate parties
+  bank <- allocatePartyWithHint "Bank" (PartyIdHint "Bank")
+  alice <- allocatePartyWithHint "Alice" (PartyIdHint "Alice")
+  bob <- allocatePartyWithHint "Bob" (PartyIdHint "Bob")
 
-  -- Bank creates holdings (bank submits, alice is just owner)
-  -- Note: With signatory issuer, owner - both must authorize
-  bankAliceCoin1 <- submitMulti [bank, alice] [] do
-    createCmd Stablecoin.StablecoinHolding with
-      issuer = bank
-      owner = alice
-      amount = 1000.0
-      currency = "USD"
-      frozen = False
+  -- Create users (so they can login with simple names)
+  bankUserId <- validateUserId "Bank"
+  aliceUserId <- validateUserId "Alice"
+  bobUserId <- validateUserId "Bob"
 
-  bankAliceCoin2 <- submitMulti [bank, alice] [] do
-    createCmd Stablecoin.StablecoinHolding with
-      issuer = bank
-      owner = alice
-      amount = 500.0
-      currency = "USD"
-      frozen = False
+  createUser (User bankUserId (Some bank)) [CanActAs bank]
+  createUser (User aliceUserId (Some alice)) [CanActAs alice]
+  createUser (User bobUserId (Some bob)) [CanActAs bob]
 
-  bankBobCoin <- submitMulti [bank, bob] [] do
-    createCmd Stablecoin.StablecoinHolding with
-      issuer = bank
-      owner = bob
-      amount = 2000.0
-      currency = "USD"
-      frozen = False
+  -- Create holdings for Alice (only bank needs to sign now)
+  submit bank $ createCmd Stablecoin.StablecoinHolding with
+    issuer = bank
+    owner = alice
+    amount = 1000.0
+    currency = "USD"
+    frozen = False
 
-  debug ("Created holdings for Alice and Bob" : Text)
-  
+  submit bank $ createCmd Stablecoin.StablecoinHolding with
+    issuer = bank
+    owner = alice
+    amount = 500.0
+    currency = "USD"
+    frozen = False
+
+  -- Create holdings for Bob (only bank needs to sign now)
+  submit bank $ createCmd Stablecoin.StablecoinHolding with
+    issuer = bank
+    owner = bob
+    amount = 2000.0
+    currency = "USD"
+    frozen = False
+
   return ()

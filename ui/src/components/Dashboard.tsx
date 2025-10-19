@@ -1,30 +1,33 @@
 import React, { useState } from 'react';
-import { useQuery, useLedger, useParty } from '@daml/react'; // Changed from useStreamQueries
-import { Container, Grid, Header, Segment, Card, Button, Icon, Form, Input, Modal } from 'semantic-ui-react';
+import { useStreamQueries, useLedger, useParty } from '@daml/react';
+import { Container, Grid, Header, Segment, Card, Button, Icon, Form, Modal, Dropdown, DropdownProps } from 'semantic-ui-react';
 import { StablecoinHolding } from '../daml.js/bank-stablecoin-1.0.0/lib/Model/Stablecoin';
+import { getAllParties, getDisplayName } from '../config/parties';
 
 const Dashboard: React.FC = () => {
   const party = useParty();
   const ledger = useLedger();
-  const { contracts: holdings, loading } = useQuery(StablecoinHolding); // Changed
+  const { contracts: holdings, loading } = useStreamQueries(StablecoinHolding);
 
   const [transferModalOpen, setTransferModalOpen] = useState(false);
   const [selectedHolding, setSelectedHolding] = useState<any>(null);
   const [newOwner, setNewOwner] = useState('');
 
-    // Debug logging
-    console.log('=== Dashboard Debug ===');
-    console.log('Party:', party);
-    console.log('Loading:', loading);
-    console.log('Holdings:', holdings);
-    console.log('Holdings count:', holdings.length);
-    
-    if (holdings.length > 0) {
-      console.log('First holding:', holdings[0]);
-      console.log('First holding owner:', holdings[0].payload.owner);
-    }
-
   const totalBalance = holdings.reduce((sum, h) => sum + parseFloat(h.payload.amount), 0);
+
+  // Create dropdown options for other parties (exclude current user)
+  const partyOptions = getAllParties()
+    .filter(p => p.partyId !== party)
+    .map(p => ({
+      key: p.partyId,
+      text: `${p.displayName} (${p.role})`,
+      value: p.partyId
+    }))
+    .concat([{
+      key: 'custom',
+      text: '+ Enter Custom Party ID',
+      value: 'custom'
+    }]);
 
   const handleTransferClick = (holding: any) => {
     setSelectedHolding(holding);
@@ -33,36 +36,21 @@ const Dashboard: React.FC = () => {
 
   const handleTransfer = async () => {
     if (!selectedHolding || !newOwner) return;
-  
+
     try {
-      console.log('Exercising Transfer choice...');
-      console.log('Contract ID:', selectedHolding.contractId);
-      console.log('New Owner:', newOwner);
-      
-      const result = await ledger.exercise(
-        StablecoinHolding.Transfer,
-        selectedHolding.contractId,
-        { newOwner }
-      );
-      
-      console.log('Transfer successful:', result);
-      alert('Transfer proposal created successfully!');
-      
+      await ledger.exercise(StablecoinHolding.Transfer, selectedHolding.contractId, {
+        newOwner: newOwner,
+      });
       setTransferModalOpen(false);
       setNewOwner('');
       setSelectedHolding(null);
-    } catch (error: any) {
-      console.error('Transfer error:', error);
-      alert(`Transfer failed:\n${error?.message || JSON.stringify(error)}`);
+    } catch (error) {
+      alert(`Transfer failed:\n${JSON.stringify(error)}`);
     }
   };
 
   if (loading) {
-    return (
-      <Container style={{ marginTop: '2em' }}>
-        <Header as='h1'>Loading...</Header>
-      </Container>
-    );
+    return <h1>Loading...</h1>;
   }
 
   return (
@@ -119,8 +107,8 @@ const Dashboard: React.FC = () => {
                           {holding.payload.currency}
                         </Card.Header>
                         <Card.Meta>
-                          <div>Issuer: {holding.payload.issuer}</div>
-                          <div>Owner: {holding.payload.owner}</div>
+                          <div>Issuer: {getDisplayName(holding.payload.issuer)}</div>
+                          <div>Owner: {getDisplayName(holding.payload.owner)}</div>
                         </Card.Meta>
                         {holding.payload.frozen && (
                           <Card.Description style={{ color: 'red', marginTop: '0.5em' }}>
@@ -153,18 +141,34 @@ const Dashboard: React.FC = () => {
         <Modal.Content>
           <Form>
             <Form.Field>
-              <label>New Owner (Party ID)</label>
-              <Input
-                placeholder='Enter party identifier...'
+              <label>Select Recipient</label>
+              <Dropdown
+                placeholder='Select a party or enter custom ID'
+                fluid
+                search
+                selection
+                allowAdditions
+                options={partyOptions}
                 value={newOwner}
-                onChange={(e) => setNewOwner(e.target.value)}
+                onAddItem={(e, { value }) => setNewOwner(value as string)}
+                onChange={(e, { value }) => setNewOwner(value as string)}
+                additionLabel="Custom Party ID: "
               />
             </Form.Field>
+            {selectedHolding && (
+              <Segment>
+                <p><strong>Amount:</strong> ${parseFloat(selectedHolding.payload.amount).toFixed(2)} {selectedHolding.payload.currency}</p>
+                <p><strong>From:</strong> {getDisplayName(selectedHolding.payload.owner)}</p>
+                {newOwner && newOwner !== 'custom' && (
+                  <p><strong>To:</strong> {getDisplayName(newOwner)}</p>
+                )}
+              </Segment>
+            )}
           </Form>
         </Modal.Content>
         <Modal.Actions>
           <Button onClick={() => setTransferModalOpen(false)}>Cancel</Button>
-          <Button primary disabled={!newOwner} onClick={handleTransfer}>
+          <Button primary disabled={!newOwner || newOwner === 'custom'} onClick={handleTransfer}>
             Create Transfer Proposal
           </Button>
         </Modal.Actions>
