@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useStreamQueries, useLedger, useParty } from '@daml/react';
-import { Container, Grid, Header, Segment, Card, Button, Icon, Message } from 'semantic-ui-react';
+import { Container, Grid, Header, Segment, Card, Button, Icon, Message, Dimmer, Loader } from 'semantic-ui-react';
 import { TransferProposal } from '../daml.js/bank-stablecoin-1.0.0/lib/Model/Stablecoin';
 import { getDisplayName } from '../config/parties';
+import { showSuccess, showError } from './Toast';
 
 const TransferProposals: React.FC = () => {
   const party = useParty();
@@ -45,6 +46,7 @@ const TransferProposals: React.FC = () => {
     setProcessingId(contractId);
     try {
       await ledger.exercise(TransferProposal.CancelTransfer, contractId, {});
+      
       // Success - the contract will automatically disappear from the list
     } catch (error) {
       alert(`Failed to cancel transfer:\n${JSON.stringify(error)}`);
@@ -93,8 +95,8 @@ const TransferProposals: React.FC = () => {
                           })} {proposal.payload.coin.currency}
                         </Card.Header>
                         <Card.Meta>
-                          <div>From: {proposal.payload.coin.owner}</div>
-                          <div>Issuer: {proposal.payload.coin.issuer}</div>
+                          <div>From: {getDisplayName(proposal.payload.coin.owner)}</div>
+                          <div>Issuer: {getDisplayName(proposal.payload.coin.issuer)}</div>
                         </Card.Meta>
                         <Card.Description style={{ marginTop: '0.5em' }}>
                           <Icon name='arrow right' color='green' />
@@ -155,8 +157,8 @@ const TransferProposals: React.FC = () => {
                           })} {proposal.payload.coin.currency}
                         </Card.Header>
                         <Card.Meta>
-                          <div>To: {proposal.payload.newOwner}</div>
-                          <div>Issuer: {proposal.payload.coin.issuer}</div>
+                          <div>To: {getDisplayName(proposal.payload.newOwner)}</div>
+                          <div>Issuer: {getDisplayName(proposal.payload.coin.issuer)}</div>
                         </Card.Meta>
                         <Card.Description style={{ marginTop: '0.5em' }}>
                           <Icon name='clock outline' color='orange' />

@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import DamlLedger from '@daml/react';
 import { Container, AppBar, Toolbar, Typography, Button, Box, Tabs, Tab } from '@mui/material';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Dashboard from './components/Dashboard';
 import TransferProposals from './components/TransferProposals';
 import Login from './components/Login';
 import { getDisplayName } from './config/parties';
+import { toast } from 'react-toastify';
 
 const config = {
   ledgerUrl: 'http://localhost:7575/',
@@ -45,6 +48,7 @@ const App: React.FC = () => {
 
   const handleLogin = (loginParty: string) => {
     setParty(loginParty);
+    setTimeout(() => toast.success('Login successful!'), 100);
   };
 
   const handleLogout = () => {
@@ -68,6 +72,7 @@ const App: React.FC = () => {
       party={party}
       httpBaseUrl={config.ledgerUrl}
     >
+      <ToastContainer />
       <Container maxWidth={false} disableGutters>
         <AppBar position="static">
           <Toolbar>
@@ -76,7 +81,7 @@ const App: React.FC = () => {
             </Typography>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <Typography variant="body1" sx={{ mr: 2 }}>
-                Welcome, {party.split('::')[0]}
+                Welcome, {getDisplayName(party)}
               </Typography>
               <Button color="inherit" onClick={handleLogout}>
                 Logout
