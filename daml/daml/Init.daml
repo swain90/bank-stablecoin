@@ -1,43 +1,66 @@
 module Init where
 
-import Daml.Script
+import Daml.Script  
 import qualified Model.Stablecoin as Stablecoin
+import qualified Model.Compliance as Compliance
 
-init : Script ()
-init = do
-  -- Allocate parties
-  bank <- allocatePartyWithHint "Bank" (PartyIdHint "Bank")
-  alice <- allocatePartyWithHint "Alice" (PartyIdHint "Alice")
-  bob <- allocatePartyWithHint "Bob" (PartyIdHint "Bob")
+init : Script ()  
+init = script do  
+  -- Get existing parties (or allocate if they don't exist)  
+  bank <- allocatePartyOn "Bank" (ParticipantName "participant0")  
+  alice <- allocatePartyOn "Alice" (ParticipantName "participant0")  
+  bob <- allocatePartyOn "Bob" (ParticipantName "participant0")
 
-  -- Create users (so they can login with simple names)
-  bankUserId <- validateUserId "Bank"
-  aliceUserId <- validateUserId "Alice"
-  bobUserId <- validateUserId "Bob"
+  -- Create ComplianceOfficer contract so bank can freeze/unfreeze accounts
+  complianceOfficer <- submit bank do
+    createCmd Compliance.ComplianceOfficer with
+      bank = bank
+      officer = bank
 
-  createUser (User bankUserId (Some bank)) [CanActAs bank]
-  createUser (User aliceUserId (Some alice)) [CanActAs alice]
-  createUser (User bobUserId (Some bob)) [CanActAs bob]
+  -- Create initial Bank Reserve for tracking issuance/redemption
+  bankReserve <- submit bank do
+    createCmd Stablecoin.BankReserve with
+      bank = bank
+      currency = "USD"
+      totalIssued = 0.0
+      totalRedeemed = 0.0
 
-  -- Create bank reserve for USD
-  reserveUSD <- submit bank $ createCmd Stablecoin.BankReserve with
-    bank = bank
-    currency = "USD"
-    totalIssued = 0.0
-    totalRedeemed = 0.0
+  -- Bank creates holdings directly (bank submits, alice/bob are owners)
+  -- Note: With signatory issuer, owner - both must authorize  
+  bankAliceCoin1 <- submitMulti [bank, alice] [] do  
+    createCmd Stablecoin.StablecoinHolding with  
+      issuer = bank  
+      owner = alice  
+      amount = 1000.0  
+      currency = "USD"  
+      frozen = False
 
-  -- Issue stablecoins to Alice
-  (aliceHolding1, reserve1) <- submit bank $ exerciseCmd reserveUSD Stablecoin.IssueStablecoin with
-    owner = alice
-    amount = 1000.0
+  bankAliceCoin2 <- submitMulti [bank, alice] [] do  
+    createCmd Stablecoin.StablecoinHolding with  
+      issuer = bank  
+      owner = alice  
+      amount = 500.0  
+      currency = "USD"  
+      frozen = False
 
-  (aliceHolding2, reserve2) <- submit bank $ exerciseCmd reserve1 Stablecoin.IssueStablecoin with
-    owner = alice
-    amount = 500.0
+  bankBobCoin <- submitMulti [bank, bob] [] do  
+    createCmd Stablecoin.StablecoinHolding with  
+      issuer = bank  
+      owner = bob  
+      amount = 2000.0  
+      currency = "USD"  
+      frozen = False
 
-  -- Issue stablecoins to Bob
-  (bobHolding1, reserve3) <- submit bank $ exerciseCmd reserve2 Stablecoin.IssueStablecoin with
-    owner = bob
-    amount = 2000.0
+  -- Update the reserve to reflect the initial issuance
+  submit bank do
+    archiveCmd bankReserve
 
+  submit bank do
+    createCmd Stablecoin.BankReserve with
+      bank = bank
+      currency = "USD"
+      totalIssued = 3500.0  -- 1000 + 500 + 2000
+      totalRedeemed = 0.0
+
+  debug ("Created holdings for Alice and Bob with reserve tracking and compliance officer" : Text)  
   return ()

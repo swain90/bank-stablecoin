@@ -1,67 +1,152 @@
 module Model.Stablecoin where
 
-import DA.Date
+import DA.Date  
 import DA.Optional
 
--- Bank reserve tracking
-template BankReserve
-  with
-    bank: Party
-    currency: Text
-    totalIssued: Decimal
-    totalRedeemed: Decimal
-  where
-    signatory bank
-
-    -- Issue new stablecoins
-    choice IssueStablecoin : (ContractId StablecoinHolding, ContractId BankReserve)
-      with
-        owner: Party
-        amount: Decimal
-      controller bank
-      do
-        assertMsg "Amount must be positive" (amount > 0.0)
-        now <- getTime
+-- Core stablecoin holding  
+template StablecoinHolding  
+  with  
+    issuer: Party  
+    owner: Party  
+    amount: Decimal  
+    currency: Text  
+    frozen: Bool  
+  where  
+    signatory issuer
+    observer owner  
+    
+    ensure amount > 0.0  
+    
+    -- Transfer to another party  
+    choice Transfer : ContractId TransferProposal  
+      with newOwner: Party  
+      controller owner  
+      do  
+        assertMsg "Account is frozen" (not frozen)
+        -- Create transaction history
         create TransactionHistory with
-          actor = bank
-          transactionType = "issue"
-          amount = amount
-          currency = this.currency
-          fromParty = None
-          toParty = Some owner
-          details = "Stablecoin issued to " <> show owner
-          timestamp = now
-        holding <- create StablecoinHolding with
-          issuer = bank
-          owner = owner
-          amount = amount
-          currency = this.currency
-          frozen = False
-        reserve <- create this with totalIssued = totalIssued + amount
-        return (holding, reserve)
-
-    -- Process redemption
-    choice ProcessRedemption : ContractId BankReserve
-      with
-        amount: Decimal
-        redeemer: Party
-      controller bank
-      do
-        assertMsg "Amount must be positive" (amount > 0.0)
-        assertMsg "Cannot redeem more than issued" (amount <= totalIssued - totalRedeemed)
-        now <- getTime
+          actor = owner
+          transactionType = "transfer"
+          amount = show amount
+          currency = currency
+          fromParty = Some owner
+          toParty = Some newOwner
+          timestamp = show (toDateUTC (datetime 2025 Jan 1 0 0 0))
+          details = "Transfer initiated to " <> show newOwner
+        
+        create TransferProposal with  
+          coin = this  
+          newOwner  
+    
+    -- Split holding into two parts  
+    choice Split : (ContractId StablecoinHolding, ContractId StablecoinHolding)  
+      with splitAmount: Decimal  
+      controller owner  
+      do  
+        assertMsg "Invalid split amount" (splitAmount > 0.0 && splitAmount < amount)  
+        assertMsg "Account is frozen" (not frozen)
+        
+        -- Create transaction history
         create TransactionHistory with
-          actor = bank
-          transactionType = "redeem"
-          amount = amount
-          currency = this.currency
-          fromParty = Some redeemer
+          actor = owner
+          transactionType = "split"
+          amount = show amount
+          currency = currency
+          fromParty = Some owner
           toParty = None
-          details = "Stablecoin redeemed from " <> show redeemer
-          timestamp = now
-        create this with totalRedeemed = totalRedeemed + amount
+          timestamp = show (toDateUTC (datetime 2025 Jan 1 0 0 0))
+          details = "Split into " <> show splitAmount <> " and " <> show (amount - splitAmount)
+        
+        coin1 <- create this with amount = splitAmount  
+        coin2 <- create this with amount = amount - splitAmount  
+        return (coin1, coin2)  
+    
+    -- Merge with another holding  
+    choice Merge : ContractId StablecoinHolding  
+      with otherCoinCid: ContractId StablecoinHolding  
+      controller owner  
+      do  
+        otherCoin <- fetch otherCoinCid  
+        assertMsg "Can only merge same currency" (otherCoin.currency == currency)  
+        assertMsg "Can only merge same issuer" (otherCoin.issuer == issuer)  
+        assertMsg "Account is frozen" (not frozen)
+        
+        let totalAmount = amount + otherCoin.amount
+        
+        -- Create transaction history
+        create TransactionHistory with
+          actor = owner
+          transactionType = "merge"
+          amount = show totalAmount
+          currency = currency
+          fromParty = Some owner
+          toParty = None
+          timestamp = show (toDateUTC (datetime 2025 Jan 1 0 0 0))
+          details = "Merged " <> show amount <> " and " <> show otherCoin.amount
+        
+        archive otherCoinCid  
+        create this with amount = totalAmount
 
--- Issuance request (users request stablecoins from bank)
+    -- Request redemption (sell stablecoins back to bank)
+    choice RequestRedemption : ContractId RedemptionRequest
+      controller owner
+      do
+        assertMsg "Account is frozen" (not frozen)
+        create RedemptionRequest with
+          redeemer = owner
+          bank = issuer
+          holding = this
+
+-- Transfer proposal (propose-accept pattern)  
+template TransferProposal  
+  with  
+    coin: StablecoinHolding  
+    newOwner: Party  
+  where  
+    signatory coin.owner  
+    observer newOwner  
+    
+    choice AcceptTransfer : ContractId StablecoinHolding  
+      controller newOwner
+      do
+        -- Create transaction history for acceptance
+        create TransactionHistory with
+          actor = newOwner
+          transactionType = "accept"
+          amount = show coin.amount
+          currency = coin.currency
+          fromParty = Some coin.owner
+          toParty = Some newOwner
+          timestamp = show (toDateUTC (datetime 2025 Jan 1 0 0 0))
+          details = "Transfer accepted from " <> show coin.owner
+        
+        create coin with owner = newOwner  
+    
+    choice RejectTransfer : ()  
+      controller newOwner  
+      do  
+        return ()  
+    
+    choice CancelTransfer : ContractId StablecoinHolding  
+      controller coin.owner  
+      do  
+        create coin
+
+-- Transaction history for audit trail
+template TransactionHistory
+  with
+    actor: Party
+    transactionType: Text  -- "transfer", "split", "merge", "accept"
+    amount: Text
+    currency: Text
+    fromParty: Optional Party
+    toParty: Optional Party
+    timestamp: Text
+    details: Text
+  where
+    signatory actor
+
+-- Issuance Request (user requests to buy stablecoins)
 template IssuanceRequest
   with
     requester: Party
@@ -77,10 +162,19 @@ template IssuanceRequest
       with reserveCid: ContractId BankReserve
       controller bank
       do
-        (holding, _newReserve) <- exercise reserveCid IssueStablecoin with
+        -- Update reserve tracking
+        reserve <- fetch reserveCid
+        archive reserveCid
+        create reserve with 
+          totalIssued = reserve.totalIssued + amount
+
+        -- Create the stablecoin holding
+        create StablecoinHolding with
+          issuer = bank
           owner = requester
-          amount = this.amount
-        return holding
+          amount = amount
+          currency = currency
+          frozen = False
 
     choice RejectIssuance : ()
       controller bank
@@ -92,179 +186,49 @@ template IssuanceRequest
       do
         return ()
 
--- Redemption request (users return stablecoins to bank)
+-- Redemption Request (user requests to sell stablecoins)
 template RedemptionRequest
   with
     redeemer: Party
     bank: Party
-    holdingCid: ContractId StablecoinHolding
     holding: StablecoinHolding
   where
     signatory redeemer
     observer bank
 
-    choice ApproveRedemption : ContractId BankReserve
+    choice ApproveRedemption : ()
       with reserveCid: ContractId BankReserve
       controller bank
       do
-        archive holdingCid
-        exercise reserveCid ProcessRedemption with
-          amount = holding.amount
-          redeemer = this.redeemer
+        -- Update reserve tracking
+        reserve <- fetch reserveCid
+        archive reserveCid
+        create reserve with 
+          totalRedeemed = reserve.totalRedeemed + holding.amount
+        
+        -- Holding is already consumed by being in this request
+        return ()
 
     choice RejectRedemption : ContractId StablecoinHolding
       controller bank
       do
+        -- Return the holding to the user
         create holding
 
     choice CancelRedemptionRequest : ContractId StablecoinHolding
       controller redeemer
       do
+        -- User cancels, return the holding
         create holding
 
--- Transaction history record
-template TransactionHistory
+-- Bank Reserve Tracking
+template BankReserve
   with
-    actor: Party
-    transactionType: Text  -- "transfer", "split", "merge", "accept", "reject"
-    amount: Decimal
+    bank: Party
     currency: Text
-    fromParty: Optional Party
-    toParty: Optional Party
-    details: Text
-    timestamp: Time
+    totalIssued: Decimal
+    totalRedeemed: Decimal
   where
-    signatory actor
-
--- Core stablecoin holding
-template StablecoinHolding
-  with
-    issuer: Party
-    owner: Party
-    amount: Decimal
-    currency: Text
-    frozen: Bool
-  where
-    signatory issuer
-    observer owner
-    ensure amount > 0.0
-
-    -- Transfer to another party
-    choice Transfer : ContractId TransferProposal
-      with newOwner: Party
-      controller owner
-      do
-        assertMsg "Account is frozen" (not frozen)
-        now <- getTime
-        create TransactionHistory with
-          actor = owner
-          transactionType = "transfer"
-          amount = this.amount
-          currency = this.currency
-          fromParty = Some owner
-          toParty = Some newOwner
-          details = "Transfer proposal created"
-          timestamp = now
-        create TransferProposal with
-          coin = this
-          newOwner
-          issuer
-
-    -- Split holding into two parts
-    choice Split : (ContractId StablecoinHolding, ContractId StablecoinHolding)
-      with splitAmount: Decimal
-      controller owner
-      do
-        assertMsg "Invalid split amount" (splitAmount > 0.0 && splitAmount < amount)
-        assertMsg "Account is frozen" (not frozen)
-        now <- getTime
-        create TransactionHistory with
-          actor = owner
-          transactionType = "split"
-          amount = this.amount
-          currency = this.currency
-          fromParty = None
-          toParty = None
-          details = "Split into " <> show splitAmount <> " and " <> show (amount - splitAmount)
-          timestamp = now
-        coin1 <- create this with amount = splitAmount
-        coin2 <- create this with amount = amount - splitAmount
-        return (coin1, coin2)
-
-    -- Merge with another holding
-    choice Merge : ContractId StablecoinHolding
-      with otherCoinCid: ContractId StablecoinHolding
-      controller owner
-      do
-        otherCoin <- fetch otherCoinCid
-        assertMsg "Can only merge same currency" (otherCoin.currency == currency)
-        assertMsg "Can only merge same issuer" (otherCoin.issuer == issuer)
-        assertMsg "Account is frozen" (not frozen)
-        now <- getTime
-        create TransactionHistory with
-          actor = owner
-          transactionType = "merge"
-          amount = this.amount + otherCoin.amount
-          currency = this.currency
-          fromParty = None
-          toParty = None
-          details = "Merged " <> show this.amount <> " and " <> show otherCoin.amount
-          timestamp = now
-        archive otherCoinCid
-        create this with amount = amount + otherCoin.amount
-
-    -- Request redemption (return to bank)
-    choice RequestRedemption : ContractId RedemptionRequest
-      controller owner
-      do
-        assertMsg "Account is frozen" (not frozen)
-        create RedemptionRequest with
-          redeemer = owner
-          bank = issuer
-          holdingCid = self
-          holding = this
-
--- Transfer proposal (propose-accept pattern)
-template TransferProposal
-  with
-    coin: StablecoinHolding
-    newOwner: Party
-    issuer: Party
-  where
-    signatory coin.owner, issuer  -- Both owner and issuer sign the proposal
-    observer newOwner
-
-    choice AcceptTransfer : ContractId StablecoinHolding
-      controller newOwner
-      do
-        now <- getTime
-        create TransactionHistory with
-          actor = newOwner
-          transactionType = "accept"
-          amount = coin.amount
-          currency = coin.currency
-          fromParty = Some coin.owner
-          toParty = Some newOwner
-          details = "Transfer accepted"
-          timestamp = now
-        create coin with owner = newOwner
-
-    choice RejectTransfer : ContractId StablecoinHolding
-      controller newOwner
-      do
-        now <- getTime
-        create TransactionHistory with
-          actor = newOwner
-          transactionType = "reject"
-          amount = coin.amount
-          currency = coin.currency
-          fromParty = Some coin.owner
-          toParty = Some newOwner
-          details = "Transfer rejected"
-          timestamp = now
-        create coin
-
-    choice CancelTransfer : ContractId StablecoinHolding
-      controller coin.owner
-      do
-        create coin
+    signatory bank
+    
+    ensure totalIssued >= 0.0 && totalRedeemed >= 0.0

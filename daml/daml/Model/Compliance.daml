@@ -1,92 +1,96 @@
 module Model.Compliance where
 
-import Model.Stablecoin
+import Model.Stablecoin  
 import DA.Date
 
--- Compliance officer role
-template ComplianceOfficer
-  with
-    bank: Party
-    officer: Party
-  where
-    signatory bank
-    observer officer
+-- Compliance officer role  
+template ComplianceOfficer  
+  with  
+    bank: Party  
+    officer: Party  
+  where  
+    signatory bank  
+    observer officer  
     
-    -- Freeze an account
-    nonconsuming choice FreezeAccount : ContractId StablecoinHolding
-      with
-        holdingCid: ContractId StablecoinHolding
-        reason: Text
-      controller officer
-      do
-        holding <- fetch holdingCid
-        archive holdingCid
-        create holding with frozen = True
+    -- Freeze an account (bank has unilateral authority)
+    nonconsuming choice FreezeAccount : ContractId StablecoinHolding  
+      with  
+        holdingCid: ContractId StablecoinHolding  
+        reason: Text  
+      controller officer  
+      do  
+        holding <- fetch holdingCid  
+        -- Archive the old holding
+        archive holdingCid  
+        -- Create new frozen holding
+        create holding with frozen = True  
     
-    -- Unfreeze an account
-    nonconsuming choice UnfreezeAccount : ContractId StablecoinHolding
-      with holdingCid: ContractId StablecoinHolding
-      controller officer
-      do
-        holding <- fetch holdingCid
-        assertMsg "Account is not frozen" holding.frozen
+    -- Unfreeze an account (bank has unilateral authority)
+    nonconsuming choice UnfreezeAccount : ContractId StablecoinHolding  
+      with holdingCid: ContractId StablecoinHolding  
+      controller officer  
+      do  
+        holding <- fetch holdingCid  
+        assertMsg "Account is not frozen" holding.frozen  
+        -- Archive the old holding
         archive holdingCid
+        -- Create new unfrozen holding  
         create holding with frozen = False
 
--- Transaction velocity tracker
-template VelocityTracker
-  with
-    bank: Party
-    user: Party
-    dailyTotal: Decimal
-    monthlyTotal: Decimal
-    lastResetDate: Date
-    transactionCount: Int
-  where
-    signatory bank
-    observer user
+-- Transaction velocity tracker  
+template VelocityTracker  
+  with  
+    bank: Party  
+    user: Party  
+    dailyTotal: Decimal  
+    monthlyTotal: Decimal  
+    lastResetDate: Date  
+    transactionCount: Int  
+  where  
+    signatory bank  
+    observer user  
     
-    choice RecordTransaction : ContractId VelocityTracker
-      with
-        amount: Decimal
-        currentDate: Date
-        dailyLimit: Decimal
-        monthlyLimit: Decimal
-      controller bank
-      do
-        -- Reset if new day
-        let (newDaily, newMonthly, newCount) = 
-              if currentDate > lastResetDate
-              then (amount, monthlyTotal + amount, 1)
-              else (dailyTotal + amount, monthlyTotal + amount, transactionCount + 1)
+    choice RecordTransaction : ContractId VelocityTracker  
+      with  
+        amount: Decimal  
+        currentDate: Date  
+        dailyLimit: Decimal  
+        monthlyLimit: Decimal  
+      controller bank  
+      do  
+        -- Reset if new day  
+        let (newDaily, newMonthly, newCount) =  
+              if currentDate > lastResetDate  
+              then (amount, monthlyTotal + amount, 1)  
+              else (dailyTotal + amount, monthlyTotal + amount, transactionCount + 1)  
         
-        assertMsg "Daily limit exceeded" (newDaily <= dailyLimit)
-        assertMsg "Monthly limit exceeded" (newMonthly <= monthlyLimit)
+        assertMsg "Daily limit exceeded" (newDaily <= dailyLimit)  
+        assertMsg "Monthly limit exceeded" (newMonthly <= monthlyLimit)  
         
-        create this with
-          dailyTotal = newDaily
-          monthlyTotal = newMonthly
-          lastResetDate = currentDate
+        create this with  
+          dailyTotal = newDaily  
+          monthlyTotal = newMonthly  
+          lastResetDate = currentDate  
           transactionCount = newCount
 
--- Blacklist management
-template Blacklist
-  with
-    bank: Party
-    complianceOfficer: Party
-    blacklistedParties: [Party]
-  where
-    signatory bank, complianceOfficer
+-- Blacklist management  
+template Blacklist  
+  with  
+    bank: Party  
+    complianceOfficer: Party  
+    blacklistedParties: [Party]  
+  where  
+    signatory bank, complianceOfficer  
     
-    choice AddToBlacklist : ContractId Blacklist
-      with party: Party; reason: Text
-      controller complianceOfficer
-      do
-        create this with blacklistedParties = party :: blacklistedParties
+    choice AddToBlacklist : ContractId Blacklist  
+      with party: Party; reason: Text  
+      controller complianceOfficer  
+      do  
+        create this with blacklistedParties = party :: blacklistedParties  
     
-    choice RemoveFromBlacklist : ContractId Blacklist
-      with party: Party
-      controller complianceOfficer
-      do
-        create this with 
+    choice RemoveFromBlacklist : ContractId Blacklist  
+      with party: Party  
+      controller complianceOfficer  
+      do  
+        create this with  
           blacklistedParties = filter (/= party) blacklistedParties

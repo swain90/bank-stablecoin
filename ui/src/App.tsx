@@ -10,6 +10,7 @@ import Login from './components/Login';
 import { getDisplayName } from './config/parties';
 import IssuanceRedemption from './components/IssuanceRedemption';
 import BankAdmin from './components/BankAdmin';
+import ComplianceManagement from './components/ComplianceManagement';
 
 const config = {
   ledgerUrl: 'http://localhost:7575/',
@@ -101,6 +102,7 @@ const App: React.FC = () => {
             <Tab label="Transaction History" />
             <Tab label="Issuance & Redemption" />
             <Tab label="Bank Admin" />  {/* ADD THIS LINE */}
+            <Tab label="Compliance" />
           </Tabs>
         </AppBar>
         {activeTab === 0 && <Dashboard />}
@@ -108,6 +110,7 @@ const App: React.FC = () => {
         {activeTab === 2 && <TransactionHistory />}
         {activeTab === 3 && <IssuanceRedemption />}
         {activeTab === 4 && <BankAdmin />}  {/* ADD THIS LINE */}
+        {activeTab === 5 && <ComplianceManagement />}
       </Container>
     </DamlLedger>
   );
