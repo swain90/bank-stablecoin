@@ -3,6 +3,125 @@ module Model.Stablecoin where
 import DA.Date
 import DA.Optional
 
+-- Bank reserve tracking
+template BankReserve
+  with
+    bank: Party
+    currency: Text
+    totalIssued: Decimal
+    totalRedeemed: Decimal
+  where
+    signatory bank
+
+    -- Issue new stablecoins
+    choice IssueStablecoin : (ContractId StablecoinHolding, ContractId BankReserve)
+      with
+        owner: Party
+        amount: Decimal
+      controller bank
+      do
+        assertMsg "Amount must be positive" (amount > 0.0)
+        now <- getTime
+        create TransactionHistory with
+          actor = bank
+          transactionType = "issue"
+          amount = amount
+          currency = this.currency
+          fromParty = None
+          toParty = Some owner
+          details = "Stablecoin issued to " <> show owner
+          timestamp = now
+        holding <- create StablecoinHolding with
+          issuer = bank
+          owner = owner
+          amount = amount
+          currency = this.currency
+          frozen = False
+        reserve <- create this with totalIssued = totalIssued + amount
+        return (holding, reserve)
+
+    -- Process redemption
+    choice ProcessRedemption : ContractId BankReserve
+      with
+        amount: Decimal
+        redeemer: Party
+      controller bank
+      do
+        assertMsg "Amount must be positive" (amount > 0.0)
+        assertMsg "Cannot redeem more than issued" (amount <= totalIssued - totalRedeemed)
+        now <- getTime
+        create TransactionHistory with
+          actor = bank
+          transactionType = "redeem"
+          amount = amount
+          currency = this.currency
+          fromParty = Some redeemer
+          toParty = None
+          details = "Stablecoin redeemed from " <> show redeemer
+          timestamp = now
+        create this with totalRedeemed = totalRedeemed + amount
+
+-- Issuance request (users request stablecoins from bank)
+template IssuanceRequest
+  with
+    requester: Party
+    bank: Party
+    amount: Decimal
+    currency: Text
+    reason: Text
+  where
+    signatory requester
+    observer bank
+
+    choice ApproveIssuance : ContractId StablecoinHolding
+      with reserveCid: ContractId BankReserve
+      controller bank
+      do
+        (holding, _newReserve) <- exercise reserveCid IssueStablecoin with
+          owner = requester
+          amount = this.amount
+        return holding
+
+    choice RejectIssuance : ()
+      controller bank
+      do
+        return ()
+
+    choice CancelIssuanceRequest : ()
+      controller requester
+      do
+        return ()
+
+-- Redemption request (users return stablecoins to bank)
+template RedemptionRequest
+  with
+    redeemer: Party
+    bank: Party
+    holdingCid: ContractId StablecoinHolding
+    holding: StablecoinHolding
+  where
+    signatory redeemer
+    observer bank
+
+    choice ApproveRedemption : ContractId BankReserve
+      with reserveCid: ContractId BankReserve
+      controller bank
+      do
+        archive holdingCid
+        exercise reserveCid ProcessRedemption with
+          amount = holding.amount
+          redeemer = this.redeemer
+
+    choice RejectRedemption : ContractId StablecoinHolding
+      controller bank
+      do
+        create holding
+
+    choice CancelRedemptionRequest : ContractId StablecoinHolding
+      controller redeemer
+      do
+        create holding
+
 -- Transaction history record
 template TransactionHistory
   with
@@ -93,6 +212,17 @@ template StablecoinHolding
           timestamp = now
         archive otherCoinCid
         create this with amount = amount + otherCoin.amount
+
+    -- Request redemption (return to bank)
+    choice RequestRedemption : ContractId RedemptionRequest
+      controller owner
+      do
+        assertMsg "Account is frozen" (not frozen)
+        create RedemptionRequest with
+          redeemer = owner
+          bank = issuer
+          holdingCid = self
+          holding = this
 
 -- Transfer proposal (propose-accept pattern)
 template TransferProposal

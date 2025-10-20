@@ -1,87 +1,87 @@
 module Model.Account where
 
-import Model.Stablecoin
+import Model.Stablecoin  
 import DA.Date
 
--- User account with KYC status
-template UserAccount
-  with
-    bank: Party
-    user: Party
-    accountId: Text
-    kycVerified: Bool
-    kycExpiryDate: Optional Date
-    dailyTransferLimit: Decimal
-    monthlyTransferLimit: Decimal
-  where
-    signatory bank, user
-    observer bank
-    
-    -- Issue stablecoin to this account
-    choice IssueStablecoin : ContractId StablecoinHolding
-      with 
-        amount: Decimal
-        currency: Text
-        reserveAttestationCid: ContractId ReserveAttestation
-      controller bank
-      do
-        assertMsg "KYC verification required" kycVerified
-        
-        -- Verify reserve attestation
-        attestation <- fetch reserveAttestationCid
-        assertMsg "Insufficient reserves" (attestation.reserveAmount >= amount)
-        
-        create StablecoinHolding with
-          issuer = bank
-          owner = user
-          amount
-          currency
+-- User account with KYC status  
+template UserAccount  
+  with  
+    bank: Party  
+    user: Party  
+    accountId: Text  
+    kycVerified: Bool  
+    kycExpiryDate: Optional Date  
+    dailyTransferLimit: Decimal  
+    monthlyTransferLimit: Decimal  
+  where  
+    signatory bank, user  
+    observer bank  
+     
+    -- Issue stablecoin through this account (renamed to avoid conflict)
+    choice IssueToAccount : ContractId StablecoinHolding  
+      with  
+        amount: Decimal  
+        currency: Text  
+        reserveAttestationCid: ContractId ReserveAttestation  
+      controller bank  
+      do  
+        assertMsg "KYC verification required" kycVerified  
+         
+        -- Verify reserve attestation  
+        attestation <- fetch reserveAttestationCid  
+        assertMsg "Insufficient reserves" (attestation.reserveAmount >= amount)  
+         
+        create StablecoinHolding with  
+          issuer = bank  
+          owner = user  
+          amount  
+          currency  
           frozen = False
 
--- Account request (for onboarding)
-template AccountRequest
-  with
-    bank: Party
-    user: Party
-    accountId: Text
-    kycDocuments: Text
-  where
-    signatory user
-    observer bank
-    
-    choice ApproveAccount : ContractId UserAccount
-      with
-        kycExpiryDate: Date
-        dailyLimit: Decimal
-        monthlyLimit: Decimal
-      controller bank
-      do
-        create UserAccount with
-          bank
-          user
-          accountId
-          kycVerified = True
-          kycExpiryDate = Some kycExpiryDate
-          dailyTransferLimit = dailyLimit
-          monthlyTransferLimit = monthlyLimit
-    
-    choice RejectAccount : ()
-      with reason: Text
-      controller bank
-      do
+-- Account request (for onboarding)  
+template AccountRequest  
+  with  
+    bank: Party  
+    user: Party  
+    accountId: Text  
+    kycDocuments: Text  
+  where  
+    signatory user  
+    observer bank  
+     
+    choice ApproveAccount : ContractId UserAccount  
+      with  
+        kycExpiryDate: Date  
+        dailyLimit: Decimal  
+        monthlyLimit: Decimal  
+      controller bank  
+      do  
+        create UserAccount with  
+          bank  
+          user  
+          accountId  
+          kycVerified = True  
+          kycExpiryDate = Some kycExpiryDate  
+          dailyTransferLimit = dailyLimit  
+          monthlyTransferLimit = monthlyLimit  
+     
+    choice RejectAccount : ()  
+      with reason: Text  
+      controller bank  
+      do  
         return ()
 
--- Reserve attestation from auditor
-template ReserveAttestation
-  with
-    auditor: Party
-    issuer: Party
-    reserveAmount: Decimal
-    currency: Text
-    attestationDate: Date
-    expiryDate: Date
-  where
-    signatory auditor
-    observer issuer
-    
+-- Reserve attestation from auditor  
+template ReserveAttestation  
+  with  
+    auditor: Party  
+    issuer: Party  
+    reserveAmount: Decimal  
+    currency: Text  
+    attestationDate: Date  
+    expiryDate: Date  
+  where  
+    signatory auditor  
+    observer issuer  
+     
     ensure reserveAmount >= 0.0

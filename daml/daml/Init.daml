@@ -19,27 +19,25 @@ init = do
   createUser (User aliceUserId (Some alice)) [CanActAs alice]
   createUser (User bobUserId (Some bob)) [CanActAs bob]
 
-  -- Create holdings for Alice (only bank needs to sign now)
-  submit bank $ createCmd Stablecoin.StablecoinHolding with
-    issuer = bank
+  -- Create bank reserve for USD
+  reserveUSD <- submit bank $ createCmd Stablecoin.BankReserve with
+    bank = bank
+    currency = "USD"
+    totalIssued = 0.0
+    totalRedeemed = 0.0
+
+  -- Issue stablecoins to Alice
+  (aliceHolding1, reserve1) <- submit bank $ exerciseCmd reserveUSD Stablecoin.IssueStablecoin with
     owner = alice
     amount = 1000.0
-    currency = "USD"
-    frozen = False
 
-  submit bank $ createCmd Stablecoin.StablecoinHolding with
-    issuer = bank
+  (aliceHolding2, reserve2) <- submit bank $ exerciseCmd reserve1 Stablecoin.IssueStablecoin with
     owner = alice
     amount = 500.0
-    currency = "USD"
-    frozen = False
 
-  -- Create holdings for Bob (only bank needs to sign now)
-  submit bank $ createCmd Stablecoin.StablecoinHolding with
-    issuer = bank
+  -- Issue stablecoins to Bob
+  (bobHolding1, reserve3) <- submit bank $ exerciseCmd reserve2 Stablecoin.IssueStablecoin with
     owner = bob
     amount = 2000.0
-    currency = "USD"
-    frozen = False
 
   return ()
