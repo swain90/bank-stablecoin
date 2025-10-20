@@ -101,7 +101,7 @@ const App: React.FC = () => {
         </AppBar>
         {activeTab === 0 && <Dashboard />}
         {activeTab === 1 && <TransferProposals />}
-        {activeTab === 1 && <TransactionHistory />}
+        {activeTab === 2 && <TransactionHistory />}
       </Container>
     </DamlLedger>
   );
