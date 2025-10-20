@@ -11,17 +11,17 @@ export interface PartyInfo {
   export const parties: Record<string, PartyInfo> = {
     alice: {
       displayName: 'Alice',
-      partyId: 'Alice::1220c8bc7ed77929ce3c2cb2b09ac761e400add32a049c2a89031f505c71a8674daa',
+      partyId: 'Alice::1220ef3325997febc5eeac1cf54f1294b673b4e1b715ed47231638bc1b0b25b4f2e6',
       role: 'User'
     },
     bob: {
       displayName: 'Bob',
-      partyId: 'Bob::1220c8bc7ed77929ce3c2cb2b09ac761e400add32a049c2a89031f505c71a8674daa',
+      partyId: 'Bob::1220ef3325997febc5eeac1cf54f1294b673b4e1b715ed47231638bc1b0b25b4f2e6',
       role: 'User'
     },
     bank: {
       displayName: 'Bank',
-      partyId: 'Bank::1220c8bc7ed77929ce3c2cb2b09ac761e400add32a049c2a89031f505c71a8674daa',
+      partyId: 'Bank::1220ef3325997febc5eeac1cf54f1294b673b4e1b715ed47231638bc1b0b25b4f2e6',
       role: 'Issuer'
     }
   };

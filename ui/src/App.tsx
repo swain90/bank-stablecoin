@@ -5,9 +5,9 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Dashboard from './components/Dashboard';
 import TransferProposals from './components/TransferProposals';
+import TransactionHistory from './components/TransactionHistory';
 import Login from './components/Login';
 import { getDisplayName } from './config/parties';
-import { toast } from 'react-toastify';
 
 const config = {
   ledgerUrl: 'http://localhost:7575/',
@@ -48,7 +48,6 @@ const App: React.FC = () => {
 
   const handleLogin = (loginParty: string) => {
     setParty(loginParty);
-    setTimeout(() => toast.success('Login successful!'), 100);
   };
 
   const handleLogout = () => {
@@ -97,10 +96,12 @@ const App: React.FC = () => {
           >
             <Tab label="Dashboard" />
             <Tab label="Transfer Proposals" />
+            <Tab label="Transaction History" />
           </Tabs>
         </AppBar>
         {activeTab === 0 && <Dashboard />}
         {activeTab === 1 && <TransferProposals />}
+        {activeTab === 1 && <TransactionHistory />}
       </Container>
     </DamlLedger>
   );

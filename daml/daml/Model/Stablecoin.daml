@@ -3,6 +3,20 @@ module Model.Stablecoin where
 import DA.Date
 import DA.Optional
 
+-- Transaction history record
+template TransactionHistory
+  with
+    actor: Party
+    transactionType: Text  -- "transfer", "split", "merge", "accept", "reject"
+    amount: Decimal
+    currency: Text
+    fromParty: Optional Party
+    toParty: Optional Party
+    details: Text
+    timestamp: Time
+  where
+    signatory actor
+
 -- Core stablecoin holding
 template StablecoinHolding
   with
@@ -12,20 +26,31 @@ template StablecoinHolding
     currency: Text
     frozen: Bool
   where
-    signatory issuer      
+    signatory issuer
     observer owner
     ensure amount > 0.0
-    
+
     -- Transfer to another party
     choice Transfer : ContractId TransferProposal
       with newOwner: Party
       controller owner
       do
         assertMsg "Account is frozen" (not frozen)
+        now <- getTime
+        create TransactionHistory with
+          actor = owner
+          transactionType = "transfer"
+          amount = this.amount
+          currency = this.currency
+          fromParty = Some owner
+          toParty = Some newOwner
+          details = "Transfer proposal created"
+          timestamp = now
         create TransferProposal with
           coin = this
           newOwner
-    
+          issuer
+
     -- Split holding into two parts
     choice Split : (ContractId StablecoinHolding, ContractId StablecoinHolding)
       with splitAmount: Decimal
@@ -33,11 +58,20 @@ template StablecoinHolding
       do
         assertMsg "Invalid split amount" (splitAmount > 0.0 && splitAmount < amount)
         assertMsg "Account is frozen" (not frozen)
-        
+        now <- getTime
+        create TransactionHistory with
+          actor = owner
+          transactionType = "split"
+          amount = this.amount
+          currency = this.currency
+          fromParty = None
+          toParty = None
+          details = "Split into " <> show splitAmount <> " and " <> show (amount - splitAmount)
+          timestamp = now
         coin1 <- create this with amount = splitAmount
         coin2 <- create this with amount = amount - splitAmount
         return (coin1, coin2)
-    
+
     -- Merge with another holding
     choice Merge : ContractId StablecoinHolding
       with otherCoinCid: ContractId StablecoinHolding
@@ -47,7 +81,16 @@ template StablecoinHolding
         assertMsg "Can only merge same currency" (otherCoin.currency == currency)
         assertMsg "Can only merge same issuer" (otherCoin.issuer == issuer)
         assertMsg "Account is frozen" (not frozen)
-        
+        now <- getTime
+        create TransactionHistory with
+          actor = owner
+          transactionType = "merge"
+          amount = this.amount + otherCoin.amount
+          currency = this.currency
+          fromParty = None
+          toParty = None
+          details = "Merged " <> show this.amount <> " and " <> show otherCoin.amount
+          timestamp = now
         archive otherCoinCid
         create this with amount = amount + otherCoin.amount
 
@@ -56,22 +99,41 @@ template TransferProposal
   with
     coin: StablecoinHolding
     newOwner: Party
+    issuer: Party
   where
-    signatory coin.issuer, coin.owner
+    signatory coin.owner, issuer  -- Both owner and issuer sign the proposal
     observer newOwner
-    
+
     choice AcceptTransfer : ContractId StablecoinHolding
-      controller newOwner  -- Use the newOwner from the template
-      do
-        create coin with owner = newOwner
-    
-    choice RejectTransfer : ()
       controller newOwner
       do
-        -- Just archive the proposal, return the holding to original owner
+        now <- getTime
+        create TransactionHistory with
+          actor = newOwner
+          transactionType = "accept"
+          amount = coin.amount
+          currency = coin.currency
+          fromParty = Some coin.owner
+          toParty = Some newOwner
+          details = "Transfer accepted"
+          timestamp = now
+        create coin with owner = newOwner
+
+    choice RejectTransfer : ContractId StablecoinHolding
+      controller newOwner
+      do
+        now <- getTime
+        create TransactionHistory with
+          actor = newOwner
+          transactionType = "reject"
+          amount = coin.amount
+          currency = coin.currency
+          fromParty = Some coin.owner
+          toParty = Some newOwner
+          details = "Transfer rejected"
+          timestamp = now
         create coin
-        return ()
-    
+
     choice CancelTransfer : ContractId StablecoinHolding
       controller coin.owner
       do
