@@ -11,6 +11,8 @@ import { getDisplayName } from './config/parties';
 import IssuanceRedemption from './components/IssuanceRedemption';
 import BankAdmin from './components/BankAdmin';
 import ComplianceManagement from './components/ComplianceManagement';
+import Loans from './components/Loans';
+import AtomicSwaps from './components/AtomicSwaps';
 
 const config = {
   ledgerUrl: 'http://localhost:7575/',
@@ -101,7 +103,9 @@ const App: React.FC = () => {
             <Tab label="Transfer Proposals" />
             <Tab label="Transaction History" />
             <Tab label="Issuance & Redemption" />
-            <Tab label="Bank Admin" />  {/* ADD THIS LINE */}
+            <Tab label="Loans" />
+            <Tab label="Atomic Swaps" />
+            <Tab label="Bank Admin" />
             <Tab label="Compliance" />
           </Tabs>
         </AppBar>
@@ -109,8 +113,10 @@ const App: React.FC = () => {
         {activeTab === 1 && <TransferProposals />}
         {activeTab === 2 && <TransactionHistory />}
         {activeTab === 3 && <IssuanceRedemption />}
-        {activeTab === 4 && <BankAdmin />}  {/* ADD THIS LINE */}
-        {activeTab === 5 && <ComplianceManagement />}
+        {activeTab === 4 && <Loans />}
+        {activeTab === 5 && <AtomicSwaps />}
+        {activeTab === 6 && <BankAdmin />}
+        {activeTab === 7 && <ComplianceManagement />}
       </Container>
     </DamlLedger>
   );

@@ -13,7 +13,7 @@ template StablecoinHolding
     frozen: Bool  
   where  
     signatory issuer
-    observer owner  
+    observer owner
     
     ensure amount > 0.0  
     
@@ -103,8 +103,8 @@ template TransferProposal
     coin: StablecoinHolding  
     newOwner: Party  
   where  
-    signatory coin.owner  
-    observer newOwner  
+    signatory coin.issuer, coin.owner
+    observer newOwner
     
     choice AcceptTransfer : ContractId StablecoinHolding  
       controller newOwner
@@ -168,7 +168,7 @@ template IssuanceRequest
         create reserve with 
           totalIssued = reserve.totalIssued + amount
 
-        -- Create the stablecoin holding
+        -- Create the stablecoin holding (bank is sole signatory)
         create StablecoinHolding with
           issuer = bank
           owner = requester
@@ -212,13 +212,15 @@ template RedemptionRequest
     choice RejectRedemption : ContractId StablecoinHolding
       controller bank
       do
-        -- Return the holding to the user
+        -- Return the holding to the user (bank creates it)
         create holding
 
     choice CancelRedemptionRequest : ContractId StablecoinHolding
       controller redeemer
       do
-        -- User cancels, return the holding
+        -- User cancels, bank needs to recreate the holding
+        -- This needs bank authorization, so this won't work
+        -- We need to archive this request and create a separate contract
         create holding
 
 -- Bank Reserve Tracking

@@ -11,17 +11,17 @@ export interface PartyInfo {
   export const parties: Record<string, PartyInfo> = {
     alice: {
       displayName: 'Alice',
-      partyId: 'party-025fc4d9-f26a-40e1-983d-fc1d9c7b2cd3::122048a44b3c9eab33924c1944a47e4f9cdab7ac34196ee2ae08450a8787865f486c',
+      partyId: 'party-b2b4b756-0374-442f-a59d-52e35027e71d::12205e95f4176f198fe441c2ec9985082024785d77d023ee817933da49f5c33fd0e9',
       role: 'User'
     },
     bob: {
       displayName: 'Bob',
-      partyId: 'party-3ef36416-c393-4399-9b32-e1b68b4d1575::122048a44b3c9eab33924c1944a47e4f9cdab7ac34196ee2ae08450a8787865f486c',
+      partyId: 'party-4779ae56-20cb-4549-92f8-f9220db68a66::12205e95f4176f198fe441c2ec9985082024785d77d023ee817933da49f5c33fd0e9',
       role: 'User'
     },
     bank: {
       displayName: 'Bank',
-      partyId: 'party-655fea64-679f-4205-90d9-672158046500::122048a44b3c9eab33924c1944a47e4f9cdab7ac34196ee2ae08450a8787865f486c',
+      partyId: 'party-da15c2c4-e9d6-47db-ae8f-ff2081ab4075::12205e95f4176f198fe441c2ec9985082024785d77d023ee817933da49f5c33fd0e9',
       role: 'Issuer'
     }
   };

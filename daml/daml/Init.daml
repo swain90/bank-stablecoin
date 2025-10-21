@@ -3,6 +3,9 @@ module Init where
 import Daml.Script  
 import qualified Model.Stablecoin as Stablecoin
 import qualified Model.Compliance as Compliance
+import qualified Model.Loan as Loan
+import qualified Model.AtomicSwap as Swap
+import DA.Date
 
 init : Script ()  
 init = script do  
@@ -25,8 +28,8 @@ init = script do
       totalIssued = 0.0
       totalRedeemed = 0.0
 
-  -- Bank creates holdings directly (bank submits, alice/bob are owners)
-  -- Note: With signatory issuer, owner - both must authorize  
+  -- Bank creates holdings - both bank and owner must be signatories
+  -- submitMulti with both in actAs list
   bankAliceCoin1 <- submitMulti [bank, alice] [] do  
     createCmd Stablecoin.StablecoinHolding with  
       issuer = bank  
@@ -54,7 +57,7 @@ init = script do
   -- Update the reserve to reflect the initial issuance
   submit bank do
     archiveCmd bankReserve
-
+  
   submit bank do
     createCmd Stablecoin.BankReserve with
       bank = bank
@@ -62,5 +65,58 @@ init = script do
       totalIssued = 3500.0  -- 1000 + 500 + 2000
       totalRedeemed = 0.0
 
-  debug ("Created holdings for Alice and Bob with reserve tracking and compliance officer" : Text)  
+  -- Create EUR reserve and holdings for multi-currency support
+  eurReserve <- submit bank do
+    createCmd Stablecoin.BankReserve with
+      bank = bank
+      currency = "EUR"
+      totalIssued = 0.0
+      totalRedeemed = 0.0
+
+  -- Create some EUR holdings for testing swaps
+  bankAliceEur <- submitMulti [bank] [alice] do
+    createCmd Stablecoin.StablecoinHolding with
+      issuer = bank
+      owner = alice
+      amount = 800.0
+      currency = "EUR"
+      frozen = False
+
+  bankBobEur <- submitMulti [bank] [bob] do
+    createCmd Stablecoin.StablecoinHolding with
+      issuer = bank
+      owner = bob
+      amount = 1500.0
+      currency = "EUR"
+      frozen = False
+
+  -- Update EUR reserve
+  submit bank do
+    archiveCmd eurReserve
+  
+  submit bank do
+    createCmd Stablecoin.BankReserve with
+      bank = bank
+      currency = "EUR"
+      totalIssued = 2300.0  -- 800 + 1500
+      totalRedeemed = 0.0
+
+  -- Create exchange rates (USD <-> EUR)
+  usdToEur <- submit bank do
+    createCmd Swap.ExchangeRate with
+      bank = bank
+      fromCurrency = "USD"
+      toCurrency = "EUR"
+      rate = 0.92  -- 1 USD = 0.92 EUR
+      lastUpdated = date 2025 Jan 1
+
+  eurToUsd <- submit bank do
+    createCmd Swap.ExchangeRate with
+      bank = bank
+      fromCurrency = "EUR"
+      toCurrency = "USD"
+      rate = 1.09  -- 1 EUR = 1.09 USD
+      lastUpdated = date 2025 Jan 1
+
+  debug ("Created USD and EUR holdings with exchange rates for atomic swaps" : Text)
   return ()

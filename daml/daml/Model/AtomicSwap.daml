@@ -1,0 +1,305 @@
+module Model.AtomicSwap where
+
+import Model.Stablecoin
+import DA.Date
+
+-- Exchange rate oracle managed by the bank
+template ExchangeRate
+  with
+    bank: Party
+    fromCurrency: Text
+    toCurrency: Text
+    rate: Decimal  -- How much toCurrency per 1 unit of fromCurrency
+    lastUpdated: Date
+  where
+    signatory bank
+    
+    ensure rate > 0.0
+
+    -- Bank updates the exchange rate
+    choice UpdateRate : ContractId ExchangeRate
+      with
+        newRate: Decimal
+        updateDate: Date
+      controller bank
+      do
+        assertMsg "Rate must be positive" (newRate > 0.0)
+        create this with
+          rate = newRate
+          lastUpdated = updateDate
+
+-- Atomic swap proposal - propose-accept pattern
+-- NOTE: This is a simplified version that won't actually work with bank-signed holdings
+-- In production, you'd need either: (1) owner as signatory, or (2) three-party approval
+template SwapProposal
+  with
+    proposer: Party
+    counterparty: Party
+    issuer: Party
+    proposerHoldingCid: ContractId StablecoinHolding
+    proposerAmount: Decimal
+    proposerCurrency: Text
+    requestedAmount: Decimal
+    requestedCurrency: Text
+    expiryDate: Date
+  where
+    signatory proposer
+    observer counterparty, issuer
+    
+    ensure proposerAmount > 0.0 && requestedAmount > 0.0
+
+    -- Counterparty signals intent to accept - creates acceptance proposal for bank
+    choice SignalAcceptance : Text
+      with counterpartyHoldingCid: ContractId StablecoinHolding
+      controller counterparty
+      do
+        return "Acceptance signaled - bank approval needed"
+
+    -- Bank executes the swap (has authority to archive/create holdings)
+    choice BankExecuteSwap : (ContractId StablecoinHolding, ContractId StablecoinHolding)
+      with counterpartyHoldingCid: ContractId StablecoinHolding
+      controller issuer
+      do
+        -- Fetch and verify proposer's holding
+        proposerHolding <- fetch proposerHoldingCid
+        assertMsg "Proposer holding owner mismatch" (proposerHolding.owner == proposer)
+        assertMsg "Proposer currency mismatch" (proposerHolding.currency == proposerCurrency)
+        assertMsg "Proposer amount insufficient" (proposerHolding.amount >= proposerAmount)
+        assertMsg "Proposer holding is frozen" (not proposerHolding.frozen)
+        
+        -- Fetch and verify counterparty's holding
+        counterpartyHolding <- fetch counterpartyHoldingCid
+        assertMsg "Counterparty holding owner mismatch" (counterpartyHolding.owner == counterparty)
+        assertMsg "Counterparty currency mismatch" (counterpartyHolding.currency == requestedCurrency)
+        assertMsg "Counterparty amount insufficient" (counterpartyHolding.amount >= requestedAmount)
+        assertMsg "Counterparty holding is frozen" (not counterpartyHolding.frozen)
+        
+        -- Archive both holdings
+        archive proposerHoldingCid
+        archive counterpartyHoldingCid
+        
+        -- Create new holdings with swapped currencies
+        proposerNew <- create proposerHolding with
+          amount = requestedAmount
+          currency = requestedCurrency
+        
+        counterpartyNew <- create counterpartyHolding with
+          amount = proposerAmount
+          currency = proposerCurrency
+        
+        -- Handle remainders
+        let proposerRemainder = proposerHolding.amount - proposerAmount
+            counterpartyRemainder = counterpartyHolding.amount - requestedAmount
+        
+        if proposerRemainder > 0.0
+          then do
+            create proposerHolding with amount = proposerRemainder
+            return ()
+          else return ()
+        
+        if counterpartyRemainder > 0.0
+          then do
+            create counterpartyHolding with amount = counterpartyRemainder
+            return ()
+          else return ()
+        
+        return (proposerNew, counterpartyNew)
+        -- Fetch and verify proposer's holding
+        proposerHolding <- fetch proposerHoldingCid
+        assertMsg "Proposer holding owner mismatch" (proposerHolding.owner == proposer)
+        assertMsg "Proposer currency mismatch" (proposerHolding.currency == proposerCurrency)
+        assertMsg "Proposer amount insufficient" (proposerHolding.amount >= proposerAmount)
+        assertMsg "Proposer holding is frozen" (not proposerHolding.frozen)
+        
+        -- Fetch and verify counterparty's holding
+        counterpartyHolding <- fetch counterpartyHoldingCid
+        assertMsg "Counterparty holding owner mismatch" (counterpartyHolding.owner == counterparty)
+        assertMsg "Counterparty currency mismatch" (counterpartyHolding.currency == requestedCurrency)
+        assertMsg "Counterparty amount insufficient" (counterpartyHolding.amount >= requestedAmount)
+        assertMsg "Counterparty holding is frozen" (not counterpartyHolding.frozen)
+        
+        -- Both holdings must have same issuer for atomic swap
+        assertMsg "Holdings must have same issuer" (proposerHolding.issuer == counterpartyHolding.issuer)
+        
+        -- Archive both holdings (requires bank authorization)
+        archive proposerHoldingCid
+        archive counterpartyHoldingCid
+        
+        -- Create new holdings with swapped currencies
+        proposerNew <- create proposerHolding with
+          amount = requestedAmount
+          currency = requestedCurrency
+        
+        counterpartyNew <- create counterpartyHolding with
+          amount = proposerAmount
+          currency = proposerCurrency
+        
+        -- Handle remainders
+        let proposerRemainder = proposerHolding.amount - proposerAmount
+            counterpartyRemainder = counterpartyHolding.amount - requestedAmount
+        
+        if proposerRemainder > 0.0
+          then do
+            create proposerHolding with amount = proposerRemainder
+            return ()
+          else return ()
+        
+        if counterpartyRemainder > 0.0
+          then do
+            create counterpartyHolding with amount = counterpartyRemainder
+            return ()
+          else return ()
+        
+        return (proposerNew, counterpartyNew)
+
+    -- Counterparty rejects the swap
+    choice RejectSwap : ()
+      controller counterparty
+      do
+        return ()
+
+    -- Proposer cancels the swap
+    choice CancelSwap : ()
+      controller proposer
+      do
+        return ()
+
+-- Market maker swap offer (anyone can accept)
+-- Offerer's holding is locked in the offer
+template SwapOffer
+  with
+    offerer: Party
+    lockedHolding: StablecoinHolding  -- The actual holding data
+    offerAmount: Decimal
+    offerCurrency: Text
+    requestedAmount: Decimal
+    requestedCurrency: Text
+    expiryDate: Date
+  where
+    signatory offerer
+    
+    ensure offerAmount > 0.0 && requestedAmount > 0.0
+
+    -- Anyone can accept this public swap offer
+    choice AcceptSwapOffer : (ContractId StablecoinHolding, ContractId StablecoinHolding)
+      with
+        acceptor: Party
+        acceptorHoldingCid: ContractId StablecoinHolding
+      controller acceptor
+      do
+        -- Verify locked holding
+        assertMsg "Locked holding owner mismatch" (lockedHolding.owner == offerer)
+        assertMsg "Locked holding currency mismatch" (lockedHolding.currency == offerCurrency)
+        assertMsg "Locked holding amount insufficient" (lockedHolding.amount >= offerAmount)
+        
+        -- Verify acceptor's holding
+        acceptorHolding <- fetch acceptorHoldingCid
+        assertMsg "Acceptor holding mismatch" (acceptorHolding.owner == acceptor)
+        assertMsg "Acceptor currency mismatch" (acceptorHolding.currency == requestedCurrency)
+        assertMsg "Acceptor amount insufficient" (acceptorHolding.amount >= requestedAmount)
+        assertMsg "Acceptor holding is frozen" (not acceptorHolding.frozen)
+        
+        -- Archive acceptor's holding
+        archive acceptorHoldingCid
+        
+        -- Create new holdings with swapped currencies
+        offererNewHolding <- create lockedHolding with
+          amount = requestedAmount
+          currency = requestedCurrency
+          owner = offerer
+        
+        acceptorNewHolding <- create acceptorHolding with
+          amount = offerAmount
+          currency = offerCurrency
+          owner = acceptor
+        
+        -- Handle remainders
+        let lockedRemainder = lockedHolding.amount - offerAmount
+            acceptorRemainder = acceptorHolding.amount - requestedAmount
+        
+        if lockedRemainder > 0.0
+          then do
+            create lockedHolding with
+              amount = lockedRemainder
+            return ()
+          else return ()
+        
+        if acceptorRemainder > 0.0
+          then do
+            create acceptorHolding with
+              amount = acceptorRemainder
+            return ()
+          else return ()
+        
+        return (offererNewHolding, acceptorNewHolding)
+
+    -- Offerer cancels the public offer
+    choice CancelSwapOffer : ContractId StablecoinHolding
+      controller offerer
+      do
+        -- Return the locked holding
+        create lockedHolding
+
+-- Swap with exchange rate validation
+template RatedSwapProposal
+  with
+    proposer: Party
+    counterparty: Party
+    proposerHoldingCid: ContractId StablecoinHolding
+    proposerAmount: Decimal
+    proposerCurrency: Text
+    requestedCurrency: Text
+    exchangeRateCid: ContractId ExchangeRate
+    maxSlippage: Decimal  -- Maximum acceptable deviation (e.g., 0.02 = 2%)
+  where
+    signatory proposer
+    observer counterparty
+    
+    ensure proposerAmount > 0.0 && maxSlippage >= 0.0
+
+    choice AcceptRatedSwap : (ContractId StablecoinHolding, ContractId StablecoinHolding)
+      with counterpartyHoldingCid: ContractId StablecoinHolding
+      controller counterparty
+      do
+        -- Get exchange rate
+        exchangeRate <- fetch exchangeRateCid
+        assertMsg "Exchange rate currency mismatch" 
+          (exchangeRate.fromCurrency == proposerCurrency && 
+           exchangeRate.toCurrency == requestedCurrency)
+        
+        -- Calculate expected amount with slippage tolerance
+        let expectedAmount = proposerAmount * exchangeRate.rate
+            minAcceptable = expectedAmount * (1.0 - maxSlippage)
+            maxAcceptable = expectedAmount * (1.0 + maxSlippage)
+        
+        -- Verify holdings
+        proposerHolding <- fetch proposerHoldingCid
+        counterpartyHolding <- fetch counterpartyHoldingCid
+        
+        assertMsg "Counterparty amount outside acceptable range" 
+          (counterpartyHolding.amount >= minAcceptable && 
+           counterpartyHolding.amount <= maxAcceptable)
+        
+        assertMsg "Proposer holding is frozen" (not proposerHolding.frozen)
+        assertMsg "Counterparty holding is frozen" (not counterpartyHolding.frozen)
+        
+        -- Execute the swap
+        archive proposerHoldingCid
+        archive counterpartyHoldingCid
+        
+        proposerNew <- create proposerHolding with
+          amount = counterpartyHolding.amount
+          currency = requestedCurrency
+          owner = proposer
+        
+        counterpartyNew <- create counterpartyHolding with
+          amount = proposerAmount
+          currency = proposerCurrency
+          owner = counterparty
+        
+        return (proposerNew, counterpartyNew)
+
+    choice CancelRatedSwap : ()
+      controller proposer
+      do
+        return ()

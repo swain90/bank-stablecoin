@@ -1,0 +1,233 @@
+module Model.Loan where
+
+import Model.Stablecoin
+import DA.Date
+import DA.Time
+
+-- Loan agreement with collateral
+template Loan
+  with
+    loanId: Text
+    bank: Party
+    borrower: Party
+    principal: Decimal  -- Amount borrowed
+    collateralAmount: Decimal  -- Amount of collateral locked
+    interestRate: Decimal  -- Annual interest rate (e.g., 0.05 = 5%)
+    currency: Text
+    startDate: Date
+    dueDate: Date
+    lastAccrualDate: Date
+    accruedInterest: Decimal
+    collateralCid: ContractId StablecoinHolding  -- Locked collateral
+  where
+    signatory bank, borrower
+    
+    ensure principal > 0.0 && collateralAmount > 0.0 && interestRate >= 0.0
+
+    -- Calculate interest since last accrual
+    let calculateInterest : Date -> Decimal
+        calculateInterest currentDate =
+          let daysSinceLastAccrual = subDate currentDate lastAccrualDate
+              dailyRate = interestRate / 365.0
+              newInterest = principal * dailyRate * intToDecimal daysSinceLastAccrual
+          in newInterest
+
+    -- Accrue interest (bank updates periodically)
+    choice AccrueInterest : ContractId Loan
+      with currentDate: Date
+      controller bank
+      do
+        assertMsg "Cannot accrue interest before last accrual date" (currentDate >= lastAccrualDate)
+        let newInterest = calculateInterest currentDate
+        create this with
+          accruedInterest = accruedInterest + newInterest
+          lastAccrualDate = currentDate
+
+    -- Borrower repays loan (full or partial)
+    choice RepayLoan : Either (ContractId Loan) (ContractId StablecoinHolding)
+      with
+        repaymentCid: ContractId StablecoinHolding
+        currentDate: Date
+      controller borrower
+      do
+        -- Accrue any outstanding interest first
+        let newInterest = calculateInterest currentDate
+            totalOwed = principal + accruedInterest + newInterest
+        
+        repayment <- fetch repaymentCid
+        assertMsg "Repayment must be from borrower" (repayment.owner == borrower)
+        assertMsg "Repayment must be same currency" (repayment.currency == currency)
+        assertMsg "Repayment amount insufficient" (repayment.amount >= totalOwed)
+        
+        -- Archive the repayment
+        archive repaymentCid
+        
+        -- Return collateral to borrower
+        collateral <- fetch collateralCid
+        archive collateralCid
+        returnedCollateral <- create collateral with owner = borrower
+        
+        -- If overpayment, return excess to borrower
+        if repayment.amount > totalOwed
+          then do
+            create repayment with
+              amount = repayment.amount - totalOwed
+              owner = borrower
+            return (Right returnedCollateral)
+          else
+            return (Right returnedCollateral)
+
+    -- Partial repayment (reduce principal)
+    choice MakePartialPayment : ContractId Loan
+      with
+        paymentCid: ContractId StablecoinHolding
+        currentDate: Date
+      controller borrower
+      do
+        -- Accrue interest first
+        let newInterest = calculateInterest currentDate
+        
+        payment <- fetch paymentCid
+        assertMsg "Payment must be from borrower" (payment.owner == borrower)
+        assertMsg "Payment must be same currency" (payment.currency == currency)
+        
+        archive paymentCid
+        
+        -- Apply payment to interest first, then principal
+        let totalInterest = accruedInterest + newInterest
+        
+        if payment.amount >= totalInterest
+          then do
+            -- Pay off all interest and reduce principal
+            let principalPayment = payment.amount - totalInterest
+                newPrincipal = principal - principalPayment
+            
+            assertMsg "Payment would exceed total owed" (newPrincipal >= 0.0)
+            
+            create this with
+              principal = newPrincipal
+              accruedInterest = 0.0
+              lastAccrualDate = currentDate
+          else do
+            -- Partial interest payment
+            create this with
+              accruedInterest = totalInterest - payment.amount
+              lastAccrualDate = currentDate
+
+    -- Bank liquidates collateral if loan is overdue
+    choice LiquidateCollateral : ContractId StablecoinHolding
+      with currentDate: Date
+      controller bank
+      do
+        assertMsg "Loan must be overdue for liquidation" (currentDate > dueDate)
+        
+        -- Transfer collateral to bank
+        collateral <- fetch collateralCid
+        archive collateralCid
+        create collateral with owner = bank
+
+-- Loan request (propose-accept pattern)
+template LoanRequest
+  with
+    bank: Party
+    borrower: Party
+    requestedAmount: Decimal
+    collateralCid: ContractId StablecoinHolding
+    currency: Text
+    requestedDuration: Int  -- Days
+    proposedInterestRate: Decimal
+  where
+    signatory borrower
+    observer bank
+
+    choice ApproveLoanRequest : ContractId Loan
+      with
+        approvedInterestRate: Decimal
+        approvalDate: Date
+        loanId: Text
+      controller bank
+      do
+        -- Verify collateral
+        collateral <- fetch collateralCid
+        assertMsg "Collateral must belong to borrower" (collateral.owner == borrower)
+        assertMsg "Collateral must be same currency" (collateral.currency == currency)
+        assertMsg "Insufficient collateral" (collateral.amount >= requestedAmount * 1.5)  -- 150% collateralization
+        assertMsg "Collateral cannot be frozen" (not collateral.frozen)
+        
+        -- Calculate due date
+        let dueDate = addDays approvalDate requestedDuration
+        
+        -- Create the loan (collateral stays locked)
+        loanCid <- create Loan with
+          loanId = loanId
+          bank = bank
+          borrower = borrower
+          principal = requestedAmount
+          collateralAmount = collateral.amount
+          interestRate = approvedInterestRate
+          currency = currency
+          startDate = approvalDate
+          dueDate = dueDate
+          lastAccrualDate = approvalDate
+          accruedInterest = 0.0
+          collateralCid = collateralCid
+        
+        -- Issue borrowed amount to borrower
+        create StablecoinHolding with
+          issuer = bank
+          owner = borrower
+          amount = requestedAmount
+          currency = currency
+          frozen = False
+        
+        return loanCid
+
+    choice RejectLoanRequest : ContractId StablecoinHolding
+      controller bank
+      do
+        -- Return collateral to borrower
+        collateral <- fetch collateralCid
+        create collateral
+
+    choice CancelLoanRequest : ContractId StablecoinHolding
+      controller borrower
+      do
+        -- Return collateral to borrower
+        collateral <- fetch collateralCid
+        create collateral
+
+-- Loan offer from bank (bank initiates)
+template LoanOffer
+  with
+    bank: Party
+    borrower: Party
+    offeredAmount: Decimal
+    interestRate: Decimal
+    currency: Text
+    durationDays: Int
+    minimumCollateral: Decimal
+  where
+    signatory bank
+    observer borrower
+
+    choice AcceptLoanOffer : ContractId LoanRequest
+      with collateralCid: ContractId StablecoinHolding
+      controller borrower
+      do
+        collateral <- fetch collateralCid
+        assertMsg "Collateral must belong to borrower" (collateral.owner == borrower)
+        assertMsg "Insufficient collateral provided" (collateral.amount >= minimumCollateral)
+        
+        create LoanRequest with
+          bank = bank
+          borrower = borrower
+          requestedAmount = offeredAmount
+          collateralCid = collateralCid
+          currency = currency
+          requestedDuration = durationDays
+          proposedInterestRate = interestRate
+
+    choice RejectLoanOffer : ()
+      controller borrower
+      do
+        return ()
