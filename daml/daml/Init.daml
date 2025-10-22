@@ -2,10 +2,11 @@ module Init where
 
 import Daml.Script  
 import qualified Model.Stablecoin as Stablecoin
+import DA.Date
 import qualified Model.Compliance as Compliance
 import qualified Model.Loan as Loan
 import qualified Model.AtomicSwap as Swap
-import DA.Date
+import qualified Model.MultiSig as MultiSig
 
 init : Script ()  
 init = script do  
@@ -28,9 +29,8 @@ init = script do
       totalIssued = 0.0
       totalRedeemed = 0.0
 
-  -- Bank creates holdings - both bank and owner must be signatories
-  -- submitMulti with both in actAs list
-  bankAliceCoin1 <- submitMulti [bank, alice] [] do  
+  -- Bank creates holdings - only bank signature needed
+  bankAliceCoin1 <- submit bank do  
     createCmd Stablecoin.StablecoinHolding with  
       issuer = bank  
       owner = alice  
@@ -38,7 +38,7 @@ init = script do
       currency = "USD"  
       frozen = False
 
-  bankAliceCoin2 <- submitMulti [bank, alice] [] do  
+  bankAliceCoin2 <- submit bank do  
     createCmd Stablecoin.StablecoinHolding with  
       issuer = bank  
       owner = alice  
@@ -46,7 +46,7 @@ init = script do
       currency = "USD"  
       frozen = False
 
-  bankBobCoin <- submitMulti [bank, bob] [] do  
+  bankBobCoin <- submit bank do  
     createCmd Stablecoin.StablecoinHolding with  
       issuer = bank  
       owner = bob  
@@ -74,7 +74,7 @@ init = script do
       totalRedeemed = 0.0
 
   -- Create some EUR holdings for testing swaps
-  bankAliceEur <- submitMulti [bank] [alice] do
+  bankAliceEur <- submit bank do
     createCmd Stablecoin.StablecoinHolding with
       issuer = bank
       owner = alice
@@ -82,7 +82,7 @@ init = script do
       currency = "EUR"
       frozen = False
 
-  bankBobEur <- submitMulti [bank] [bob] do
+  bankBobEur <- submit bank do
     createCmd Stablecoin.StablecoinHolding with
       issuer = bank
       owner = bob
