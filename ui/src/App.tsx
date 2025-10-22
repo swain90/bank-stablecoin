@@ -14,6 +14,7 @@ import ComplianceManagement from './components/ComplianceManagement';
 import Loans from './components/Loans';
 import AtomicSwaps from './components/AtomicSwaps';
 import MultiSigWallets from './components/MultiSigWallets';
+import BlockchainAnalyzer from './components/BlockchainAnalyzer';
 
 const config = {
   ledgerUrl: 'http://localhost:7575/',
@@ -109,6 +110,7 @@ const App: React.FC = () => {
             <Tab label="Multi-Sig Wallets" />
             <Tab label="Bank Admin" />
             <Tab label="Compliance" />
+            <Tab label="Blockchain Analyzer" />
           </Tabs>
         </AppBar>
         {activeTab === 0 && <Dashboard />}
@@ -120,6 +122,7 @@ const App: React.FC = () => {
         {activeTab === 6 && <MultiSigWallets />}
         {activeTab === 7 && <BankAdmin />}
         {activeTab === 8 && <ComplianceManagement />}
+        {activeTab === 9 && <BlockchainAnalyzer />}
       </Container>
     </DamlLedger>
   );
