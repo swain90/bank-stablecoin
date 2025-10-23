@@ -16,9 +16,14 @@ import AtomicSwaps from './components/AtomicSwaps';
 import MultiSigWallets from './components/MultiSigWallets';
 import BlockchainAnalyzer from './components/BlockchainAnalyzer';
 
+// Use environment variable or fallback to localhost
+const LEDGER_URL = process.env.REACT_APP_LEDGER_URL || 'http://localhost:7575/';
+
 const config = {
-  ledgerUrl: 'http://localhost:7575/',
+  ledgerUrl: LEDGER_URL,
 };
+
+console.log('Using Ledger URL:', config.ledgerUrl);
 
 // Simple token generation for local development
 // In production, you'd get this from a proper auth server

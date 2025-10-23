@@ -8,6 +8,8 @@ dependencies:
   - daml-script
 init-script: Init:init
 data-dependencies: []
+
+# JSON API options with CORS enabled
 json-api-options:
   - --address=0.0.0.0
 
@@ -17,6 +19,6 @@ build-options:
 
 codegen:
   js:
-    output-directory: ../ui/src/daml.js
+    output-directory: ui/src/daml.js
     npm-scope: daml.js
     package-name: bank-stablecoin
