@@ -16,21 +16,20 @@ import AtomicSwaps from './components/AtomicSwaps';
 import MultiSigWallets from './components/MultiSigWallets';
 import BlockchainAnalyzer from './components/BlockchainAnalyzer';
 
-// Use environment variable or fallback to localhost
-const LEDGER_URL = process.env.REACT_APP_LEDGER_URL || 'http://localhost:7575/';
+// Use environment variable or fallback to proxy path
+const LEDGER_URL = process.env.REACT_APP_LEDGER_URL || '/v1/';
 
 const config = {
   ledgerUrl: LEDGER_URL,
 };
 
 console.log('Using Ledger URL:', config.ledgerUrl);
+console.log('Environment REACT_APP_LEDGER_URL:', process.env.REACT_APP_LEDGER_URL);
 
 // Simple token generation for local development
 // In production, you'd get this from a proper auth server
 const generateToken = (party: string) => {
-  // For Canton/Daml 2.x, we need a proper JWT structure
-  // This creates a base64 encoded token with the party info
-  const header = { alg: 'HS256', typ: 'JWT' };
+  // Create a simple token that should work with default DAML settings
   const payload = {
     'https://daml.com/ledger-api': {
       ledgerId: 'sandbox',
@@ -39,19 +38,13 @@ const generateToken = (party: string) => {
     },
   };
   
-  // Base64 URL encoding (removes padding and makes URL-safe)
-  const base64UrlEncode = (str: string) => {
-    return btoa(str)
-      .replace(/\+/g, '-')
-      .replace(/\//g, '_')
-      .replace(/=/g, '');  // Remove padding
-  };
+  // Create a proper JWT structure
+  const header = { alg: 'HS256', typ: 'JWT' };
+  const encodedHeader = btoa(JSON.stringify(header));
+  const encodedPayload = btoa(JSON.stringify(payload));
   
-  const encodedHeader = base64UrlEncode(JSON.stringify(header));
-  const encodedPayload = base64UrlEncode(JSON.stringify(payload));
-  
-  // For local development without validation
-  return `${encodedHeader}.${encodedPayload}.dev`;
+  // Use "secret" as signature for development
+  return `${encodedHeader}.${encodedPayload}.secret`;
 };
 
 const App: React.FC = () => {
@@ -115,7 +108,7 @@ const App: React.FC = () => {
             <Tab label="Multi-Sig Wallets" />
             <Tab label="Bank Admin" />
             <Tab label="Compliance" />
-            <Tab label="Blockchain Analyzer" />
+            <Tab label="Ledger Analyzer" />
           </Tabs>
         </AppBar>
         {activeTab === 0 && <Dashboard />}

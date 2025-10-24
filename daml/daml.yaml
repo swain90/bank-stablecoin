@@ -19,6 +19,6 @@ build-options:
 
 codegen:
   js:
-    output-directory: ui/src/daml.js
+    output-directory: ../ui/src/daml.js
     npm-scope: daml.js
     package-name: bank-stablecoin
