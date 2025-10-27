@@ -31,10 +31,11 @@
     "typescript": "4.9.5"
   },
   "scripts": {
-    "start": "craco start",
+    "start": "PORT=3001 craco start",
     "build": "craco build",
     "test": "craco test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "codegen": "daml codegen js ../.daml/dist/bank-stablecoin-1.0.0.dar -o src/daml.js"
   },
   "eslintConfig": {
     "extends": [

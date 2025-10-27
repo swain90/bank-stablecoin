@@ -170,7 +170,7 @@ const BlockchainAnalyzer: React.FC = () => {
           <Grid.Column>
             <Header as='h1' size='huge' color='blue' textAlign='center' style={{ padding: '1ex 0em 0ex 0em' }}>
               <Icon name='chart line' />
-              Blockchain Analyzer
+              Ledger Analyzer
             </Header>
 
             {/* System Status */}

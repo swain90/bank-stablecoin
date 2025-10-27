@@ -8,6 +8,7 @@ import TransferProposals from './components/TransferProposals';
 import TransactionHistory from './components/TransactionHistory';
 import Login from './components/Login';
 import { getDisplayName } from './config/parties';
+import { config } from './config/config';
 import IssuanceRedemption from './components/IssuanceRedemption';
 import BankAdmin from './components/BankAdmin';
 import ComplianceManagement from './components/ComplianceManagement';
@@ -15,38 +16,40 @@ import Loans from './components/Loans';
 import AtomicSwaps from './components/AtomicSwaps';
 import MultiSigWallets from './components/MultiSigWallets';
 import BlockchainAnalyzer from './components/BlockchainAnalyzer';
+import DebugInfo from './components/DebugInfo';
 
-const config = {
-  ledgerUrl: 'http://localhost:7575/',
+console.log('Using HTTP URL:', config.httpBaseUrl);
+console.log('Using WebSocket URL:', config.wsBaseUrl);
+console.log('Ledger ID:', config.ledgerId);
+
+// Helper to convert to base64url (removes padding and makes URL-safe)
+const base64UrlEncode = (str: string): string => {
+  return btoa(str)
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=/g, '');
 };
 
-// Simple token generation for local development
-// In production, you'd get this from a proper auth server
-const generateToken = (party: string) => {
-  // For Canton/Daml 2.x, we need a proper JWT structure
-  // This creates a base64 encoded token with the party info
-  const header = { alg: 'HS256', typ: 'JWT' };
+// Generate a proper JWT token for Canton with --allow-insecure-tokens
+const generateToken = (party: string): string => {
+  const header = {
+    alg: 'HS256',
+    typ: 'JWT'
+  };
+
   const payload = {
     'https://daml.com/ledger-api': {
-      ledgerId: 'sandbox',
+      ledgerId: config.ledgerId,
       applicationId: 'bank-stablecoin',
-      actAs: [party],
-    },
+      actAs: [party]
+    }
   };
-  
-  // Base64 URL encoding (removes padding and makes URL-safe)
-  const base64UrlEncode = (str: string) => {
-    return btoa(str)
-      .replace(/\+/g, '-')
-      .replace(/\//g, '_')
-      .replace(/=/g, '');  // Remove padding
-  };
-  
+
   const encodedHeader = base64UrlEncode(JSON.stringify(header));
   const encodedPayload = base64UrlEncode(JSON.stringify(payload));
-  
-  // For local development without validation
-  return `${encodedHeader}.${encodedPayload}.dev`;
+  const encodedSignature = base64UrlEncode('insecure');
+
+  return `${encodedHeader}.${encodedPayload}.${encodedSignature}`;
 };
 
 const App: React.FC = () => {
@@ -70,13 +73,18 @@ const App: React.FC = () => {
     return <Login onLogin={handleLogin} />;
   }
 
+  // Try using just the party ID as token - simplest approach for dev
   const token = generateToken(party);
+  
+  console.log('Connecting with party:', party);
+  console.log('Token:', token);
 
   return (
     <DamlLedger
       token={token}
       party={party}
-      httpBaseUrl={config.ledgerUrl}
+      httpBaseUrl={config.httpBaseUrl}
+      wsBaseUrl={config.wsBaseUrl}
     >
       <ToastContainer />
       <Container maxWidth={false} disableGutters>
@@ -110,7 +118,8 @@ const App: React.FC = () => {
             <Tab label="Multi-Sig Wallets" />
             <Tab label="Bank Admin" />
             <Tab label="Compliance" />
-            <Tab label="Blockchain Analyzer" />
+            <Tab label="Ledger Analyzer" />
+            <Tab label="Debug" />
           </Tabs>
         </AppBar>
         {activeTab === 0 && <Dashboard />}
@@ -123,6 +132,7 @@ const App: React.FC = () => {
         {activeTab === 7 && <BankAdmin />}
         {activeTab === 8 && <ComplianceManagement />}
         {activeTab === 9 && <BlockchainAnalyzer />}
+        {activeTab === 10 && <DebugInfo />}
       </Container>
     </DamlLedger>
   );
