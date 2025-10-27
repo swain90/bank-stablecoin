@@ -9,3 +9,4 @@ daml/ui/*
 daml/..ui/*
 .daml/*
 log/*
+ui/src/config/*
