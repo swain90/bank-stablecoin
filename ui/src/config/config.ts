@@ -1,8 +1,11 @@
+// Ledger configuration
 export const config = {
-    ledgerId: 'bank-stablecoin-sandbox',
-    httpBaseUrl: 'http://localhost:7576',
-    wsBaseUrl: 'ws://localhost:7576',
-  };
+  ledgerId: 'sandbox',
+  httpBaseUrl: 'http://localhost:7576/',
+  wsBaseUrl: 'ws://localhost:7576/',
+};
+
+console.log('Config loaded:', config);
   
   // Party IDs (updated after ledger setup)
   export const parties = {

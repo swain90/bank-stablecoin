@@ -8,6 +8,7 @@ import TransferProposals from './components/TransferProposals';
 import TransactionHistory from './components/TransactionHistory';
 import Login from './components/Login';
 import { getDisplayName } from './config/parties';
+import { config } from './config/config';
 import IssuanceRedemption from './components/IssuanceRedemption';
 import BankAdmin from './components/BankAdmin';
 import ComplianceManagement from './components/ComplianceManagement';
@@ -15,36 +16,40 @@ import Loans from './components/Loans';
 import AtomicSwaps from './components/AtomicSwaps';
 import MultiSigWallets from './components/MultiSigWallets';
 import BlockchainAnalyzer from './components/BlockchainAnalyzer';
+import DebugInfo from './components/DebugInfo';
 
-// Use environment variable or fallback to proxy path
-const LEDGER_URL = process.env.REACT_APP_LEDGER_URL || '/v1/';
+console.log('Using HTTP URL:', config.httpBaseUrl);
+console.log('Using WebSocket URL:', config.wsBaseUrl);
+console.log('Ledger ID:', config.ledgerId);
 
-const config = {
-  ledgerUrl: LEDGER_URL,
+// Helper to convert to base64url (removes padding and makes URL-safe)
+const base64UrlEncode = (str: string): string => {
+  return btoa(str)
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=/g, '');
 };
 
-console.log('Using Ledger URL:', config.ledgerUrl);
-console.log('Environment REACT_APP_LEDGER_URL:', process.env.REACT_APP_LEDGER_URL);
+// Generate a proper JWT token for Canton with --allow-insecure-tokens
+const generateToken = (party: string): string => {
+  const header = {
+    alg: 'HS256',
+    typ: 'JWT'
+  };
 
-// Simple token generation for local development
-// In production, you'd get this from a proper auth server
-const generateToken = (party: string) => {
-  // Create a simple token that should work with default DAML settings
   const payload = {
     'https://daml.com/ledger-api': {
-      ledgerId: 'sandbox',
+      ledgerId: config.ledgerId,
       applicationId: 'bank-stablecoin',
-      actAs: [party],
-    },
+      actAs: [party]
+    }
   };
-  
-  // Create a proper JWT structure
-  const header = { alg: 'HS256', typ: 'JWT' };
-  const encodedHeader = btoa(JSON.stringify(header));
-  const encodedPayload = btoa(JSON.stringify(payload));
-  
-  // Use "secret" as signature for development
-  return `${encodedHeader}.${encodedPayload}.secret`;
+
+  const encodedHeader = base64UrlEncode(JSON.stringify(header));
+  const encodedPayload = base64UrlEncode(JSON.stringify(payload));
+  const encodedSignature = base64UrlEncode('insecure');
+
+  return `${encodedHeader}.${encodedPayload}.${encodedSignature}`;
 };
 
 const App: React.FC = () => {
@@ -68,13 +73,18 @@ const App: React.FC = () => {
     return <Login onLogin={handleLogin} />;
   }
 
+  // Try using just the party ID as token - simplest approach for dev
   const token = generateToken(party);
+  
+  console.log('Connecting with party:', party);
+  console.log('Token:', token);
 
   return (
     <DamlLedger
       token={token}
       party={party}
-      httpBaseUrl={config.ledgerUrl}
+      httpBaseUrl={config.httpBaseUrl}
+      wsBaseUrl={config.wsBaseUrl}
     >
       <ToastContainer />
       <Container maxWidth={false} disableGutters>
@@ -109,6 +119,7 @@ const App: React.FC = () => {
             <Tab label="Bank Admin" />
             <Tab label="Compliance" />
             <Tab label="Ledger Analyzer" />
+            <Tab label="Debug" />
           </Tabs>
         </AppBar>
         {activeTab === 0 && <Dashboard />}
@@ -121,6 +132,7 @@ const App: React.FC = () => {
         {activeTab === 7 && <BankAdmin />}
         {activeTab === 8 && <ComplianceManagement />}
         {activeTab === 9 && <BlockchainAnalyzer />}
+        {activeTab === 10 && <DebugInfo />}
       </Container>
     </DamlLedger>
   );

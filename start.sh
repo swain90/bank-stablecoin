@@ -23,7 +23,7 @@ cleanup() {
 trap cleanup SIGINT SIGTERM
 
 # Step 1: Clean previous build
-echo -e "${BLUE}[1/7] Cleaning previous build...${NC}"
+echo -e "${BLUE}[1/8] Cleaning previous build...${NC}"
 daml clean
 if [ $? -ne 0 ]; then
     echo -e "${RED}Failed to clean. Exiting.${NC}"
@@ -31,7 +31,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # Step 2: Build Daml contracts
-echo -e "${BLUE}[2/7] Building Daml contracts...${NC}"
+echo -e "${BLUE}[2/8] Building Daml contracts...${NC}"
 daml build
 if [ $? -ne 0 ]; then
     echo -e "${RED}Failed to build Daml contracts. Exiting.${NC}"
@@ -39,7 +39,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # Step 3: Start Daml sandbox in background
-echo -e "${BLUE}[3/7] Starting Daml sandbox...${NC}"
+echo -e "${BLUE}[3/8] Starting Daml sandbox...${NC}"
 daml start &
 DAML_PID=$!
 
@@ -67,7 +67,7 @@ echo ""
 sleep 5
 
 # Step 5: Fetch and update party IDs
-echo -e "${BLUE}[4/7] Fetching party IDs and updating configuration...${NC}"
+echo -e "${BLUE}[4/8] Fetching party IDs and updating configuration...${NC}"
 node update-parties.js
 if [ $? -ne 0 ]; then
     echo -e "${RED}Failed to update party IDs. Exiting.${NC}"
@@ -76,7 +76,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # Step 6: Start CORS proxy in background
-echo -e "${BLUE}[5/7] Starting CORS proxy...${NC}"
+echo -e "${BLUE}[5/8] Starting CORS proxy...${NC}"
 node cors-proxy.js &
 PROXY_PID=$!
 
@@ -88,8 +88,21 @@ else
     echo -e "${YELLOW}Warning: CORS proxy may not be ready yet${NC}"
 fi
 
+# Step 6.5: Generate TypeScript bindings
+echo -e "${BLUE}[6/8] Generating TypeScript bindings...${NC}"
+cd ui
+npm run codegen
+if [ $? -ne 0 ]; then
+    echo -e "${RED}Failed to generate TypeScript bindings. Exiting.${NC}"
+    cd ..
+    cleanup
+    exit 1
+fi
+echo -e "${GREEN}✓ TypeScript bindings generated!${NC}"
+cd ..
+
 # Step 7: Start React UI
-echo -e "${BLUE}[6/7] Starting React UI...${NC}"
+echo -e "${BLUE}[7/8] Starting React UI...${NC}"
 cd ui
 npm start &
 UI_PID=$!

@@ -7,3 +7,5 @@ ui/node_modules
 ui/src/daml.js/*
 daml/ui/*
 daml/..ui/*
+.daml/*
+log/*
