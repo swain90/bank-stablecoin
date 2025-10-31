@@ -203,3 +203,232 @@ webpack compiled with 6 warnings
 Files successfully emitted, waiting for typecheck results...
 Issues checking in progress...
 No issues found.
+Compiling...
+Compiled with warnings.
+
+Failed to parse source map from '/Users/zeshanwain/language-support/ts/daml-ledger/index.ts' file: Error: ENOENT: no such file or directory, open '/Users/zeshanwain/language-support/ts/daml-ledger/index.ts'
+
+Failed to parse source map from '/Users/zeshanwain/language-support/ts/daml-react/createLedgerContext.ts' file: Error: ENOENT: no such file or directory, open '/Users/zeshanwain/language-support/ts/daml-react/createLedgerContext.ts'
+
+Failed to parse source map from '/Users/zeshanwain/language-support/ts/daml-react/defaultLedgerContext.ts' file: Error: ENOENT: no such file or directory, open '/Users/zeshanwain/language-support/ts/daml-react/defaultLedgerContext.ts'
+
+Failed to parse source map from '/Users/zeshanwain/language-support/ts/daml-react/index.ts' file: Error: ENOENT: no such file or directory, open '/Users/zeshanwain/language-support/ts/daml-react/index.ts'
+
+Failed to parse source map from '/Users/zeshanwain/language-support/ts/daml-types/index.ts' file: Error: ENOENT: no such file or directory, open '/Users/zeshanwain/language-support/ts/daml-types/index.ts'
+
+[eslint] 
+src/components/RealBankingDashboard.tsx
+  Line 3:21:   'Grid' is defined but never used              @typescript-eslint/no-unused-vars
+  Line 5:34:   'showWarning' is defined but never used       @typescript-eslint/no-unused-vars
+  Line 12:36:  'loading' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+src/daml.js/40f452260bef3f29dede136108fc08a88d5a5250310281067087da6f0baddff7/lib/DA/Types/index.js
+  Line 1:1:  'use strict' is unnecessary inside of modules  strict
+
+src/daml.js/40f452260bef3f29dede136108fc08a88d5a5250310281067087da6f0baddff7/lib/DA/Types/module.js
+  Line 1:1:    'use strict' is unnecessary inside of modules  strict
+  Line 22:14:  Expected an error object to be thrown          no-throw-literal
+
+src/daml.js/40f452260bef3f29dede136108fc08a88d5a5250310281067087da6f0baddff7/lib/DA/index.js
+  Line 1:1:  'use strict' is unnecessary inside of modules  strict
+
+src/daml.js/40f452260bef3f29dede136108fc08a88d5a5250310281067087da6f0baddff7/lib/index.js
+  Line 1:1:  'use strict' is unnecessary inside of modules  strict
+
+src/daml.js/bank-stablecoin-1.0.0/lib/Model/AtomicSwap/index.js
+  Line 1:1:  'use strict' is unnecessary inside of modules  strict
+
+src/daml.js/bank-stablecoin-1.0.0/lib/Model/AtomicSwap/module.js
+  Line 1:1:     'use strict' is unnecessary inside of modules  strict
+  Line 48:28:   Expected an error object to be thrown          no-throw-literal
+  Line 124:28:  Expected an error object to be thrown          no-throw-literal
+  Line 221:28:  Expected an error object to be thrown          no-throw-literal
+  Line 303:28:  Expected an error object to be thrown          no-throw-literal
+
+src/daml.js/bank-stablecoin-1.0.0/lib/Model/Compliance/index.js
+  Line 1:1:  'use strict' is unnecessary inside of modules  strict
+
+src/daml.js/bank-stablecoin-1.0.0/lib/Model/Compliance/module.js
+  Line 1:1:     'use strict' is unnecessary inside of modules  strict
+  Line 49:28:   Expected an error object to be thrown          no-throw-literal
+  Line 111:28:  Expected an error object to be thrown          no-throw-literal
+  Line 178:28:  Expected an error object to be thrown          no-throw-literal
+
+src/daml.js/bank-stablecoin-1.0.0/lib/Model/Loan/index.js
+  Line 1:1:  'use strict' is unnecessary inside of modules  strict
+
+src/daml.js/bank-stablecoin-1.0.0/lib/Model/Loan/module.js
+  Line 1:1:     'use strict' is unnecessary inside of modules  strict
+  Line 48:28:   Expected an error object to be thrown          no-throw-literal
+  Line 135:28:  Expected an error object to be thrown          no-throw-literal
+  Line 244:28:  Expected an error object to be thrown          no-throw-literal
+
+src/daml.js/bank-stablecoin-1.0.0/lib/Model/MultiSig/index.js
+  Line 1:1:  'use strict' is unnecessary inside of modules  strict
+
+src/daml.js/bank-stablecoin-1.0.0/lib/Model/MultiSig/module.js
+  Line 1:1:     'use strict' is unnecessary inside of modules  strict
+  Line 49:28:   Expected an error object to be thrown          no-throw-literal
+  Line 133:28:  Expected an error object to be thrown          no-throw-literal
+  Line 228:28:  Expected an error object to be thrown          no-throw-literal
+
+src/daml.js/bank-stablecoin-1.0.0/lib/Model/RealBankAccount/index.js
+  Line 1:1:  'use strict' is unnecessary inside of modules  strict
+
+src/daml.js/bank-stablecoin-1.0.0/lib/Model/RealBankAccount/module.js
+  Line 1:1:     'use strict' is unnecessary inside of modules  strict
+  Line 52:28:   Expected an error object to be thrown          no-throw-literal
+  Line 115:28:  Expected an error object to be thrown          no-throw-literal
+  Line 188:28:  Expected an error object to be thrown          no-throw-literal
+  Line 256:28:  Expected an error object to be thrown          no-throw-literal
+  Line 375:28:  Expected an error object to be thrown          no-throw-literal
+  Line 462:28:  Expected an error object to be thrown          no-throw-literal
+
+src/daml.js/bank-stablecoin-1.0.0/lib/Model/Stablecoin/index.js
+  Line 1:1:  'use strict' is unnecessary inside of modules  strict
+
+src/daml.js/bank-stablecoin-1.0.0/lib/Model/Stablecoin/module.js
+  Line 1:1:     'use strict' is unnecessary inside of modules  strict
+  Line 23:28:   Expected an error object to be thrown          no-throw-literal
+  Line 89:28:   Expected an error object to be thrown          no-throw-literal
+  Line 178:28:  Expected an error object to be thrown          no-throw-literal
+  Line 235:28:  Expected an error object to be thrown          no-throw-literal
+  Line 304:28:  Expected an error object to be thrown          no-throw-literal
+  Line 405:28:  Expected an error object to be thrown          no-throw-literal
+
+src/daml.js/d14e08374fc7197d6a0de468c968ae8ba3aadbf9315476fd39071831f5923662/lib/DA/Internal/Template/index.js
+  Line 1:1:  'use strict' is unnecessary inside of modules  strict
+
+src/daml.js/d14e08374fc7197d6a0de468c968ae8ba3aadbf9315476fd39071831f5923662/lib/DA/Internal/Template/module.js
+  Line 1:1:  'use strict' is unnecessary inside of modules  strict
+
+src/daml.js/d14e08374fc7197d6a0de468c968ae8ba3aadbf9315476fd39071831f5923662/lib/DA/Internal/index.js
+  Line 1:1:  'use strict' is unnecessary inside of modules  strict
+
+src/daml.js/d14e08374fc7197d6a0de468c968ae8ba3aadbf9315476fd39071831f5923662/lib/DA/index.js
+  Line 1:1:  'use strict' is unnecessary inside of modules  strict
+
+src/daml.js/d14e08374fc7197d6a0de468c968ae8ba3aadbf9315476fd39071831f5923662/lib/index.js
+  Line 1:1:  'use strict' is unnecessary inside of modules  strict
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+WARNING in ./node_modules/@daml/ledger/index.js
+Module Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+Failed to parse source map from '/Users/zeshanwain/language-support/ts/daml-ledger/index.ts' file: Error: ENOENT: no such file or directory, open '/Users/zeshanwain/language-support/ts/daml-ledger/index.ts'
+
+WARNING in ./node_modules/@daml/react/createLedgerContext.js
+Module Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+Failed to parse source map from '/Users/zeshanwain/language-support/ts/daml-react/createLedgerContext.ts' file: Error: ENOENT: no such file or directory, open '/Users/zeshanwain/language-support/ts/daml-react/createLedgerContext.ts'
+
+WARNING in ./node_modules/@daml/react/defaultLedgerContext.js
+Module Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+Failed to parse source map from '/Users/zeshanwain/language-support/ts/daml-react/defaultLedgerContext.ts' file: Error: ENOENT: no such file or directory, open '/Users/zeshanwain/language-support/ts/daml-react/defaultLedgerContext.ts'
+
+WARNING in ./node_modules/@daml/react/index.js
+Module Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+Failed to parse source map from '/Users/zeshanwain/language-support/ts/daml-react/index.ts' file: Error: ENOENT: no such file or directory, open '/Users/zeshanwain/language-support/ts/daml-react/index.ts'
+
+WARNING in ./node_modules/@daml/types/index.js
+Module Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+Failed to parse source map from '/Users/zeshanwain/language-support/ts/daml-types/index.ts' file: Error: ENOENT: no such file or directory, open '/Users/zeshanwain/language-support/ts/daml-types/index.ts'
+
+WARNING in [eslint] 
+src/components/RealBankingDashboard.tsx
+  Line 3:21:   'Grid' is defined but never used              @typescript-eslint/no-unused-vars
+  Line 5:34:   'showWarning' is defined but never used       @typescript-eslint/no-unused-vars
+  Line 12:36:  'loading' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+src/daml.js/40f452260bef3f29dede136108fc08a88d5a5250310281067087da6f0baddff7/lib/DA/Types/index.js
+  Line 1:1:  'use strict' is unnecessary inside of modules  strict
+
+src/daml.js/40f452260bef3f29dede136108fc08a88d5a5250310281067087da6f0baddff7/lib/DA/Types/module.js
+  Line 1:1:    'use strict' is unnecessary inside of modules  strict
+  Line 22:14:  Expected an error object to be thrown          no-throw-literal
+
+src/daml.js/40f452260bef3f29dede136108fc08a88d5a5250310281067087da6f0baddff7/lib/DA/index.js
+  Line 1:1:  'use strict' is unnecessary inside of modules  strict
+
+src/daml.js/40f452260bef3f29dede136108fc08a88d5a5250310281067087da6f0baddff7/lib/index.js
+  Line 1:1:  'use strict' is unnecessary inside of modules  strict
+
+src/daml.js/bank-stablecoin-1.0.0/lib/Model/AtomicSwap/index.js
+  Line 1:1:  'use strict' is unnecessary inside of modules  strict
+
+src/daml.js/bank-stablecoin-1.0.0/lib/Model/AtomicSwap/module.js
+  Line 1:1:     'use strict' is unnecessary inside of modules  strict
+  Line 48:28:   Expected an error object to be thrown          no-throw-literal
+  Line 124:28:  Expected an error object to be thrown          no-throw-literal
+  Line 221:28:  Expected an error object to be thrown          no-throw-literal
+  Line 303:28:  Expected an error object to be thrown          no-throw-literal
+
+src/daml.js/bank-stablecoin-1.0.0/lib/Model/Compliance/index.js
+  Line 1:1:  'use strict' is unnecessary inside of modules  strict
+
+src/daml.js/bank-stablecoin-1.0.0/lib/Model/Compliance/module.js
+  Line 1:1:     'use strict' is unnecessary inside of modules  strict
+  Line 49:28:   Expected an error object to be thrown          no-throw-literal
+  Line 111:28:  Expected an error object to be thrown          no-throw-literal
+  Line 178:28:  Expected an error object to be thrown          no-throw-literal
+
+src/daml.js/bank-stablecoin-1.0.0/lib/Model/Loan/index.js
+  Line 1:1:  'use strict' is unnecessary inside of modules  strict
+
+src/daml.js/bank-stablecoin-1.0.0/lib/Model/Loan/module.js
+  Line 1:1:     'use strict' is unnecessary inside of modules  strict
+  Line 48:28:   Expected an error object to be thrown          no-throw-literal
+  Line 135:28:  Expected an error object to be thrown          no-throw-literal
+  Line 244:28:  Expected an error object to be thrown          no-throw-literal
+
+src/daml.js/bank-stablecoin-1.0.0/lib/Model/MultiSig/index.js
+  Line 1:1:  'use strict' is unnecessary inside of modules  strict
+
+src/daml.js/bank-stablecoin-1.0.0/lib/Model/MultiSig/module.js
+  Line 1:1:     'use strict' is unnecessary inside of modules  strict
+  Line 49:28:   Expected an error object to be thrown          no-throw-literal
+  Line 133:28:  Expected an error object to be thrown          no-throw-literal
+  Line 228:28:  Expected an error object to be thrown          no-throw-literal
+
+src/daml.js/bank-stablecoin-1.0.0/lib/Model/RealBankAccount/index.js
+  Line 1:1:  'use strict' is unnecessary inside of modules  strict
+
+src/daml.js/bank-stablecoin-1.0.0/lib/Model/RealBankAccount/module.js
+  Line 1:1:     'use strict' is unnecessary inside of modules  strict
+  Line 52:28:   Expected an error object to be thrown          no-throw-literal
+  Line 115:28:  Expected an error object to be thrown          no-throw-literal
+  Line 188:28:  Expected an error object to be thrown          no-throw-literal
+  Line 256:28:  Expected an error object to be thrown          no-throw-literal
+  Line 375:28:  Expected an error object to be thrown          no-throw-literal
+  Line 462:28:  Expected an error object to be thrown          no-throw-literal
+
+src/daml.js/bank-stablecoin-1.0.0/lib/Model/Stablecoin/index.js
+  Line 1:1:  'use strict' is unnecessary inside of modules  strict
+
+src/daml.js/bank-stablecoin-1.0.0/lib/Model/Stablecoin/module.js
+  Line 1:1:     'use strict' is unnecessary inside of modules  strict
+  Line 23:28:   Expected an error object to be thrown          no-throw-literal
+  Line 89:28:   Expected an error object to be thrown          no-throw-literal
+  Line 178:28:  Expected an error object to be thrown          no-throw-literal
+  Line 235:28:  Expected an error object to be thrown          no-throw-literal
+  Line 304:28:  Expected an error object to be thrown          no-throw-literal
+  Line 405:28:  Expected an error object to be thrown          no-throw-literal
+
+src/daml.js/d14e08374fc7197d6a0de468c968ae8ba3aadbf9315476fd39071831f5923662/lib/DA/Internal/Template/index.js
+  Line 1:1:  'use strict' is unnecessary inside of modules  strict
+
+src/daml.js/d14e08374fc7197d6a0de468c968ae8ba3aadbf9315476fd39071831f5923662/lib/DA/Internal/Template/module.js
+  Line 1:1:  'use strict' is unnecessary inside of modules  strict
+
+src/daml.js/d14e08374fc7197d6a0de468c968ae8ba3aadbf9315476fd39071831f5923662/lib/DA/Internal/index.js
+  Line 1:1:  'use strict' is unnecessary inside of modules  strict
+
+src/daml.js/d14e08374fc7197d6a0de468c968ae8ba3aadbf9315476fd39071831f5923662/lib/DA/index.js
+  Line 1:1:  'use strict' is unnecessary inside of modules  strict
+
+src/daml.js/d14e08374fc7197d6a0de468c968ae8ba3aadbf9315476fd39071831f5923662/lib/index.js
+  Line 1:1:  'use strict' is unnecessary inside of modules  strict
+
+webpack compiled with 6 warnings
+No issues found.
+(node:64858) [DEP0060] DeprecationWarning: The `util._extend` API is deprecated. Please use Object.assign() instead.

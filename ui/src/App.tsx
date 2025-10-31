@@ -17,6 +17,7 @@ import AtomicSwaps from './components/AtomicSwaps';
 import MultiSigWallets from './components/MultiSigWallets';
 import BlockchainAnalyzer from './components/BlockchainAnalyzer';
 import DebugInfo from './components/DebugInfo';
+import RealBankingDashboard from './components/RealBankingDashboard';
 
 console.log('Using HTTP URL:', config.httpBaseUrl);
 console.log('Using WebSocket URL:', config.wsBaseUrl);
@@ -120,6 +121,8 @@ const App: React.FC = () => {
             <Tab label="Compliance" />
             <Tab label="Ledger Analyzer" />
             <Tab label="Debug" />
+            <Tab label="Real Banking Dashboard" />
+
           </Tabs>
         </AppBar>
         {activeTab === 0 && <Dashboard />}
@@ -133,6 +136,7 @@ const App: React.FC = () => {
         {activeTab === 8 && <ComplianceManagement />}
         {activeTab === 9 && <BlockchainAnalyzer />}
         {activeTab === 10 && <DebugInfo />}
+        {activeTab === 11 && <RealBankingDashboard />}
       </Container>
     </DamlLedger>
   );
