@@ -12,7 +12,25 @@ const Dashboard: React.FC = () => {
   }, []);
 
   const ledger = useLedger();
-  const { contracts: holdings, loading } = useStreamQueries(StablecoinHolding);
+  const { contracts: allHoldings, loading } = useStreamQueries(StablecoinHolding);
+
+  const holdings = allHoldings.filter(h => h.payload.owner === party);
+
+  // DEBUG: Log everything
+  console.log('=== DASHBOARD DEBUG ===');
+  console.log('Logged in party:', party);
+  console.log('All holdings from query:', allHoldings.length);
+  console.log('All holdings:', allHoldings);
+  
+  if (allHoldings.length > 0) {
+    console.log('First holding owner:', allHoldings[0].payload.owner);
+    console.log('First holding amount:', allHoldings[0].payload.amount);
+    console.log('Does owner match logged in party?', allHoldings[0].payload.owner === party);
+  }
+  
+  console.log('Filtered holdings (owner matches):', holdings.length);
+  console.log('Filtered holdings:', holdings);
+
 
   const [transferModalOpen, setTransferModalOpen] = useState(false);
   const [splitModalOpen, setSplitModalOpen] = useState(false);
@@ -23,7 +41,7 @@ const Dashboard: React.FC = () => {
   const [splitAmount, setSplitAmount] = useState('');
 
   const totalBalance = holdings.reduce((sum, h) => sum + parseFloat(h.payload.amount), 0);
-
+  console.log('Total balance:', totalBalance);
   // Create dropdown options for other parties (exclude current user)
   const partyOptions = getAllParties()
     .filter(p => p.partyId !== party)

@@ -1,0 +1,137 @@
+module Init where
+
+import Daml.Script   
+import qualified Model.Stablecoin as Stablecoin  
+import DA.Date  
+import qualified Model.Compliance as Compliance  
+import qualified Model.Loan as Loan  
+import qualified Model.AtomicSwap as Swap  
+import qualified Model.MultiSig as MultiSig  
+import qualified Model.RealBankAccount as Banking
+
+init : Script ()   
+init = script do   
+  -- Get existing parties (or allocate if they don't exist)   
+  bank <- allocatePartyOn "Bank" (ParticipantName "participant0")   
+  alice <- allocatePartyOn "Alice" (ParticipantName "participant0")   
+  bob <- allocatePartyOn "Bob" (ParticipantName "participant0")
+
+  -- Create ComplianceOfficer contract so bank can freeze/unfreeze accounts  
+  complianceOfficer <- submit bank do  
+    createCmd Compliance.ComplianceOfficer with  
+      bank = bank  
+      officer = bank
+
+  -- Create initial Bank Reserve for tracking issuance/redemption  
+  bankReserve <- submit bank do  
+    createCmd Stablecoin.BankReserve with  
+      bank = bank  
+      currency = "USD"  
+      totalIssued = 0.0  
+      totalRedeemed = 0.0
+
+  -- Bank creates holdings - both bank and owner must sign
+  bankAliceCoin1 <- submitMulti [bank, alice] [] do
+    createCmd Stablecoin.StablecoinHolding with
+      issuer = bank
+      owner = alice
+      amount = 1000.0
+      currency = "USD"
+      frozen = False
+
+  bankAliceCoin2 <- submitMulti [bank, alice] [] do
+    createCmd Stablecoin.StablecoinHolding with
+      issuer = bank
+      owner = alice
+      amount = 500.0
+      currency = "USD"
+      frozen = False
+
+  bankBobCoin <- submitMulti [bank, bob] [] do
+    createCmd Stablecoin.StablecoinHolding with
+      issuer = bank
+      owner = bob
+      amount = 2000.0
+      currency = "USD"
+      frozen = False
+
+  -- Update the reserve to reflect the initial issuance  
+  submit bank do  
+    archiveCmd bankReserve
+  submit bank do  
+    createCmd Stablecoin.BankReserve with  
+      bank = bank  
+      currency = "USD"  
+      totalIssued = 3500.0  -- 1000 + 500 + 2000  
+      totalRedeemed = 0.0
+
+  -- Create EUR reserve and holdings for multi-currency support  
+  eurReserve <- submit bank do  
+    createCmd Stablecoin.BankReserve with  
+      bank = bank  
+      currency = "EUR"  
+      totalIssued = 0.0  
+      totalRedeemed = 0.0
+
+  -- Create some EUR holdings for testing swaps
+  bankAliceEur <- submitMulti [bank, alice] [] do
+    createCmd Stablecoin.StablecoinHolding with
+      issuer = bank
+      owner = alice
+      amount = 800.0
+      currency = "EUR"
+      frozen = False
+
+  bankBobEur <- submitMulti [bank, bob] [] do
+    createCmd Stablecoin.StablecoinHolding with
+      issuer = bank
+      owner = bob
+      amount = 1500.0
+      currency = "EUR"
+      frozen = False
+  
+  -- Create Fiat Bank Reserve for Real Banking (using correct module prefix)
+  fiatUsdReserve <- submit bank do  
+    createCmd Stablecoin.BankReserve with  
+      bank = bank  
+      currency = "USD"  
+      totalIssued = 0.0  
+      totalRedeemed = 0.0
+  
+  -- Create Fiat EUR Reserve for Real Banking
+  fiatEurReserve <- submit bank do  
+    createCmd Stablecoin.BankReserve with  
+      bank = bank  
+      currency = "EUR"  
+      totalIssued = 0.0  
+      totalRedeemed = 0.0
+
+  -- Update EUR stablecoin reserve  
+  submit bank do  
+    archiveCmd eurReserve
+  submit bank do  
+    createCmd Stablecoin.BankReserve with  
+      bank = bank  
+      currency = "EUR"  
+      totalIssued = 2300.0  -- 800 + 1500  
+      totalRedeemed = 0.0
+
+  -- Create exchange rates (USD <-> EUR)  
+  usdToEur <- submit bank do  
+    createCmd Swap.ExchangeRate with  
+      bank = bank  
+      fromCurrency = "USD"  
+      toCurrency = "EUR"  
+      rate = 0.92  -- 1 USD = 0.92 EUR  
+      lastUpdated = date 2025 Jan 1
+
+  eurToUsd <- submit bank do  
+    createCmd Swap.ExchangeRate with  
+      bank = bank  
+      fromCurrency = "EUR"  
+      toCurrency = "USD"  
+      rate = 1.09  -- 1 EUR = 1.09 USD  
+      lastUpdated = date 2025 Jan 1
+
+  debug ("Created USD and EUR holdings with exchange rates and fiat banking reserves" : Text)  
+  return ()

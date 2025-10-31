@@ -1,0 +1,371 @@
+module Model.RealBankAccount where
+
+import qualified Model.Stablecoin as S
+import DA.Date
+import DA.Optional
+
+-- Transaction history for fiat banking operations
+template FiatTransactionHistory
+  with
+    actor: Party
+    transactionType: Text  -- "fiat_deposit", "fiat_withdrawal", "mint_stablecoin", "burn_stablecoin"
+    amount: Text
+    currency: Text
+    fromParty: Optional Party
+    toParty: Optional Party
+    timestamp: Text
+    details: Text
+  where
+    signatory actor
+
+-- Real fiat bank account (FDIC-insured)
+template FiatBankAccount
+  with
+    bank: Party
+    user: Party
+    accountNumber: Text
+    routingNumber: Text
+    accountType: Text  -- "CHECKING" or "SAVINGS"
+    balance: Decimal
+    currency: Text
+    fdicInsured: Bool
+    provider: Text  -- "Unit", "Synctera", "TreasuryPrime"
+    externalAccountId: Text  -- ID from BaaS provider
+    status: Text  -- "ACTIVE", "FROZEN", "CLOSED"
+  where
+    signatory bank, user
+    observer bank
+    
+    ensure balance >= 0.0
+    
+    -- Deposit fiat into bank account (from external source)
+    choice DepositFiat : ContractId FiatBankAccount
+      with 
+        amount: Decimal
+        source: Text
+        transactionId: Text
+      controller bank
+      do
+        assertMsg "Account must be active" (status == "ACTIVE")
+        
+        -- Create transaction history
+        create FiatTransactionHistory with
+          actor = user
+          transactionType = "fiat_deposit"
+          amount = show amount
+          currency = currency
+          fromParty = None
+          toParty = Some user
+          timestamp = show (toDateUTC (datetime 2025 Jan 1 0 0 0))
+          details = "Fiat deposit from " <> source <> " - " <> transactionId
+        
+        create this with balance = balance + amount
+    
+    -- Withdraw fiat from bank account (to external destination)
+    choice WithdrawFiat : ContractId FiatBankAccount
+      with 
+        amount: Decimal
+        destination: Text
+        transactionId: Text
+      controller user
+      do
+        assertMsg "Account must be active" (status == "ACTIVE")
+        assertMsg "Insufficient balance" (balance >= amount)
+        
+        -- Create transaction history
+        create FiatTransactionHistory with
+          actor = user
+          transactionType = "fiat_withdrawal"
+          amount = show amount
+          currency = currency
+          fromParty = Some user
+          toParty = None
+          timestamp = show (toDateUTC (datetime 2025 Jan 1 0 0 0))
+          details = "Fiat withdrawal to " <> destination <> " - " <> transactionId
+        
+        create this with balance = balance - amount
+    
+    -- Convert fiat to stablecoin (mint stablecoin by burning fiat)
+    choice MintStablecoin : (ContractId FiatBankAccount, ContractId S.StablecoinHolding)
+      with 
+        amount: Decimal
+        reserveCid: ContractId S.BankReserve
+      controller user
+      do
+        assertMsg "Account must be active" (status == "ACTIVE")
+        assertMsg "Insufficient fiat balance" (balance >= amount)
+        
+        -- Deduct fiat from bank account
+        newAccount <- create this with balance = balance - amount
+        
+        -- Update reserve tracking
+        reserve <- fetch reserveCid
+        archive reserveCid
+        newReserve <- create reserve with totalIssued = reserve.totalIssued + amount
+        
+        -- Create stablecoin holding
+        stablecoin <- create S.StablecoinHolding with
+          issuer = bank
+          owner = user
+          amount = amount
+          currency = currency
+          frozen = False
+        
+        -- Create transaction history
+        create FiatTransactionHistory with
+          actor = user
+          transactionType = "mint_stablecoin"
+          amount = show amount
+          currency = currency
+          fromParty = Some user
+          toParty = Some user
+          timestamp = show (toDateUTC (datetime 2025 Jan 1 0 0 0))
+          details = "Converted " <> show amount <> " fiat to stablecoin"
+        
+        return (newAccount, stablecoin)
+    
+    -- Redeem stablecoin back to fiat (burn stablecoin, credit fiat)
+    choice BurnStablecoin : ContractId FiatBankAccount
+      with 
+        stablecoinCid: ContractId S.StablecoinHolding
+        reserveCid: ContractId S.BankReserve
+      controller user
+      do
+        assertMsg "Account must be active" (status == "ACTIVE")
+        
+        -- Get and burn the stablecoin
+        stablecoin <- fetch stablecoinCid
+        assertMsg "Stablecoin owner must match account owner" (stablecoin.owner == user)
+        assertMsg "Currency mismatch" (stablecoin.currency == currency)
+        archive stablecoinCid
+        
+        -- Update reserve tracking
+        reserve <- fetch reserveCid
+        archive reserveCid
+        create reserve with totalRedeemed = reserve.totalRedeemed + stablecoin.amount
+        
+        -- Create transaction history
+        create FiatTransactionHistory with
+          actor = user
+          transactionType = "burn_stablecoin"
+          amount = show stablecoin.amount
+          currency = currency
+          fromParty = Some user
+          toParty = Some user
+          timestamp = show (toDateUTC (datetime 2025 Jan 1 0 0 0))
+          details = "Redeemed " <> show stablecoin.amount <> " stablecoin to fiat"
+        
+        -- Add fiat back to account
+        create this with balance = balance + stablecoin.amount
+    
+    -- Freeze account (compliance action)
+    choice FreezeAccount : ContractId FiatBankAccount
+      with reason: Text
+      controller bank
+      do
+        create this with status = "FROZEN"
+    
+    -- Unfreeze account
+    choice UnfreezeAccount : ContractId FiatBankAccount
+      controller bank
+      do
+        create this with status = "ACTIVE"
+
+-- Interest-bearing savings account
+template SavingsAccount
+  with
+    bank: Party
+    user: Party
+    fiatAccountCid: ContractId FiatBankAccount
+    interestRate: Decimal  -- Annual percentage (e.g., 4.5 for 4.5% APY)
+    lastInterestDate: Date
+    compoundFrequency: Text  -- "DAILY", "MONTHLY", "QUARTERLY"
+  where
+    signatory bank, user
+    
+    choice AccrueInterest : ContractId SavingsAccount
+      with currentDate: Date
+      controller bank
+      do
+        fiatAccount <- fetch fiatAccountCid
+        
+        let daysSinceLastAccrual = subDate currentDate lastInterestDate
+        let dailyRate = interestRate / 365.0 / 100.0
+        let interest = fiatAccount.balance * dailyRate * intToDecimal daysSinceLastAccrual
+        
+        -- Archive old account and create new one with interest
+        archive fiatAccountCid
+        newAccountCid <- create fiatAccount with balance = fiatAccount.balance + interest
+        
+        -- Create transaction history for interest
+        create FiatTransactionHistory with
+          actor = bank
+          transactionType = "interest_accrual"
+          amount = show interest
+          currency = fiatAccount.currency
+          fromParty = Some bank
+          toParty = Some user
+          timestamp = show currentDate
+          details = "Interest accrued at " <> show interestRate <> "% APY"
+        
+        create this with
+          fiatAccountCid = newAccountCid
+          lastInterestDate = currentDate
+
+-- ACH Transfer between bank accounts
+template ACHTransfer
+  with
+    bank: Party
+    sender: Party
+    receiver: Party
+    amount: Decimal
+    currency: Text
+    senderAccountCid: ContractId FiatBankAccount
+    receiverAccountNumber: Text
+    receiverRoutingNumber: Text
+    status: Text  -- "PENDING", "PROCESSING", "COMPLETED", "FAILED"
+    achTraceNumber: Optional Text
+    initiatedDate: Date
+    memo: Optional Text
+  where
+    signatory bank, sender
+    observer receiver
+    
+    choice ProcessACH : ContractId ACHTransfer
+      with 
+        traceNumber: Text
+        newStatus: Text
+      controller bank
+      do
+        create this with
+          status = newStatus
+          achTraceNumber = Some traceNumber
+    
+    choice CompleteACH : (ContractId FiatBankAccount, ContractId ACHTransfer)
+      with receiverAccountCid: ContractId FiatBankAccount
+      controller bank
+      do
+        -- Deduct from sender
+        senderAccount <- fetch senderAccountCid
+        assertMsg "Insufficient balance" (senderAccount.balance >= amount)
+        archive senderAccountCid
+        newSenderAccount <- create senderAccount with balance = senderAccount.balance - amount
+        
+        -- Credit to receiver
+        receiverAccount <- fetch receiverAccountCid
+        archive receiverAccountCid
+        create receiverAccount with balance = receiverAccount.balance + amount
+        
+        -- Update transfer status
+        completedTransfer <- create this with status = "COMPLETED"
+        
+        -- Create transaction histories
+        create FiatTransactionHistory with
+          actor = sender
+          transactionType = "ach_sent"
+          amount = show amount
+          currency = currency
+          fromParty = Some sender
+          toParty = Some receiver
+          timestamp = show initiatedDate
+          details = "ACH transfer to " <> receiverAccountNumber
+        
+        create FiatTransactionHistory with
+          actor = receiver
+          transactionType = "ach_received"
+          amount = show amount
+          currency = currency
+          fromParty = Some sender
+          toParty = Some receiver
+          timestamp = show initiatedDate
+          details = "ACH transfer from " <> show sender
+        
+        return (newSenderAccount, completedTransfer)
+
+-- Wire Transfer (faster, same-day)
+template WireTransfer
+  with
+    bank: Party
+    sender: Party
+    receiver: Party
+    amount: Decimal
+    currency: Text
+    senderAccountCid: ContractId FiatBankAccount
+    receiverBankName: Text
+    receiverAccountNumber: Text
+    receiverRoutingNumber: Text
+    status: Text
+    wireReference: Optional Text
+    fee: Decimal  -- Wire transfer fee
+  where
+    signatory bank, sender
+    observer receiver
+    
+    choice ExecuteWire : ContractId FiatBankAccount
+      with referenceNumber: Text
+      controller bank
+      do
+        -- Deduct amount + fee from sender
+        senderAccount <- fetch senderAccountCid
+        let totalDeduction = amount + fee
+        assertMsg "Insufficient balance for wire + fee" (senderAccount.balance >= totalDeduction)
+        
+        archive senderAccountCid
+        create senderAccount with balance = senderAccount.balance - totalDeduction
+
+-- Account opening request
+template AccountOpeningRequest
+  with
+    bank: Party
+    user: Party
+    accountType: Text
+    requestedCurrency: Text
+    kycVerified: Bool
+    kycDocuments: Text
+    requestDate: Date
+  where
+    signatory user
+    observer bank
+    
+    choice ApproveAccountOpening : (ContractId FiatBankAccount, Optional (ContractId SavingsAccount))
+      with
+        accountNumber: Text
+        routingNumber: Text
+        externalAccountId: Text
+        interestRate: Optional Decimal
+      controller bank
+      do
+        assertMsg "KYC must be verified" kycVerified
+        
+        -- Create fiat bank account
+        accountCid <- create FiatBankAccount with
+          bank = bank
+          user = user
+          accountNumber = accountNumber
+          routingNumber = routingNumber
+          accountType = accountType
+          balance = 0.0
+          currency = requestedCurrency
+          fdicInsured = True
+          provider = "Unit"
+          externalAccountId = externalAccountId
+          status = "ACTIVE"
+        
+        -- If savings account, create savings contract
+        if accountType == "SAVINGS" && isSome interestRate
+          then do
+            savingsAccountCid <- create SavingsAccount with
+              bank = bank
+              user = user
+              fiatAccountCid = accountCid
+              interestRate = fromSome interestRate
+              lastInterestDate = requestDate
+              compoundFrequency = "DAILY"
+            return (accountCid, Some savingsAccountCid)
+          else return (accountCid, None)
+    
+    choice RejectAccountOpening : ()
+      with reason: Text
+      controller bank
+      do
+        return ()
