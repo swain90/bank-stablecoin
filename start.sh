@@ -23,6 +23,12 @@ cleanup() {
     fi
     pkill -f "cors-proxy.js" 2>/dev/null
     
+    # Kill API server
+    if [ ! -z "$API_PID" ]; then
+        kill $API_PID 2>/dev/null
+    fi
+    pkill -f "api/server.js" 2>/dev/null
+    
     # Kill UI process
     if [ ! -z "$UI_PID" ]; then
         kill $UI_PID 2>/dev/null
@@ -42,7 +48,7 @@ echo -e "${BLUE}Bank Stablecoin Platform Startup${NC}"
 echo -e "${BLUE}========================================${NC}\n"
 
 # Step 1: Check prerequisites
-echo -e "${BLUE}[1/7] Checking prerequisites...${NC}"
+echo -e "${BLUE}[1/8] Checking prerequisites...${NC}"
 
 # Check if daml is installed
 if ! command -v daml &> /dev/null; then
@@ -77,10 +83,17 @@ if [ ! -f "cors-proxy.js" ]; then
     exit 1
 fi
 
+# Check if api directory exists
+if [ ! -d "api" ]; then
+    echo -e "${RED}Error: api directory not found${NC}"
+    echo -e "${YELLOW}Please create the api directory with server.js${NC}"
+    exit 1
+fi
+
 echo -e "${GREEN}✓ Prerequisites check passed${NC}\n"
 
 # Step 2: Clean previous builds
-echo -e "${BLUE}[2/7] Cleaning previous builds...${NC}"
+echo -e "${BLUE}[2/8] Cleaning previous builds...${NC}"
 cd daml
 daml clean
 rm -rf .daml/canton
@@ -88,7 +101,7 @@ cd ..
 echo -e "${GREEN}✓ Clean completed${NC}\n"
 
 # Step 3: Build DAML contracts
-echo -e "${BLUE}[3/7] Building DAML contracts...${NC}"
+echo -e "${BLUE}[3/8] Building DAML contracts...${NC}"
 cd daml
 if ! daml build; then
     echo -e "${RED}Failed to build DAML contracts. Exiting.${NC}"
@@ -98,7 +111,7 @@ cd ..
 echo -e "${GREEN}✓ DAML contracts built successfully${NC}\n"
 
 # Step 4: Generate JavaScript bindings
-echo -e "${BLUE}[4/7] Generating JavaScript bindings...${NC}"
+echo -e "${BLUE}[4/8] Generating JavaScript bindings...${NC}"
 cd daml
 if ! daml codegen js .daml/dist/bank-stablecoin-1.0.0.dar -o ../ui/src/daml.js; then
     echo -e "${RED}Failed to generate JavaScript bindings. Exiting.${NC}"
@@ -108,8 +121,22 @@ cd ..
 echo -e "${GREEN}✓ JavaScript bindings generated${NC}\n"
 
 # Step 5: Start DAML ledger
-echo -e "${BLUE}[5/7] Starting DAML ledger...${NC}"
+echo -e "${BLUE}[5/8] Starting DAML ledger...${NC}"
 cd daml
+# Check if ports are already in use
+if lsof -Pi :6865 -sTCP:LISTEN -t >/dev/null ; then
+    echo -e "${YELLOW}⚠ Warning: Port 6865 is already in use${NC}"
+    echo -e "${YELLOW}Killing existing DAML processes...${NC}"
+    pkill -f "daml start"
+    sleep 2
+fi
+
+if lsof -Pi :7575 -sTCP:LISTEN -t >/dev/null ; then
+    echo -e "${YELLOW}⚠ Warning: Port 7575 is already in use${NC}"
+    pkill -f "daml start"
+    sleep 2
+fi
+
 daml start > daml.log 2>&1 &
 DAML_PID=$!
 cd ..
@@ -119,6 +146,14 @@ echo -e "${YELLOW}Waiting for DAML ledger to start...${NC}"
 max_attempts=60
 attempt=0
 while [ $attempt -lt $max_attempts ]; do
+     # Check if process is still running
+    if ! ps -p $DAML_PID > /dev/null 2>&1; then
+        echo -e "${RED}DAML process died unexpectedly!${NC}"
+        echo -e "${YELLOW}Last 30 lines of daml.log:${NC}"
+        tail -30 daml/daml.log
+        exit 1
+    fi
+    
     if curl -s http://localhost:7575/v1/user/allocate > /dev/null 2>&1; then
         echo -e "${GREEN}✓ DAML ledger is ready${NC}\n"
         break
@@ -127,16 +162,22 @@ while [ $attempt -lt $max_attempts ]; do
     attempt=$((attempt + 1))
     if [ $attempt -eq $max_attempts ]; then
         echo -e "${RED}DAML ledger failed to start within 60 seconds${NC}"
-        echo -e "${YELLOW}Check daml/daml.log for errors${NC}"
+        echo -e "${YELLOW}Last 50 lines of daml.log:${NC}"
+        tail -50 daml/daml.log
+        echo -e "\n${YELLOW}Full log is available at: daml/daml.log${NC}"
         exit 1
     fi
     
-    echo -ne "${YELLOW}Attempt $attempt/$max_attempts...\r${NC}"
+    # Show progress every 10 attempts
+    if [ $((attempt % 10)) -eq 0 ]; then
+        echo -e "${YELLOW}Still waiting... ($attempt/$max_attempts)${NC}"
+    fi
+    
     sleep 1
 done
 
 # Step 5.5: Update party IDs in parties.ts
-echo -e "${BLUE}[5.5/7] Updating party IDs...${NC}"
+echo -e "${BLUE}[5.5/8] Updating party IDs...${NC}"
 
 # Wait a moment for init script to complete
 sleep 5
@@ -144,17 +185,11 @@ sleep 5
 # Get party IDs from the ledger
 PARTIES=$(cd daml && daml ledger list-parties --host localhost --port 6865 2>&1)
 
-# Debug: Show raw output
-echo "Debug - Raw party list output:"
-echo "$PARTIES"
-echo ""
-
-# Extract party IDs for Alice, Bob, and Bank (using sed for better reliability)
+# Extract party IDs for Alice, Bob, and Bank
 ALICE_ID=$(echo "$PARTIES" | grep -i "alice" | sed -n "s/.*party = '\([^']*\)'.*/\1/p")
 BOB_ID=$(echo "$PARTIES" | grep -i "bob" | sed -n "s/.*party = '\([^']*\)'.*/\1/p")
 BANK_ID=$(echo "$PARTIES" | grep -i "bank" | sed -n "s/.*party = '\([^']*\)'.*/\1/p")
 
-# Debug: Show what we found
 echo "Debug - Extracted party IDs:"
 echo "  Alice: ${ALICE_ID}"
 echo "  Bob:   ${BOB_ID}"
@@ -162,10 +197,8 @@ echo "  Bank:  ${BANK_ID}"
 echo ""
 
 if [ -z "$ALICE_ID" ] || [ -z "$BOB_ID" ] || [ -z "$BANK_ID" ]; then
-    echo -e "${RED}❌ Failed to extract party IDs${NC}"
+    echo -e "${RED}✗ Failed to extract party IDs${NC}"
     echo -e "${YELLOW}You'll need to update ui/src/config/parties.ts manually${NC}"
-    echo -e "${YELLOW}Run this command to see the party IDs:${NC}"
-    echo -e "${YELLOW}  cd daml && daml ledger list-parties --host localhost --port 6865${NC}\n"
 else
     # Update parties.ts with current party IDs
     cat > ui/src/config/parties.ts << EOF
@@ -209,7 +242,6 @@ export const getDisplayName = (partyId: string): string => {
   const party = Object.values(parties).find(p => p.partyId === partyId);
   return party?.displayName || partyId.split('::')[0] || partyId;
 };
-
 EOF
 
     echo -e "${GREEN}✓ Party IDs updated successfully${NC}"
@@ -218,29 +250,8 @@ EOF
     echo -e "  Bank:  ${BANK_ID}\n"
 fi
 
-# Wait for DAML to be ready
-echo -e "${YELLOW}Waiting for DAML ledger to start...${NC}"
-max_attempts=60
-attempt=0
-while [ $attempt -lt $max_attempts ]; do
-    if curl -s http://localhost:7575/v1/user/allocate > /dev/null 2>&1; then
-        echo -e "${GREEN}✓ DAML ledger is ready${NC}\n"
-        break
-    fi
-    
-    attempt=$((attempt + 1))
-    if [ $attempt -eq $max_attempts ]; then
-        echo -e "${RED}DAML ledger failed to start within 60 seconds${NC}"
-        echo -e "${YELLOW}Check daml/daml.log for errors${NC}"
-        exit 1
-    fi
-    
-    echo -ne "${YELLOW}Attempt $attempt/$max_attempts...\r${NC}"
-    sleep 1
-done
-
 # Step 6: Start CORS Proxy
-echo -e "${BLUE}[6/7] Starting CORS proxy server...${NC}"
+echo -e "${BLUE}[6/8] Starting CORS proxy server...${NC}"
 node cors-proxy.js > cors-proxy.log 2>&1 &
 PROXY_PID=$!
 
@@ -253,8 +264,40 @@ else
     echo -e "${YELLOW}⚠ CORS proxy may not be ready yet, continuing...${NC}\n"
 fi
 
-# Step 7: Start React UI
-echo -e "${BLUE}[7/7] Starting React UI...${NC}"
+# Step 7: Start API Server
+echo -e "${BLUE}[7/8] Starting Unit.co API server...${NC}"
+
+# Check if api/node_modules exists
+if [ ! -d "api/node_modules" ]; then
+    echo -e "${YELLOW}Installing API dependencies...${NC}"
+    cd api
+    npm install
+    cd ..
+fi
+
+# Check if .env exists in api directory
+if [ ! -f "api/.env" ]; then
+    echo -e "${YELLOW}⚠ Warning: api/.env not found${NC}"
+    echo -e "${YELLOW}  API server will start but Unit.co integration won't work${NC}"
+    echo -e "${YELLOW}  Create api/.env with your UNIT_API_TOKEN${NC}\n"
+fi
+
+cd api
+node server.js > api.log 2>&1 &
+API_PID=$!
+cd ..
+
+# Wait for API server to be ready
+echo -e "${YELLOW}Waiting for API server to start...${NC}"
+sleep 3
+if curl -s http://localhost:3002/api/health > /dev/null 2>&1; then
+    echo -e "${GREEN}✓ API server is ready${NC}\n"
+else
+    echo -e "${YELLOW}⚠ API server may not be ready yet, continuing...${NC}\n"
+fi
+
+# Step 8: Start React UI
+echo -e "${BLUE}[8/8] Starting React UI...${NC}"
 
 # Check if node_modules exists, if not run npm install
 if [ ! -d "ui/node_modules" ]; then
@@ -281,14 +324,33 @@ echo -e "${BLUE}Available Services:${NC}"
 echo -e "  DAML Navigator:  ${GREEN}http://localhost:7500${NC}"
 echo -e "  DAML JSON API:   ${GREEN}http://localhost:7575${NC}"
 echo -e "  CORS Proxy:      ${GREEN}http://localhost:7576${NC}"
+echo -e "  Unit API Server: ${GREEN}http://localhost:3002${NC}"
 echo -e "  React UI:        ${GREEN}http://localhost:3001${NC}"
 
 echo -e "\n${BLUE}Logs:${NC}"
 echo -e "  DAML:            ${YELLOW}daml/daml.log${NC}"
 echo -e "  CORS Proxy:      ${YELLOW}cors-proxy.log${NC}"
+echo -e "  API Server:      ${YELLOW}api/api.log${NC}"
 echo -e "  React UI:        ${YELLOW}ui/ui.log${NC}"
+
+echo -e "\n${BLUE}Quick Tests:${NC}"
+echo -e "  Test API health: ${YELLOW}curl http://localhost:3002/api/health${NC}"
+echo -e "  Test CORS proxy: ${YELLOW}curl http://localhost:7576${NC}"
 
 echo -e "\n${YELLOW}Press Ctrl+C to stop all services${NC}\n"
 
 # Keep script running and wait for interrupt
-wait
+echo -e "\n${YELLOW}Services are running. Press Ctrl+C to stop all services.${NC}\n"
+
+# This keeps the script alive indefinitely
+while true; do
+    # Check if DAML is still running
+    if ! ps -p $DAML_PID > /dev/null 2>&1; then
+        echo -e "\n${RED}DAML process died unexpectedly!${NC}"
+        echo -e "${YELLOW}Check daml/daml.log for errors${NC}"
+        cleanup
+        exit 1
+    fi
+    
+    sleep 5
+done

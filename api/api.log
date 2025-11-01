@@ -1,0 +1,5 @@
+[dotenv@17.2.3] injecting env (7) from .env -- tip: ⚙️  suppress all logs with { quiet: true }
+(node:68526) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+🚀 Unit API server running on http://localhost:3002
+📋 Health check: http://localhost:3002/api/health

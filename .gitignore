@@ -10,3 +10,6 @@ daml/..ui/*
 .daml/*
 log/*
 ui/src/config/*
+cors-proxy.log
+daml.log
+daml/daml.log
