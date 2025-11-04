@@ -11,9 +11,9 @@ Setting up proxy middleware...
 Note: Canton/Daml proxy handled by external CORS proxy on port 7576
 ========================================
 
-(node:68592) [DEP_WEBPACK_DEV_SERVER_ON_AFTER_SETUP_MIDDLEWARE] DeprecationWarning: 'onAfterSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
+(node:11984) [DEP_WEBPACK_DEV_SERVER_ON_AFTER_SETUP_MIDDLEWARE] DeprecationWarning: 'onAfterSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:68592) [DEP_WEBPACK_DEV_SERVER_ON_BEFORE_SETUP_MIDDLEWARE] DeprecationWarning: 'onBeforeSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
+(node:11984) [DEP_WEBPACK_DEV_SERVER_ON_BEFORE_SETUP_MIDDLEWARE] DeprecationWarning: 'onBeforeSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
 Starting the development server...
 
 Compiled with warnings.
@@ -232,7 +232,5 @@ src/daml.js/d14e08374fc7197d6a0de468c968ae8ba3aadbf9315476fd39071831f5923662/lib
   Line 1:1:  'use strict' is unnecessary inside of modules  strict
 
 webpack compiled with 6 warnings
-Files successfully emitted, waiting for typecheck results...
-Issues checking in progress...
 No issues found.
-(node:68592) [DEP0060] DeprecationWarning: The `util._extend` API is deprecated. Please use Object.assign() instead.
+(node:11984) [DEP0060] DeprecationWarning: The `util._extend` API is deprecated. Please use Object.assign() instead.
