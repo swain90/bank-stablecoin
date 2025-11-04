@@ -13,3 +13,6 @@ ui/src/config/*
 cors-proxy.log
 daml.log
 daml/daml.log
+api/api.log
+cors-proxy.logs
+ui/src/config/parties.ts
