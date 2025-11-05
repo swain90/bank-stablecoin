@@ -1,10 +1,13 @@
-// api/routes/unit.js
+// api/routes/unit.js - TEMPORARY MOCK VERSION
 const express = require('express');
 const router = express.Router();
-const fetch = require('node-fetch');
 
-// Create or get Unit customer
+// Mock customer database (in-memory for testing)
+const mockCustomers = new Map();
+const mockAccounts = new Map();
+
 router.post('/get-or-create-customer', async (req, res) => {
+  console.log('🔵 /get-or-create-customer endpoint hit (MOCK MODE)');
   const { partyId } = req.body;
 
   if (!partyId) {
@@ -12,58 +15,41 @@ router.post('/get-or-create-customer', async (req, res) => {
   }
 
   try {
-    const response = await fetch('https://api.s.unit.sh/customers', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/vnd.api+json',
-        'Authorization': `Bearer ${process.env.UNIT_API_TOKEN}`
-      },
-      body: JSON.stringify({
-        data: {
-          type: 'individualCustomer',
-          attributes: {
-            fullName: {
-              first: partyId.split('::')[0] || 'User',
-              last: 'Demo'
-            },
-            email: `${partyId.replace(/[^a-zA-Z0-9]/g, '')}@demo.example.com`,
-            phone: {
-              countryCode: '1',
-              number: '5555550100'
-            },
-            address: {
-              street: '123 Main St',
-              city: 'San Francisco',
-              state: 'CA',
-              postalCode: '94103',
-              country: 'US'
-            },
-            dateOfBirth: '1990-01-01',
-            ssn: '000000001',
-            tags: {
-              partyId: partyId
-            }
-          }
-        }
-      })
-    });
-
-    if (!response.ok) {
-      const error = await response.json();
-      console.error('Unit API error:', error);
-      throw new Error(error.errors?.[0]?.detail || 'Failed to create customer');
+    // Check if customer exists
+    let customerData = mockCustomers.get(partyId);
+    
+    if (!customerData) {
+      // Create mock customer
+      const customerId = `mock-cust-${Date.now()}`;
+      const accountId = `mock-acct-${Date.now()}`;
+      
+      customerData = {
+        customerId,
+        accountId,
+        accountNumber: `${Math.floor(Math.random() * 1000000000)}`,
+        routingNumber: '011401533',
+        balance: 10000, // Start with $10,000
+        currency: 'USD',
+        status: 'Open'
+      };
+      
+      mockCustomers.set(partyId, customerData);
+      mockAccounts.set(accountId, {
+        ...customerData,
+        partyId,
+        type: 'checking'
+      });
+      
+      console.log('✓ Mock customer created:', customerId);
     }
-
-    const data = await response.json();
 
     return res.json({
       success: true,
-      customerId: data.data.id,
-      customer: data.data
+      ...customerData
     });
 
   } catch (error) {
-    console.error('Customer creation error:', error);
+    console.error('Error:', error);
     return res.status(500).json({
       success: false,
       error: error.message
@@ -71,7 +57,6 @@ router.post('/get-or-create-customer', async (req, res) => {
   }
 });
 
-// Create Unit account
 router.post('/create-account', async (req, res) => {
   const { customerId, type } = req.body;
 
@@ -79,104 +64,40 @@ router.post('/create-account', async (req, res) => {
     return res.status(400).json({ error: 'customerId and type are required' });
   }
 
-  try {
-    const depositProduct = type.toLowerCase();
-
-    const response = await fetch('https://api.s.unit.sh/accounts', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/vnd.api+json',
-        'Authorization': `Bearer ${process.env.UNIT_API_TOKEN}`
-      },
-      body: JSON.stringify({
-        data: {
-          type: 'depositAccount',
-          attributes: {
-            depositProduct: depositProduct,
-            tags: {
-              accountType: type,
-              createdAt: new Date().toISOString()
-            }
-          },
-          relationships: {
-            customer: {
-              data: {
-                type: 'customer',
-                id: customerId
-              }
-            }
-          }
-        }
-      })
-    });
-
-    if (!response.ok) {
-      const error = await response.json();
-      console.error('Unit API error:', error);
-      throw new Error(error.errors?.[0]?.detail || 'Failed to create account');
+  const accountId = `mock-acct-${type}-${Date.now()}`;
+  const accountData = {
+    id: accountId,
+    type: 'depositAccount',
+    attributes: {
+      accountNumber: `${Math.floor(Math.random() * 1000000000)}`,
+      routingNumber: '011401533',
+      balance: 0,
+      status: 'Open',
+      currency: 'USD'
     }
+  };
 
-    const data = await response.json();
-    const account = data.data;
-    const attributes = account.attributes;
+  mockAccounts.set(accountId, accountData);
 
-    return res.json({
-      success: true,
-      id: account.id,
-      type: account.type,
-      attributes: {
-        accountNumber: attributes.accountNumber,
-        routingNumber: attributes.routingNumber,
-        balance: attributes.balance || 0,
-        status: attributes.status,
-        currency: attributes.currency || 'USD'
-      }
-    });
-
-  } catch (error) {
-    console.error('Account creation error:', error);
-    return res.status(500).json({
-      success: false,
-      error: error.message
-    });
-  }
+  return res.json({
+    success: true,
+    ...accountData
+  });
 });
 
-// Get account details
-router.post('/get-account', async (req, res) => {
-  const { accountId } = req.body;
-
-  if (!accountId) {
-    return res.status(400).json({ error: 'accountId is required' });
+// Get account balance
+router.get('/account/:accountId', async (req, res) => {
+  const { accountId } = req.params;
+  const account = mockAccounts.get(accountId);
+  
+  if (!account) {
+    return res.status(404).json({ error: 'Account not found' });
   }
-
-  try {
-    const response = await fetch(`https://api.s.unit.sh/accounts/${accountId}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/vnd.api+json',
-        'Authorization': `Bearer ${process.env.UNIT_API_TOKEN}`
-      }
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to fetch account');
-    }
-
-    const data = await response.json();
-
-    return res.json({
-      success: true,
-      account: data.data
-    });
-
-  } catch (error) {
-    console.error('Account fetch error:', error);
-    return res.status(500).json({
-      success: false,
-      error: error.message
-    });
-  }
+  
+  return res.json({
+    success: true,
+    account
+  });
 });
 
 module.exports = router;
