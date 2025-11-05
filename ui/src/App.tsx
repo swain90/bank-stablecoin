@@ -18,6 +18,7 @@ import MultiSigWallets from './components/MultiSigWallets';
 import BlockchainAnalyzer from './components/BlockchainAnalyzer';
 import DebugInfo from './components/DebugInfo';
 import RealBankingDashboard from './components/RealBankingDashboard';
+import { WalletProvider } from './contexts/WalletContext';
 
 console.log('Using HTTP URL:', config.httpBaseUrl);
 console.log('Using WebSocket URL:', config.wsBaseUrl);
@@ -87,6 +88,7 @@ const App: React.FC = () => {
       httpBaseUrl={config.httpBaseUrl}
       wsBaseUrl={config.wsBaseUrl}
     >
+       <WalletProvider>
       <ToastContainer />
       <Container maxWidth={false} disableGutters>
         <AppBar position="static">
@@ -138,6 +140,7 @@ const App: React.FC = () => {
         {activeTab === 10 && <DebugInfo />}
         {activeTab === 11 && <RealBankingDashboard />}
       </Container>
+      </WalletProvider>
     </DamlLedger>
   );
 };

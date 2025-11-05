@@ -74,3 +74,633 @@ Waiting for connections...
 [WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
 [WebSocket Upgrade] Successfully proxied
 
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+
+
+[WebSocket Upgrade] Request received
+[WebSocket Upgrade] URL: /v1/stream/query
+[WebSocket Upgrade] Origin: http://localhost:3001
+[WebSocket Upgrade] Protocol: jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJzYW5kYm94IiwiYXBwbGljYXRpb25JZCI6ImJhbmstc3RhYmxlY29pbiIsImFjdEFzIjpbInBhcnR5LWE2ZTY3Y2NlLTlkNTEtNGUwZC1hMGM0LWQ0MjNkYzA3ZWI4ZTo6MTIyMDRiZTU5NTE4YjU2Nzg5MGJhZTMyMTliOGFjNjc0OTBhZGU1ZDg2NjdkOGJjOGFkZmQ4MDc4Y2E1MGQ3NjM0MzMiXX19.aW5zZWN1cmU, daml.ws.auth
+[WebSocket Upgrade] Successfully proxied
+

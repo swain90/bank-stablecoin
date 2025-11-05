@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Modal, Card, Icon, Label, Segment, Header, Grid, Message } from 'semantic-ui-react';
 import { useWallet } from '../contexts/WalletContext';
 
 const WalletConnect: React.FC = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const { address, isConnected, chainId, balance, connect, disconnect } = useWallet();
-
+      // Auto-close modal when connection succeeds
+  useEffect(() => {
+    if (isConnected && modalOpen) {
+      setModalOpen(false);
+    }
+  }, [isConnected, modalOpen]);
   const wallets = [
     { id: 'metaMask', name: 'MetaMask', icon: '🦊', description: 'Browser Extension' },
     { id: 'walletConnect', name: 'WalletConnect', icon: '🔗', description: 'Mobile Wallets' },
@@ -18,13 +23,10 @@ const WalletConnect: React.FC = () => {
     11155420: { name: 'Optimism Sepolia', icon: '🔴', color: 'red' },
   };
 
-  const handleConnect = async (connectorId: string) => {
-    try {
-      connect(connectorId);
-      setModalOpen(false);
-    } catch (error) {
-      console.error('Connection error:', error);
-    }
+  const handleConnect = (connectorId: string) => {
+    console.log('Connecting with:', connectorId);
+    connect(connectorId);
+    // Don't close modal here - the useEffect will close it when isConnected becomes true
   };
 
   const getChainInfo = (id?: number) => {

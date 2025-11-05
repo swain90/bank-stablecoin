@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useEffect } from 'react';
 import { WagmiProvider } from 'wagmi';
 import { createConfig } from '@wagmi/core';
 import { http } from 'viem';
@@ -60,21 +60,65 @@ const WalletProviderInner: React.FC<{ children: React.ReactNode }> = ({ children
   const chainId = useChainId();
   const { connect: wagmiConnect, connectors } = useConnect();
   const { disconnect: wagmiDisconnect } = useDisconnect();
-  const { data: balanceData } = useBalance({ address });
+  const { data: balanceData, isLoading: balanceLoading } = useBalance({ 
+    address: address,
+  });
 
-  const connect = (connectorId: string) => {
-    let connector;
-    
-    if (connectorId === 'metaMask' || connectorId === 'metaMaskSDK') {
-      connector = connectors.find((c: any) => c.type === 'injected');
-    } else if (connectorId === 'walletConnect') {
-      connector = connectors.find((c: any) => c.type === 'walletConnect');
-    } else {
-      connector = connectors.find((c: any) => c.id === connectorId);
-    }
-    
-    if (connector) {
-      wagmiConnect({ connector });
+  useEffect(() => {
+    console.log('🔄 Account state changed:', {
+      address,
+      isConnected,
+      chainId,
+      balance: balanceData?.formatted
+    });
+  }, [address, isConnected, chainId, balanceData]);
+  
+  // Debug logs
+  console.log('🔍 WalletProviderInner state:', {
+    address,
+    isConnected,
+    chainId,
+    balance: balanceData?.formatted
+  });
+
+  const connect = async (connectorId: string) => {
+    try {
+      let connector;
+      
+      console.log('🔍 Looking for connector:', connectorId);
+      console.log('📋 Available connectors:', connectors.map(c => ({ id: c.id, type: c.type, name: c.name })));
+      
+      if (connectorId === 'metaMask' || connectorId === 'metaMaskSDK') {
+        // Try to find the specific MetaMask connector first
+        connector = connectors.find((c: any) => c.id === 'io.metamask');
+        
+        // Fallback to injected if MetaMask-specific not found
+        if (!connector) {
+          connector = connectors.find((c: any) => c.type === 'injected');
+        }
+      } else if (connectorId === 'walletConnect') {
+        connector = connectors.find((c: any) => c.type === 'walletConnect');
+      } else {
+        connector = connectors.find((c: any) => c.id === connectorId);
+      }
+      
+      console.log('✅ Found connector:', connector);
+      
+      if (connector) {
+        console.log('🚀 Attempting to connect with:', connector.id);
+        
+        try {
+          // Call connect and let hooks update
+          wagmiConnect({ connector });
+          console.log('✅ Connection initiated!');
+        } catch (connectError: any) {
+          console.error('❌ Connect error:', connectError);
+        }
+      } else {
+        console.error('❌ No connector found for:', connectorId);
+      }
+    } catch (error) {
+      console.error('❌ Connection error:', error);
     }
   };
 
@@ -82,7 +126,7 @@ const WalletProviderInner: React.FC<{ children: React.ReactNode }> = ({ children
     address,
     isConnected,
     chainId,
-    balance: balanceData?.formatted,
+    balance: balanceData?.formatted || '0',  // Fallback to '0' if undefined
     connect,
     disconnect: wagmiDisconnect,
   };
