@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import DamlLedger from '@daml/react';
-import { Container, AppBar, Toolbar, Typography, Button, Box, Tabs, Tab } from '@mui/material';
+import { Container, AppBar, Toolbar, Typography, Button, Box, Tabs, Tab, Menu, MenuItem } from '@mui/material';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Dashboard from './components/Dashboard';
@@ -19,6 +20,10 @@ import BlockchainAnalyzer from './components/BlockchainAnalyzer';
 import DebugInfo from './components/DebugInfo';
 import RealBankingDashboard from './components/RealBankingDashboard';
 import { WalletProvider } from './contexts/WalletContext';
+import MultiChainWallet from './components/MultiChainWallet';
+import CrossChainSwap from './components/CrossChainSwap';
+
+
 
 console.log('Using HTTP URL:', config.httpBaseUrl);
 console.log('Using WebSocket URL:', config.wsBaseUrl);
@@ -55,6 +60,10 @@ const generateToken = (party: string): string => {
 };
 
 const App: React.FC = () => {
+
+const [bankingAnchor, setBankingAnchor] = useState<null | HTMLElement>(null);
+const [advancedAnchor, setAdvancedAnchor] = useState<null | HTMLElement>(null);
+const [adminAnchor, setAdminAnchor] = useState<null | HTMLElement>(null);
   const [party, setParty] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState(0);
 
@@ -94,53 +103,96 @@ const App: React.FC = () => {
       <ToastContainer />
       <Container maxWidth={false} disableGutters>
         <AppBar position="static">
-          <Toolbar>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              Canton Banking Platform
-            </Typography>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <Typography variant="body1" sx={{ mr: 2 }}>
-                Welcome, {getDisplayName(party)}
-              </Typography>
-              <Button color="inherit" onClick={handleLogout}>
-                Logout
-              </Button>
-            </Box>
-          </Toolbar>
-          <Tabs 
-            value={activeTab} 
-            onChange={handleTabChange}
-            textColor="inherit"
-            indicatorColor="secondary"
-            centered
-          >
-            <Tab label="Dashboard" />
-            <Tab label="Transfer Proposals" />
-            <Tab label="Transaction History" />
-            <Tab label="Issuance & Redemption" />
-            <Tab label="Loans" />
-            <Tab label="Atomic Swaps" />
-            <Tab label="Multi-Sig Wallets" />
-            <Tab label="Bank Admin" />
-            <Tab label="Compliance" />
-            <Tab label="Ledger Analyzer" />
-            <Tab label="Debug" />
-            <Tab label="Fiat Banking Dashboard" />
+        <Toolbar>
+  <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+    Canton Banking Platform
+  </Typography>
+  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+    {/* Dashboard - always visible */}
+    <Button 
+      color="inherit" 
+      onClick={() => setActiveTab(0)}
+      sx={{ opacity: activeTab === 0 ? 1 : 0.7 }}
+    >
+      Dashboard
+    </Button>
 
-          </Tabs>
+    {/* Banking Dropdown */}
+    <Button
+      color="inherit"
+      onClick={(e) => setBankingAnchor(e.currentTarget)}
+      endIcon={<ArrowDropDownIcon />}
+    >
+      Banking
+    </Button>
+    <Menu anchorEl={bankingAnchor} open={Boolean(bankingAnchor)} onClose={() => setBankingAnchor(null)}>
+      <MenuItem onClick={() => { setActiveTab(1); setBankingAnchor(null); }}>Transfer Proposals</MenuItem>
+      <MenuItem onClick={() => { setActiveTab(2); setBankingAnchor(null); }}>Transaction History</MenuItem>
+      <MenuItem onClick={() => { setActiveTab(4); setBankingAnchor(null); }}>Issuance & Redemption</MenuItem>
+      <MenuItem onClick={() => { setActiveTab(5); setBankingAnchor(null); }}>Loans</MenuItem>
+      <MenuItem onClick={() => { setActiveTab(11); setAdminAnchor(null); }}>Fiat Banking</MenuItem>
+    </Menu>
+
+    {/* Advanced Dropdown */}
+    <Button
+      color="inherit"
+      onClick={(e) => setAdvancedAnchor(e.currentTarget)}
+      endIcon={<ArrowDropDownIcon />}
+    >
+      Advanced
+    </Button>
+    <Menu anchorEl={advancedAnchor} open={Boolean(advancedAnchor)} onClose={() => setAdvancedAnchor(null)}>
+      <MenuItem onClick={() => { setActiveTab(6); setAdvancedAnchor(null); }}>Atomic Swaps</MenuItem>
+      <MenuItem onClick={() => { setActiveTab(7); setAdvancedAnchor(null); }}>Multi-Sig Wallets</MenuItem>
+      <MenuItem onClick={() => { setActiveTab(8); setAdvancedAnchor(null); }}>Multi-Chain Wallet</MenuItem>
+      <MenuItem onClick={() => { setActiveTab(15); setAdvancedAnchor(null); }}>Cross-Chain Swap</MenuItem>
+    </Menu>
+
+    {/* Admin Dropdown */}
+    <Button
+      color="inherit"
+      onClick={(e) => setAdminAnchor(e.currentTarget)}
+      endIcon={<ArrowDropDownIcon />}
+    >
+      Admin
+    </Button>
+    <Menu anchorEl={adminAnchor} open={Boolean(adminAnchor)} onClose={() => setAdminAnchor(null)}>
+      <MenuItem onClick={() => { setActiveTab(9); setAdminAnchor(null); }}>Bank Admin</MenuItem>
+      <MenuItem onClick={() => { setActiveTab(10); setAdminAnchor(null); }}>Compliance</MenuItem>
+      <MenuItem onClick={() => { setActiveTab(13); setAdminAnchor(null); }}>Ledger Analyzer</MenuItem>
+      <MenuItem onClick={() => { setActiveTab(14); setAdminAnchor(null); }}>Debug</MenuItem>
+    </Menu>
+
+    <Typography variant="body1" sx={{ ml: 2 }}>
+      Welcome, {getDisplayName(party)}
+    </Typography>
+    <Button color="inherit" onClick={handleLogout}>
+      Logout
+    </Button>
+  </Box>
+</Toolbar>
+         
         </AppBar>
-        {activeTab === 0 && <Dashboard />}
-        {activeTab === 1 && <TransferProposals />}
-        {activeTab === 2 && <TransactionHistory />}
-        {activeTab === 3 && <IssuanceRedemption />}
-        {activeTab === 4 && <Loans />}
-        {activeTab === 5 && <AtomicSwaps />}
-        {activeTab === 6 && <MultiSigWallets />}
-        {activeTab === 7 && <BankAdmin />}
-        {activeTab === 8 && <ComplianceManagement />}
-        {activeTab === 9 && <BlockchainAnalyzer />}
-        {activeTab === 10 && <DebugInfo />}
-        {activeTab === 11 && <RealBankingDashboard />}
+        {/* Update the activeTab checks in your content rendering */}
+{activeTab === 0 && <Dashboard />}
+{activeTab === 1 && <TransferProposals />}
+{activeTab === 2 && <TransactionHistory />}
+
+{/* Advanced Features - shifted by 1 divider */}
+{activeTab === 4 && <IssuanceRedemption />}
+{activeTab === 5 && <Loans />}
+{activeTab === 6 && <AtomicSwaps />}
+{activeTab === 7 && <MultiSigWallets />}
+{activeTab === 8 && <MultiChainWallet />}
+{activeTab === 15 && <CrossChainSwap />}
+{/* Administration - shifted by 2 dividers */}
+{activeTab === 9 && <BankAdmin />}
+{activeTab === 10 && <ComplianceManagement />}
+{activeTab === 11 && <RealBankingDashboard />}
+
+{/* Tools - shifted by 3 dividers */}
+{activeTab === 13 && <BlockchainAnalyzer />}
+{activeTab === 14 && <DebugInfo />}
       </Container>
       </WalletProvider>
     </DamlLedger>
