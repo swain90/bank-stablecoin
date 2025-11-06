@@ -21,10 +21,11 @@ const config = createConfig({
     }),
   ],
   transports: {
-    [sepolia.id]: http(),
-    [polygonMumbai.id]: http(),
-    [arbitrumSepolia.id]: http(),
-    [optimismSepolia.id]: http(),
+    // Use Alchemy public endpoint for Sepolia (faster and more reliable)
+    [sepolia.id]: http('https://eth-sepolia.g.alchemy.com/v2/demo'),
+    [polygonMumbai.id]: http('https://polygon-mumbai.g.alchemy.com/v2/demo'),
+    [arbitrumSepolia.id]: http('https://arb-sepolia.g.alchemy.com/v2/demo'),
+    [optimismSepolia.id]: http('https://opt-sepolia.g.alchemy.com/v2/demo'),
   },
 });
 
@@ -60,8 +61,11 @@ const WalletProviderInner: React.FC<{ children: React.ReactNode }> = ({ children
   const chainId = useChainId();
   const { connect: wagmiConnect, connectors } = useConnect();
   const { disconnect: wagmiDisconnect } = useDisconnect();
-  const { data: balanceData, isLoading: balanceLoading } = useBalance({ 
+  
+  // Only fetch balance when we have an address
+  const { data: balanceData, isLoading: balanceLoading, isError: balanceError } = useBalance({ 
     address: address,
+    enabled: !!address, // Only fetch when address exists
   });
 
   useEffect(() => {
@@ -69,16 +73,20 @@ const WalletProviderInner: React.FC<{ children: React.ReactNode }> = ({ children
       address,
       isConnected,
       chainId,
-      balance: balanceData?.formatted
+      balance: balanceData?.formatted,
+      balanceLoading,
+      balanceError
     });
-  }, [address, isConnected, chainId, balanceData]);
+  }, [address, isConnected, chainId, balanceData, balanceLoading, balanceError]);
   
   // Debug logs
   console.log('🔍 WalletProviderInner state:', {
     address,
     isConnected,
     chainId,
-    balance: balanceData?.formatted
+    balance: balanceData?.formatted,
+    balanceLoading,
+    balanceError
   });
 
   const connect = async (connectorId: string) => {
@@ -89,10 +97,8 @@ const WalletProviderInner: React.FC<{ children: React.ReactNode }> = ({ children
       console.log('📋 Available connectors:', connectors.map(c => ({ id: c.id, type: c.type, name: c.name })));
       
       if (connectorId === 'metaMask' || connectorId === 'metaMaskSDK') {
-        // Try to find the specific MetaMask connector first
         connector = connectors.find((c: any) => c.id === 'io.metamask');
         
-        // Fallback to injected if MetaMask-specific not found
         if (!connector) {
           connector = connectors.find((c: any) => c.type === 'injected');
         }
@@ -108,7 +114,6 @@ const WalletProviderInner: React.FC<{ children: React.ReactNode }> = ({ children
         console.log('🚀 Attempting to connect with:', connector.id);
         
         try {
-          // Call connect and let hooks update
           wagmiConnect({ connector });
           console.log('✅ Connection initiated!');
         } catch (connectError: any) {
@@ -126,7 +131,7 @@ const WalletProviderInner: React.FC<{ children: React.ReactNode }> = ({ children
     address,
     isConnected,
     chainId,
-    balance: balanceData?.formatted || '0',  // Fallback to '0' if undefined
+    balance: balanceData?.formatted,
     connect,
     disconnect: wagmiDisconnect,
   };
