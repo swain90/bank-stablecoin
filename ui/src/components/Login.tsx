@@ -54,7 +54,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: '#f5f5f5' }}>
       <Paper elevation={3} sx={{ padding: 4, width: '100%', maxWidth: 450 }}>
         <Typography variant="h4" gutterBottom align="center" color="primary">
-          Bank Stablecoin
+          Canton Network Decentralized Banking Platform
         </Typography>
         <Typography variant="h6" gutterBottom align="center" color="textSecondary">
           Login to Your Account

@@ -81,6 +81,8 @@ const App: React.FC = () => {
   console.log('Connecting with party:', party);
   console.log('Token:', token);
 
+  
+
   return (
     <DamlLedger
       token={token}
@@ -94,7 +96,7 @@ const App: React.FC = () => {
         <AppBar position="static">
           <Toolbar>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              Bank Stablecoin Platform
+              Canton Banking Platform
             </Typography>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <Typography variant="body1" sx={{ mr: 2 }}>
@@ -123,7 +125,7 @@ const App: React.FC = () => {
             <Tab label="Compliance" />
             <Tab label="Ledger Analyzer" />
             <Tab label="Debug" />
-            <Tab label="Real Banking Dashboard" />
+            <Tab label="Fiat Banking Dashboard" />
 
           </Tabs>
         </AppBar>

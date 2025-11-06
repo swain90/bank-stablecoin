@@ -36,7 +36,7 @@ const App: React.FC = () => {
         <AppBar position="static">
           <Toolbar>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              Bank Stablecoin Platform
+              Canton Network Banking Platform
             </Typography>
             <Box>
               <Typography variant="body1" sx={{ mr: 2 }}>

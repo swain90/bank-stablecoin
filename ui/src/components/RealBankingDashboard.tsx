@@ -826,7 +826,7 @@ const [prevRedemptionCount, setPrevRedemptionCount] = useState(0);
     <Container style={{ marginTop: '2em' }}>
       <Header as='h1' textAlign='center'>
         <Icon name='university' />
-        Real Banking Dashboard
+        Fiat Banking Dashboard
       </Header>
 
       {/* Unit Account Info Card */}

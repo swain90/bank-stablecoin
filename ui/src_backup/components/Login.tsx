@@ -20,7 +20,7 @@ const Login: React.FC<{ onLogin: (party: string) => void }> = ({ onLogin }) => {
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
       <Paper elevation={3} sx={{ padding: 4, width: '100%', maxWidth: 400 }}>
         <Typography variant="h4" gutterBottom align="center">
-          Bank Stablecoin
+          Canton Network Banking Platform
         </Typography>
         <Typography variant="h6" gutterBottom align="center">
           Development Login
