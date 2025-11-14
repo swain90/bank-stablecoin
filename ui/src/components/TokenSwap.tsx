@@ -1,149 +1,122 @@
 import React, { useState } from 'react';
-import { Segment, Header, Icon, Form, Button, Message, Statistic, Label } from 'semantic-ui-react';
+import { Segment, Header, Icon, Label, Message, Button, Form, Dropdown } from 'semantic-ui-react';
+import { sepolia, polygonMumbai, arbitrumSepolia, optimismSepolia } from 'viem/chains';
 import { useWallet } from '../contexts/WalletContext';
 import { showSuccess, showError } from './Toast';
 
+// Token interface
+interface Token {
+  symbol: string;
+  address: string;
+  chainId: number;
+  decimals: number;
+}
+
+// Available tokens for testing
+const AVAILABLE_TOKENS: Token[] = [
+  { symbol: 'ETH', address: '0x0000000000000000000000000000000000000000', chainId: sepolia.id, decimals: 18 },
+  { symbol: 'USDC', address: '0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238', chainId: sepolia.id, decimals: 6 },
+  { symbol: 'MATIC', address: '0x0000000000000000000000000000000000000000', chainId: polygonMumbai.id, decimals: 18 },
+  { symbol: 'USDC', address: '0x9999f7Fea5938fD3b1E26A12c3f2fb024e194f97', chainId: polygonMumbai.id, decimals: 6 },
+];
+
 const TokenSwap: React.FC = () => {
-  const { address, isConnected, chainId } = useWallet();
-  const [fromToken, setFromToken] = useState('USDC');
-  const [toToken, setToToken] = useState('STABLECOIN');
-  const [amount, setAmount] = useState('');
-  const [estimatedOutput, setEstimatedOutput] = useState('0');
+  const { address, isConnected } = useWallet();
+  
+  const [fromToken, setFromToken] = useState<Token | null>(null);
+  const [toToken, setToToken] = useState<Token | null>(null);
+  const [amount, setAmount] = useState<string>('');
   const [isSwapping, setIsSwapping] = useState(false);
 
-  const tokens = [
-    { key: 'usdc', text: 'USDC', value: 'USDC', icon: 'dollar' },
-    { key: 'usdt', text: 'USDT', value: 'USDT', icon: 'dollar' },
-    { key: 'dai', text: 'DAI', value: 'DAI', icon: 'dollar' },
-    { key: 'stablecoin', text: 'DAML Stablecoin', value: 'STABLECOIN', icon: 'shield' },
-  ];
-
   const handleSwap = async () => {
-    if (!isConnected) {
-      showError('Please connect your wallet first');
-      return;
-    }
-
-    if (!amount || parseFloat(amount) <= 0) {
-      showError('Please enter a valid amount');
+    if (!fromToken || !toToken || !amount || !address) {
+      showError('Please fill all fields and connect wallet');
       return;
     }
 
     setIsSwapping(true);
-
     try {
-      // TODO: Implement actual swap logic
-      // This would integrate with Uniswap, 1inch, or custom DEX
-      
-      // For now, simulate swap
-      await new Promise(resolve => setTimeout(resolve, 2000));
-
-      showSuccess(`Swapped ${amount} ${fromToken} for ${estimatedOutput} ${toToken}`);
-      setAmount('');
-      setEstimatedOutput('0');
+      if (fromToken.chainId === toToken.chainId) {
+        // Same-chain swap via DEX
+        showError('Same-chain swaps coming soon - integrate with Uniswap/DEX');
+      } else {
+        // Cross-chain swap via bridge
+        showError('Cross-chain bridge integration coming soon - will use Axelar/LayerZero');
+      }
     } catch (error: any) {
+      console.error('Swap error:', error);
       showError(`Swap failed: ${error.message}`);
     } finally {
       setIsSwapping(false);
     }
   };
 
-  const calculateEstimate = (inputAmount: string) => {
-    if (!inputAmount || parseFloat(inputAmount) <= 0) {
-      setEstimatedOutput('0');
-      return;
-    }
+  const tokenOptions = AVAILABLE_TOKENS.map(token => ({
+    key: `${token.symbol}-${token.chainId}`,
+    text: `${token.symbol} (Chain ${token.chainId})`,
+    value: `${token.symbol}-${token.chainId}`,
+  }));
 
-    // Simple 1:1 swap for now (in production, fetch real exchange rates)
-    const slippage = 0.005; // 0.5% slippage
-    const output = parseFloat(inputAmount) * (1 - slippage);
-    setEstimatedOutput(output.toFixed(2));
-  };
-
-  const handleAmountChange = (value: string) => {
-    setAmount(value);
-    calculateEstimate(value);
-  };
-
-  const swapTokens = () => {
-    const temp = fromToken;
-    setFromToken(toToken);
-    setToToken(temp);
-    calculateEstimate(amount);
-  };
-
-  if (!isConnected) {
-    return (
-      <Message warning>
-        <Message.Header>Wallet Not Connected</Message.Header>
-        <p>Please connect your wallet to use the swap feature.</p>
-      </Message>
-    );
-  }
+  const isCrossChain = fromToken && toToken && fromToken.chainId !== toToken.chainId;
 
   return (
     <Segment>
       <Header as='h2'>
         <Icon name='exchange' />
         Token Swap
+        {isCrossChain && (
+          <Label color='orange' style={{ marginLeft: '10px' }}>Cross-Chain</Label>
+        )}
       </Header>
 
-      <Form>
-        <Form.Group widths='equal'>
-          <Form.Select
-            fluid
-            label='From'
-            options={tokens}
-            value={fromToken}
-            onChange={(_, { value }) => setFromToken(value as string)}
-          />
-          <Form.Input
-            fluid
-            label='Amount'
-            type='number'
-            placeholder='0.00'
-            value={amount}
-            onChange={(e) => handleAmountChange(e.target.value)}
-          />
-        </Form.Group>
+      {!isConnected && (
+        <Message warning>
+          <Icon name='warning' />
+          Please connect your wallet first
+        </Message>
+      )}
 
-        <div style={{ textAlign: 'center', margin: '10px 0' }}>
-          <Button icon='exchange' circular onClick={swapTokens} />
-        </div>
-
-        <Form.Group widths='equal'>
-          <Form.Select
+      <Form style={{ paddingBottom: '50px' }}>
+        <Form.Field>
+          <label>From Token</label>
+          <Dropdown
+            placeholder='Select token'
             fluid
-            label='To'
-            options={tokens.filter(t => t.value !== fromToken)}
-            value={toToken}
-            onChange={(_, { value }) => setToToken(value as string)}
+            selection
+            options={tokenOptions}
+            onChange={(_, data) => {
+              const token = AVAILABLE_TOKENS.find(t => `${t.symbol}-${t.chainId}` === data.value);
+              setFromToken(token || null);
+            }}
           />
-          <Form.Input
-            fluid
-            label='Estimated Output'
-            type='text'
-            value={estimatedOutput}
-            readOnly
-          />
-        </Form.Group>
+        </Form.Field>
 
-        {parseFloat(amount) > 0 && (
+        <Form.Field>
+          <label>To Token</label>
+          <Dropdown
+            placeholder='Select token'
+            fluid
+            selection
+            options={tokenOptions}
+            onChange={(_, data) => {
+              const token = AVAILABLE_TOKENS.find(t => `${t.symbol}-${t.chainId}` === data.value);
+              setToToken(token || null);
+            }}
+          />
+        </Form.Field>
+
+        <Form.Input
+          label='Amount'
+          placeholder='0.0'
+          type='number'
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
+        />
+
+        {isCrossChain && (
           <Message info>
-            <Statistic.Group size='mini' widths={3}>
-              <Statistic>
-                <Statistic.Label>Exchange Rate</Statistic.Label>
-                <Statistic.Value>1:1</Statistic.Value>
-              </Statistic>
-              <Statistic>
-                <Statistic.Label>Slippage</Statistic.Label>
-                <Statistic.Value>0.5%</Statistic.Value>
-              </Statistic>
-              <Statistic>
-                <Statistic.Label>Fee</Statistic.Label>
-                <Statistic.Value>0.3%</Statistic.Value>
-              </Statistic>
-            </Statistic.Group>
+            <Icon name='info circle' />
+            Cross-chain swaps will be powered by Axelar Network bridge protocol
           </Message>
         )}
 
@@ -152,17 +125,17 @@ const TokenSwap: React.FC = () => {
           fluid
           size='large'
           loading={isSwapping}
-          disabled={!amount || parseFloat(amount) <= 0}
+          disabled={!amount || parseFloat(amount) <= 0 || !address}
           onClick={handleSwap}
         >
           <Icon name='exchange' />
-          Swap Tokens
+          {isCrossChain ? 'Bridge & Swap Tokens' : 'Swap Tokens'}
         </Button>
       </Form>
 
-      <Label attached='bottom' color='blue'>
+      <Label color='blue' style={{ marginTop: '15px' }}>
         <Icon name='shield' />
-        Powered by Uniswap Protocol
+        Powered by {isCrossChain ? 'Axelar Network (Coming Soon)' : 'Uniswap Protocol (Coming Soon)'}
       </Label>
     </Segment>
   );

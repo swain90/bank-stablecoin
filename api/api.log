@@ -1,26 +1,4 @@
-[dotenv@17.2.3] injecting env (7) from .env -- tip: 👥 sync secrets across teammates & machines: https://dotenvx.com/ops
+[dotenv@17.2.3] injecting env (7) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
 🚀 Unit API server running on http://localhost:3002
 📋 Health check: http://localhost:3002/api/health
 🔑 Unit API Token: ✓ Set
-🔵 /get-or-create-customer endpoint hit (MOCK MODE)
-✓ Mock customer created: mock-cust-1762352057146
-🔵 /get-or-create-customer endpoint hit (MOCK MODE)
-🔵 /get-or-create-customer endpoint hit (MOCK MODE)
-🔵 /get-or-create-customer endpoint hit (MOCK MODE)
-🔵 /get-or-create-customer endpoint hit (MOCK MODE)
-🔵 /get-or-create-customer endpoint hit (MOCK MODE)
-🔵 /get-or-create-customer endpoint hit (MOCK MODE)
-🔵 /get-or-create-customer endpoint hit (MOCK MODE)
-🔵 /get-or-create-customer endpoint hit (MOCK MODE)
-🔵 /get-or-create-customer endpoint hit (MOCK MODE)
-🔵 /get-or-create-customer endpoint hit (MOCK MODE)
-🔵 /get-or-create-customer endpoint hit (MOCK MODE)
-🔵 /get-or-create-customer endpoint hit (MOCK MODE)
-🔵 /get-or-create-customer endpoint hit (MOCK MODE)
-🔵 /get-or-create-customer endpoint hit (MOCK MODE)
-🔵 /get-or-create-customer endpoint hit (MOCK MODE)
-🔵 /get-or-create-customer endpoint hit (MOCK MODE)
-🔵 /get-or-create-customer endpoint hit (MOCK MODE)
-🔵 /get-or-create-customer endpoint hit (MOCK MODE)
-🔵 /get-or-create-customer endpoint hit (MOCK MODE)
-🔵 /get-or-create-customer endpoint hit (MOCK MODE)
