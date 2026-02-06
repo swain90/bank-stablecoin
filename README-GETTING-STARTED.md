@@ -23,7 +23,7 @@ Before you begin, ensure you have the following installed:
 ### 1. Clone or Navigate to the Project Directory
 
 ```bash
-cd bank-stablecoin
+cd bank-stablecoin/daml
 ```
 
 ### 2. Build the Daml Smart Contracts
@@ -67,7 +67,7 @@ npm run codegen
 
 Or manually:
 ```bash
-daml codegen js .daml/dist/bank-stablecoin-1.0.0.dar -o daml.js
+daml codegen js ../daml/.daml/dist/bank-stablecoin-1.0.0.dar -o src/daml.js
 ```
 
 This generates TypeScript bindings for your Daml contracts.

@@ -55,7 +55,7 @@
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",
-    "codegen": "daml codegen js ../.daml/dist/bank-stablecoin-1.0.0.dar -o src/daml.js"
+    "codegen": "daml codegen js ../daml/.daml/dist/bank-stablecoin-1.0.0.dar -o src/daml.js"
   },
   "eslintConfig": {
     "extends": [
