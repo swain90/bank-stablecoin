@@ -67,7 +67,7 @@ npm run codegen
 
 Or manually:
 ```bash
-daml codegen js .daml/dist/bank-stablecoin-1.0.0.dar -o daml.js
+daml codegen js ../daml/.daml/dist/bank-stablecoin-1.0.0.dar -o src/daml.js
 ```
 
 This generates TypeScript bindings for your Daml contracts.
@@ -153,6 +153,40 @@ npm run codegen
 ```
 
 Restart the React dev server if needed.
+
+---
+
+## 🌐 Deploy to the Web (Recommended)
+
+For a portfolio-ready demo, host the React UI as a static site and run the Daml backend on a small VM/container service.
+
+### Backend (Daml + JSON API + CORS proxy)
+
+1. Provision a small server (Fly.io, Render, Railway, or a VPS).
+2. Install the Daml SDK (2.10.2+) and Node.js.
+3. On the server, run:
+```bash
+bash start-backend.sh
+```
+
+Expose port `7576` publicly. The UI only talks to the proxy port.
+
+### Frontend (Vercel/Netlify)
+
+Set build-time environment variables (see `ui/.env.production.example`):
+
+- `REACT_APP_HTTP_BASE_URL=https://YOUR_BACKEND_DOMAIN`
+- `REACT_APP_WS_BASE_URL=wss://YOUR_BACKEND_DOMAIN`
+
+Then build and deploy:
+```bash
+cd ui
+npm run build
+```
+
+Upload the `ui/build` output to your static host.
+
+**Note:** The Daml sandbox is in-memory, which is fine for demos/portfolios but not production.
 
 ---
 

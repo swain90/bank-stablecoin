@@ -1,8 +1,18 @@
 // Ledger configuration
+const normalizeBaseUrl = (value: string): string => {
+  if (!value) {
+    return value;
+  }
+  return value.endsWith('/') ? value : `${value}/`;
+};
+
+const defaultHttpBaseUrl = 'http://localhost:7576/';
+const defaultWsBaseUrl = 'ws://localhost:7576/';
+
 export const config = {
   ledgerId: 'sandbox',
-  httpBaseUrl: 'http://localhost:7576/',
-  wsBaseUrl: 'ws://localhost:7576/',
+  httpBaseUrl: normalizeBaseUrl(process.env.REACT_APP_HTTP_BASE_URL || defaultHttpBaseUrl),
+  wsBaseUrl: normalizeBaseUrl(process.env.REACT_APP_WS_BASE_URL || defaultWsBaseUrl),
 };
 
 // export const config = {
