@@ -22,6 +22,7 @@ import RealBankingDashboard from './components/RealBankingDashboard';
 import { WalletProvider } from './contexts/WalletContext';
 import MultiChainWallet from './components/MultiChainWallet';
 import CrossChainSwap from './components/CrossChainSwap';
+import AuthGate from './components/AuthGate';
 
 
 
@@ -81,7 +82,11 @@ const [adminAnchor, setAdminAnchor] = useState<null | HTMLElement>(null);
   };
 
   if (!party) {
-    return <Login onLogin={handleLogin} />;
+    return (
+      <AuthGate>
+        <Login onLogin={handleLogin} />
+      </AuthGate>
+    );
   }
 
   // Try using just the party ID as token - simplest approach for dev

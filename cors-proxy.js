@@ -16,7 +16,7 @@ console.log('===========================================\n');
 
 // Enable CORS for all routes
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:3001'],
+  origin: ['http://localhost:3000', 'http://localhost:3001', 'https://cantonbankingplatform.com'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
@@ -63,6 +63,39 @@ const proxy = createProxyMiddleware({
       });
     }
   }
+});
+
+// --- Dynamic parties endpoint ---
+// Returns current party IDs from the running Daml ledger.
+// This solves the problem of stale party IDs after ledger restarts.
+app.get('/api/parties', (req, res) => {
+  const { exec } = require('child_process');
+  exec('daml ledger list-parties --host localhost --port 6865', { timeout: 10000 }, (err, stdout) => {
+    if (err) {
+      console.error('[Parties] Failed to fetch:', err.message);
+      return res.status(500).json({ error: 'Failed to fetch parties from ledger' });
+    }
+
+    const result = {};
+    for (const line of stdout.split('\n')) {
+      if (!line.includes('party-')) continue;
+      const match = line.match(/(party-[a-f0-9-]+::[a-f0-9]+)/);
+      if (!match) continue;
+      const partyId = match[1];
+      const lower = line.toLowerCase();
+      if (lower.includes('alice')) result.alice = { displayName: 'Alice', partyId, role: 'User' };
+      else if (lower.includes('bob')) result.bob = { displayName: 'Bob', partyId, role: 'User' };
+      else if (lower.includes('bank')) result.bank = { displayName: 'Bank', partyId, role: 'Issuer' };
+    }
+
+    if (!result.alice || !result.bob || !result.bank) {
+      console.error('[Parties] Could not find all parties:', result);
+      return res.status(500).json({ error: 'Incomplete party list', found: result });
+    }
+
+    console.log('[Parties] Returning current party IDs');
+    res.json(result);
+  });
 });
 
 // Use proxy for all requests

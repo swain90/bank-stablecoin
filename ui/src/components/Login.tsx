@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { TextField, Button, Typography, Box, Paper, MenuItem, FormControl, InputLabel, Select, SelectChangeEvent } from '@mui/material';
-import { getAllParties, getPartyByName } from '../config/parties';
+import React, { useState, useEffect } from 'react';
+import { TextField, Button, Typography, Box, Paper, MenuItem, FormControl, InputLabel, Select, SelectChangeEvent, CircularProgress } from '@mui/material';
+import { getAllParties, getPartyByName, loadParties, PartyInfo } from '../config/parties';
+import { config } from '../config/config';
 
 interface LoginProps {
   onLogin: (party: string) => void;
@@ -10,8 +11,15 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const [selectedParty, setSelectedParty] = useState("");
   const [customPartyId, setCustomPartyId] = useState("");
   const [useCustom, setUseCustom] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [partyList, setPartyList] = useState<PartyInfo[]>(getAllParties());
 
-  const partyList = getAllParties();
+  useEffect(() => {
+    loadParties(config.httpBaseUrl).then(() => {
+      setPartyList(getAllParties());
+      setLoading(false);
+    });
+  }, []);
 
   const handlePartyChange = (event: SelectChangeEvent) => {
     const value = event.target.value;
@@ -102,9 +110,12 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
             Login
           </Button>
 
-          <Typography variant="body2" color="textSecondary" align="center" sx={{ marginTop: 2 }}>
-            💡 Tip: Party IDs change when you restart the sandbox
-          </Typography>
+          {loading && (
+            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+              <CircularProgress size={20} sx={{ mr: 1 }} />
+              <Typography variant="body2" color="textSecondary">Loading parties from ledger...</Typography>
+            </Box>
+          )}
         </Box>
       </Paper>
     </Box>
