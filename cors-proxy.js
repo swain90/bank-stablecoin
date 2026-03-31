@@ -70,7 +70,8 @@ const proxy = createProxyMiddleware({
 // This solves the problem of stale party IDs after ledger restarts.
 app.get('/api/parties', (req, res) => {
   const { exec } = require('child_process');
-  exec('daml ledger list-parties --host localhost --port 6865', { timeout: 10000 }, (err, stdout) => {
+  const damlCmd = process.env.DAML_PATH || 'daml';
+  exec(`${damlCmd} ledger list-parties --host localhost --port 6865`, { timeout: 10000, env: { ...process.env, PATH: `${process.env.HOME}/.daml/bin:${process.env.PATH}` } }, (err, stdout) => {
     if (err) {
       console.error('[Parties] Failed to fetch:', err.message);
       return res.status(500).json({ error: 'Failed to fetch parties from ledger' });
